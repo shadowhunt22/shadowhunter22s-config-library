@@ -10,6 +10,10 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.Internal
 public class TranslationUtil {
     public static String translationKey(String type, String name, String id) {
-        return type + "." + name + "." + id;
+        return String.format("%s.%s.%s", type, name, id);
+    }
+
+    public static String translationKey(String type, String name, String id, String value) {
+        return String.format("%s.%s.%s.%s", type, name, id, value);
     }
 }

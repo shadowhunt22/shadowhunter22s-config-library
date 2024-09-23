@@ -5,6 +5,9 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config;
 
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen.ConfigScreenProvider;
+import net.minecraft.client.gui.screen.Screen;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -39,5 +42,12 @@ public class Config {
         return manager;
     }
 
-    // TODO create GUI and return screen
+    @SuppressWarnings("unchecked")
+    public static <T extends ConfigData> ConfigScreenProvider<T> getConfigScreen(Class<T> configClass, Screen currentScreen) {
+        if (!configs.containsKey(configClass)) {
+            throw new RuntimeException(String.format("Could not find config file '%s'. Was it registered?", configClass));
+        }
+
+        return new ConfigScreenProvider<>(configClass, (ConfigManager<T>) configs.get(configClass), currentScreen);
+    }
 }

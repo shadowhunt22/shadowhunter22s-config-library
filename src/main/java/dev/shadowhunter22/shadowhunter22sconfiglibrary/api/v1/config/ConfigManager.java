@@ -13,11 +13,14 @@ public class ConfigManager<T extends ConfigData> implements ConfigHolder<T> {
     private final Class<T> configClass;
     private final ConfigSerializer<T> serializer;
 
+    private final Config definition;
+
     private T config;
 
     public ConfigManager(Class<T> configClass) {
+        this.definition = configClass.getAnnotation(Config.class);
         this.configClass = configClass;
-        this.serializer = new ConfigSerializer<>(configClass.getAnnotation(Config.class), configClass);
+        this.serializer = new ConfigSerializer<>(this.definition, configClass);
 
         this.load();
     }
@@ -35,5 +38,13 @@ public class ConfigManager<T extends ConfigData> implements ConfigHolder<T> {
     @Override
     public T getConfig() {
         return this.config;
+    }
+
+    public ConfigSerializer<T> getSerializer() {
+        return this.serializer;
+    }
+
+    public Config getDefinition() {
+        return this.definition;
     }
 }

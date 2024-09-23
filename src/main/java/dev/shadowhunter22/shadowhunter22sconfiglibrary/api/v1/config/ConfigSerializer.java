@@ -20,6 +20,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -85,6 +86,16 @@ public class ConfigSerializer<T> {
             }
         } else {
             return this.constructConfig();
+        }
+    }
+
+    public void setValue(Field field, T config, Object newValue) {
+        try {
+            field.setAccessible(true);
+            field.set(config, newValue);
+        } catch (ReflectiveOperationException e) {
+            LOGGER.warn("Failed to set new value for config class: {}", config.getClass().getName());
+            throw new RuntimeException(e);
         }
     }
 
