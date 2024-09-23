@@ -14,8 +14,8 @@ public class ShadowHunter22sConfigLibraryTestMod implements ClientModInitializer
 
 	@Override
 	public void onInitializeClient() {
-		Config.register(TestConfig.class).save();
+        Config.register(TestConfig.class).save();
 
-		LOGGER.info("Successfully loaded {}!", MOD_ID);
+        LOGGER.info("Successfully loaded {}!", MOD_ID);
 	}
 }

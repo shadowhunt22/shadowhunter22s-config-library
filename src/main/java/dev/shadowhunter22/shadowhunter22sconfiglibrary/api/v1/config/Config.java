@@ -5,10 +5,6 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibraryClient;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -18,12 +14,12 @@ import java.util.Objects;
  * passing in the config class as a parameter.
  */
 public class Config {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ShadowHunter22sConfigLibraryClient.MOD_ID + "/Config");
-
     private static final Map<Class<? extends ConfigData>, ConfigHolder<? extends ConfigData>> configs = new HashMap<>();
 
     /**
-     * use
+     * Given a class containing config information, register a config file and return a
+     * ConfigManager to get the config class and its information.
+     *
      * @param configClass the class to serialize to JSON.  If this value is null,
      * a {@link NullPointerException} is thrown.
      *
@@ -42,4 +38,6 @@ public class Config {
 
         return manager;
     }
+
+    // TODO create GUI and return screen
 }

@@ -5,91 +5,35 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config;
 
-import com.google.gson.JsonObject;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
-import net.fabricmc.loader.api.FabricLoader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibraryClient;
-import org.spongepowered.include.com.google.gson.Gson;
-import org.spongepowered.include.com.google.gson.GsonBuilder;
+import org.jetbrains.annotations.ApiStatus;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
+@ApiStatus.Internal
 public class ConfigManager<T extends ConfigData> implements ConfigHolder<T> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ShadowHunter22sConfigLibraryClient.MOD_ID + "/ConfigManager");
     private final Class<T> configClass;
+    private final ConfigSerializer<T> serializer;
 
-    private final Gson gson;
-    private final Path path;
+    private T config;
 
     public ConfigManager(Class<T> configClass) {
         this.configClass = configClass;
+        this.serializer = new ConfigSerializer<>(configClass.getAnnotation(Config.class), configClass);
 
-        this.path = this.prepareConfigFile();
-        this.gson = new GsonBuilder().setPrettyPrinting().create();
-    }
-
-    private Path prepareConfigFile() {
-        String configFileName = this.configClass.getAnnotation(Config.class).name();
-
-        File directory = new File(FabricLoader.getInstance().getConfigDir() + "/" + configFileName);
-
-        if (!directory.exists()) {
-            boolean created = directory.mkdir();
-
-            if (created) {
-                LOGGER.info("Successfully created a config directory for {}.", configFileName);
-            }
-        }
-
-        return FabricLoader.getInstance().getConfigDir().resolve(configFileName + "/options.json");
+        this.load();
     }
 
     @Override
     public void save() {
-        if (this.path == null) {
-            this.prepareConfigFile();
-        }
-
-        JsonObject config = new JsonObject();
-
-        for (Field field : this.configClass.getDeclaredFields()) {
-            if (!field.getClass().isArray()) {
-                // TODO add different config option types and serialize them to JSON
-            }
-        }
-
-        try (BufferedWriter fileWriter = Files.newBufferedWriter(this.path)) {
-            fileWriter.write(config.toString());
-        } catch (IOException e) {
-            LOGGER.warn("Unable to save config file: {}", path);
-            LOGGER.warn("{}", e.getMessage());
-        }
+        this.serializer.serialize(this.config);
     }
 
     @Override
-    public boolean load() {
-        if (this.path == null) {
-            this.prepareConfigFile();
-        }
-
-        // TODO deserialize JSON to config options
-
-        return false;
+    public void load() {
+        this.config = this.serializer.deserialize();
     }
 
     @Override
     public T getConfig() {
-        if (this.path == null) {
-            this.prepareConfigFile();
-        }
-
-        return null;
+        return this.config;
     }
 }
