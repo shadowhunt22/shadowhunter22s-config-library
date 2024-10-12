@@ -5,6 +5,7 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config;
 
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.registry.GuiRegistry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen.ConfigScreenProvider;
 import net.minecraft.client.gui.screen.Screen;
 
@@ -38,6 +39,7 @@ public class Config {
         ConfigManager<T> manager = new ConfigManager<>(configClass);
 
         configs.put(configClass, manager);
+        GuiRegistry.register(configClass, manager);
 
         return manager;
     }

@@ -38,4 +38,8 @@ public class ConfigOption<T> {
     public T getValue() {
         return instance.getValue();
     }
+
+    public void setValue(T value) {
+        instance.setValue(value);
+    }
 }

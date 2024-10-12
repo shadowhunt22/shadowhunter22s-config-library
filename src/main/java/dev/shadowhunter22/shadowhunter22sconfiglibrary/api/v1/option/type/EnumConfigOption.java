@@ -22,9 +22,9 @@ public class EnumConfigOption<T extends Enum<T>> implements BaseConfigOption<T> 
     private final String key, translationKey;
     private T value;
     private final T defaultValue;
-    private final List<T> enumClass;
+    private final T[] values;
 
-    public EnumConfigOption(Config definition, String key, T[] enumClass, T value, T defaultValue) {
+    public EnumConfigOption(Config definition, String key, T[] values, T value, T defaultValue) {
         this.definition = definition;
 
         this.key = key;
@@ -32,7 +32,7 @@ public class EnumConfigOption<T extends Enum<T>> implements BaseConfigOption<T> 
 
         this.value = value;
         this.defaultValue = defaultValue;
-        this.enumClass = Arrays.stream(enumClass).toList();
+        this.values = values;
     }
 
     @Override
@@ -50,9 +50,12 @@ public class EnumConfigOption<T extends Enum<T>> implements BaseConfigOption<T> 
         return this.value;
     }
 
-    @SuppressWarnings("unchecked")
-    public void setValue(Enum<?> value) {
-        this.value = (T) value;
+    public T[] getValues() {
+        return this.values;
+    }
+
+    public void setValue(T value) {
+        this.value = value;
     }
 
     @Override
@@ -61,7 +64,7 @@ public class EnumConfigOption<T extends Enum<T>> implements BaseConfigOption<T> 
     }
 
     @Override
-    public ConfigOption<?> asConfigOption() {
+    public ConfigOption<T> asConfigOption() {
         return new ConfigOption<>(
                 this,
                 this.key,
@@ -70,7 +73,9 @@ public class EnumConfigOption<T extends Enum<T>> implements BaseConfigOption<T> 
     }
 
     public void cycle() {
-        int index = this.enumClass.indexOf(this.value);
-        this.value = this.enumClass.get((index + 1) % this.enumClass.size());
+        List<T> values = Arrays.stream(this.values).toList();
+
+        int index = values.indexOf(this.value);
+        this.value = values.get((index + 1) % values.size());
     }
 }

@@ -10,10 +10,11 @@ import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
 public interface BaseConfigOption<T> {
-    ConfigOption<?> asConfigOption();
+    ConfigOption<T> asConfigOption();
 
     Text getText();
     T getValue();
+    void setValue(T value);
     T getDefaultValue();
 
     String getTranslationKey();

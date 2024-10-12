@@ -9,8 +9,6 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.BaseConfigOption;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.BooleanConfigOption;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.EnumConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.util.TranslationUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -19,7 +17,6 @@ import net.minecraft.util.Colors;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 @ApiStatus.Internal
@@ -39,19 +36,10 @@ public class ConfigScreen<T extends ConfigData> extends Screen {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     protected void init() {
         this.configEntryWidget = new ConfigEntryWidget<>(this.configManager, this.client, this.width, this.height, 50, this.height, 36);
 
-        this.options.forEach((field, baseConfigOption) -> {
-            if (baseConfigOption instanceof EnumConfigOption<?> enumConfigOption) {
-                this.configEntryWidget.add(field, enumConfigOption);
-            }
-
-            if (baseConfigOption instanceof BooleanConfigOption<?> booleanConfigOption) {
-                this.configEntryWidget.add(field, (BooleanConfigOption<Boolean>) booleanConfigOption);
-            }
-        });
+        this.options.forEach((field, baseConfigOption) -> this.configEntryWidget.add(field, baseConfigOption));
 
         this.addDrawableChild(this.configEntryWidget);
     }

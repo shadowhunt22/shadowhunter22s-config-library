@@ -72,7 +72,7 @@ public class IntegerConfigOption<T extends Integer> implements BaseConfigOption<
     }
 
     @Override
-    public ConfigOption<?> asConfigOption() {
+    public ConfigOption<T> asConfigOption() {
         return new ConfigOption<>(
                 this,
                 this.key,
