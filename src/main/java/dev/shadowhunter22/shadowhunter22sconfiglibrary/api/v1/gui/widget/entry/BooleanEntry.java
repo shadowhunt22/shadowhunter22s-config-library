@@ -30,7 +30,7 @@ public class BooleanEntry<T extends ConfigData> extends AbstractEntry<T> {
 
 	@Override
 	public ConfigEntryWidget.Entry build() {
-		TextWidget textWidget = new TextWidget(250, 20, Text.translatable(this.typedOption.getTranslationKey()), this.client.textRenderer);
+		TextWidget textWidget = new TextWidget(250, 20, this.translatableText(this.typedOption.getTranslationKey()), this.client.textRenderer);
 		textWidget.alignLeft();
 		textWidget.setX(textWidget.getX() + 15);
 

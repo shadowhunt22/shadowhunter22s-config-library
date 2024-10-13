@@ -20,6 +20,12 @@
 			"dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibraryClient"
 		]
 	},
+	"mixins": [
+	  {
+		"config": "shadowhunter22s-config-library.client.mixins.json",
+		"environment": "client"
+	  }
+	],
 	"depends": {
 		"fabricloader": ">=0.15.3",
 		"minecraft": "~1.20",
@@ -28,5 +34,13 @@
 	},
 	"suggests": {
 		"another-mod": "*"
+	},
+	"custom": {
+	  "modmenu": {
+		"badges": [
+		  "library"
+		],
+		"update_checker": false
+	  }
 	}
 }

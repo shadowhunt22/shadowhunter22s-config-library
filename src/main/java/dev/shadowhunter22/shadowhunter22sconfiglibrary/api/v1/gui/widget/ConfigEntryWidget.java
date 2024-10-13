@@ -6,14 +6,19 @@
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget;
 
 import com.google.common.collect.Lists;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.ConfigEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.BooleanEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.EnumEntry;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.IntSliderEntry;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.SectionEntry;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.SimpleAbstractEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.BaseConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.BooleanConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.EnumConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.IntegerConfigOption;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
@@ -54,8 +59,16 @@ public class ConfigEntryWidget<T extends ConfigData> extends ElementListWidget<C
     }
 
     public void add(Field field, BaseConfigOption<?> option) {
+        if (field.isAnnotationPresent(ConfigEntry.Gui.Section.class)) {
+            this.addEntry(new SectionEntry<>(this.manager, field.getName()).build());
+        }
+
         if (option instanceof BooleanConfigOption<?> typeOption) {
             this.addEntry(new BooleanEntry<>(this.manager, field, typeOption, this.width).build());
+        }
+
+        if (option instanceof IntegerConfigOption<?> typedOption) {
+            this.addEntry(new IntSliderEntry<>(this.manager, field, typedOption, this.width).build());
         }
 
         if (option instanceof EnumConfigOption<?> typedOption) {
@@ -67,7 +80,15 @@ public class ConfigEntryWidget<T extends ConfigData> extends ElementListWidget<C
         private final List<ClickableWidget> children = Lists.newArrayList();
 
         public <T extends ConfigData> Entry(AbstractEntry<T> entry) {
-            entry.getLayout().forEachChild(this.children::add);
+            if (entry.getLayout() != null) {
+                entry.getLayout().forEachChild(this.children::add);
+            }
+        }
+
+        public Entry(SimpleAbstractEntry entry) {
+            if (entry.getLayout() != null) {
+                entry.getLayout().forEachChild(this.children::add);
+            }
         }
 
         @Override

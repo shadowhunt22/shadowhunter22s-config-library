@@ -30,7 +30,7 @@ public class EnumEntry<T extends ConfigData, E extends Enum<E>> extends Abstract
 
 	@Override
 	public ConfigEntryWidget.Entry build() {
-		TextWidget textWidget = new TextWidget(150, 20, Text.translatable(this.typedOption.getTranslationKey()), this.client.textRenderer);
+		TextWidget textWidget = new TextWidget(150, 20, this.translatableText(this.typedOption.getTranslationKey()), this.client.textRenderer);
 		textWidget.alignLeft();
 		textWidget.setX(textWidget.getX() + 15);
 

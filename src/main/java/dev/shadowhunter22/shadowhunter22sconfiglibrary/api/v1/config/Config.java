@@ -45,6 +45,17 @@ public class Config {
     }
 
     @SuppressWarnings("unchecked")
+    public static <T extends ConfigData> ConfigManager<T> getConfigManager(Class<T> configClass) {
+        Objects.requireNonNull(configClass);
+
+        if (!configs.containsKey(configClass)) {
+            throw new RuntimeException(String.format("Could not find a manager for '%s' config.  Was it registered?", configClass));
+        }
+
+        return (ConfigManager<T>) configs.get(configClass).getConfig();
+    }
+
+    @SuppressWarnings("unchecked")
     public static <T extends ConfigData> ConfigScreenProvider<T> getConfigScreen(Class<T> configClass, Screen currentScreen) {
         if (!configs.containsKey(configClass)) {
             throw new RuntimeException(String.format("Could not find config file '%s'. Was it registered?", configClass));

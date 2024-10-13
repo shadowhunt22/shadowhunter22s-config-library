@@ -13,10 +13,13 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 public class TestConfig implements ConfigData {
     public String test1 = "Test";
 
-    @ConfigEntry.Integer(min = 0, max = 5)
+    @ConfigEntry.Gui.Section
+    @ConfigEntry.Integer(min = 0, max = 100)
     public int test2 = 3;
 
     public boolean test3 = true;
+
+    @ConfigEntry.Gui.Section
     public boolean test4 = false;
 
     public enum Location {
@@ -27,4 +30,8 @@ public class TestConfig implements ConfigData {
     }
 
     Location test5 = Location.BottomLeft;
+
+    Location test6 = Location.TopLeft;
+
+    Location test7 = Location.TopLeft;
 }

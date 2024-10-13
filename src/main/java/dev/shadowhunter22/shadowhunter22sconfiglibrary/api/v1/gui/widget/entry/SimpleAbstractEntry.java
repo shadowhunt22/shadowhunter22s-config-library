@@ -7,48 +7,27 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry;
 
 import java.lang.reflect.Field;
 
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.BaseConfigOption;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 
-public abstract class AbstractEntry<T extends ConfigData> implements Element, Selectable {
+public abstract class SimpleAbstractEntry implements Element, Selectable {
 	protected MinecraftClient client = MinecraftClient.getInstance();
 
-	protected ConfigManager<T> manager;
-
 	protected Field field;
-	protected BaseConfigOption<?> option;
 
 	protected ThreePartsLayoutWidget layout = new ThreePartsLayoutWidget(this.client.currentScreen);
 	protected int width;
 	protected boolean focused;
 	protected boolean hovered;
 
-	public AbstractEntry(ConfigManager<T> manager, Field field, BaseConfigOption<?> option, int width) {
-		this.manager = manager;
-		this.field = field;
-		this.option = option;
-		this.width = width;
-	}
-
 	public abstract ConfigEntryWidget.Entry build();
-
-	public abstract void update();
 
 	public ThreePartsLayoutWidget getLayout() {
 		return this.layout;
-	}
-
-	protected Text translatableText(String text) {
-		return Text.translatable(text).formatted(Formatting.GRAY);
 	}
 
 	@Override
