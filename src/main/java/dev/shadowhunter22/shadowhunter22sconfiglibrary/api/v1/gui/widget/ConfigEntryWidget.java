@@ -9,7 +9,7 @@ import com.google.common.collect.Lists;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.ConfigEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManager;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractEntry;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractOptionEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.BooleanEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.EnumEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.IntSliderEntry;
@@ -60,7 +60,7 @@ public class ConfigEntryWidget<T extends ConfigData> extends ElementListWidget<C
 
     public void add(Field field, BaseConfigOption<?> option) {
         if (field.isAnnotationPresent(ConfigEntry.Gui.Section.class)) {
-            this.addEntry(new SectionEntry<>(this.manager, field.getName()).build());
+            this.add(new SectionEntry<>(this.manager, field.getName()));
         }
 
         if (option instanceof BooleanConfigOption<?> typeOption) {
@@ -76,10 +76,14 @@ public class ConfigEntryWidget<T extends ConfigData> extends ElementListWidget<C
         }
     }
 
+    public void add(SimpleAbstractEntry entry) {
+        this.addEntry(entry.build());
+    }
+
     public static class Entry extends ElementListWidget.Entry<Entry> {
         private final List<ClickableWidget> children = Lists.newArrayList();
 
-        public <T extends ConfigData> Entry(AbstractEntry<T> entry) {
+        public <T extends ConfigData> Entry(AbstractOptionEntry<T> entry) {
             if (entry.getLayout() != null) {
                 entry.getLayout().forEachChild(this.children::add);
             }

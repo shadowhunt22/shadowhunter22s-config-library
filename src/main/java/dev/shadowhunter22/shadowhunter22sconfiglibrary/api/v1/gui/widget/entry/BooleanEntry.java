@@ -16,7 +16,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Text;
 
-public class BooleanEntry<T extends ConfigData> extends AbstractEntry<T> {
+public class BooleanEntry<T extends ConfigData> extends AbstractOptionEntry<T> {
 	private final BaseConfigOption<Boolean> typedOption;
 
 	public BooleanEntry(ConfigManager<T> manager, Field field, BaseConfigOption<?> option, int width) {

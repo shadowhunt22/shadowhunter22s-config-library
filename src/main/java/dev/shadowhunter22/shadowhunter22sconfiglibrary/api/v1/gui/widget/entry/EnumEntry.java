@@ -16,7 +16,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Text;
 
-public class EnumEntry<T extends ConfigData, E extends Enum<E>> extends AbstractEntry<T> {
+public class EnumEntry<T extends ConfigData, E extends Enum<E>> extends AbstractOptionEntry<T> {
 	private final EnumConfigOption<E> typedOption;
 
 	public EnumEntry(ConfigManager<T> manager, Field field, BaseConfigOption<?> option, int width) {

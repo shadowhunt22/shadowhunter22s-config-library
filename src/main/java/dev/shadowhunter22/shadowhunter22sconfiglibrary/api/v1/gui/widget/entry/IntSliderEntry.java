@@ -18,7 +18,7 @@ import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 
-public class IntSliderEntry<T extends ConfigData> extends AbstractEntry<T> {
+public class IntSliderEntry<T extends ConfigData> extends AbstractOptionEntry<T> {
 	private final IntegerConfigOption<Integer> typedOption;
 
 	public IntSliderEntry(ConfigManager<T> manager, Field field, BaseConfigOption<?> option, int width) {
@@ -38,6 +38,7 @@ public class IntSliderEntry<T extends ConfigData> extends AbstractEntry<T> {
 		this.toggleButton = new SliderWidget(this.width - 151, 0, 125, 20, ScreenTexts.EMPTY, this.typedOption.getValue()) {
 			{
 				this.updateMessage();
+				this.setValue(((this.value - IntSliderEntry.this.typedOption.getMin()) / (IntSliderEntry.this.typedOption.getMax() - IntSliderEntry.this.typedOption.getMin())));
 			}
 
 			@Override

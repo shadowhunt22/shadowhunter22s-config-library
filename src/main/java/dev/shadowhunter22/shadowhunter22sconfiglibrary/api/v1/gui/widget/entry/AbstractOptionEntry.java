@@ -19,7 +19,7 @@ import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-public abstract class AbstractEntry<T extends ConfigData> implements Element, Selectable {
+public abstract class AbstractOptionEntry<T extends ConfigData> implements Element, Selectable {
 	protected MinecraftClient client = MinecraftClient.getInstance();
 
 	protected ConfigManager<T> manager;
@@ -32,7 +32,7 @@ public abstract class AbstractEntry<T extends ConfigData> implements Element, Se
 	protected boolean focused;
 	protected boolean hovered;
 
-	public AbstractEntry(ConfigManager<T> manager, Field field, BaseConfigOption<?> option, int width) {
+	public AbstractOptionEntry(ConfigManager<T> manager, Field field, BaseConfigOption<?> option, int width) {
 		this.manager = manager;
 		this.field = field;
 		this.option = option;
