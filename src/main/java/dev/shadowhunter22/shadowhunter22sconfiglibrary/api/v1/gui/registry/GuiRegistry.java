@@ -67,8 +67,8 @@ public class GuiRegistry {
                 }
             }
         } catch (IllegalAccessException e) {
-            LOGGER.warn("Unable to create populate options for '{}' config.", configClass.getDeclaredAnnotation(Config.class).name());
-            LOGGER.warn("{}", e.getMessage());
+            LOGGER.error("Unable to create populate options for '{}' config.", configClass.getDeclaredAnnotation(Config.class).name());
+            LOGGER.error("{}", e.getMessage());
         }
 
         return new LinkedHashMap<>(options);

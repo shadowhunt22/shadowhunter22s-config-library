@@ -24,9 +24,11 @@ public class ShadowHunter22sConfigLibraryTestMod implements ClientModInitializer
 			"category."  + MOD_ID +  ".mod"
 	));
 
+	public static final TestConfig test = Config.register(TestConfig.class).getConfig();
+
 	@Override
 	public void onInitializeClient() {
-        Config.register(TestConfig.class).save();
+		Config.getConfigManager(TestConfig.class).getSerializer();
 
 		ClientTickEvents.START_CLIENT_TICK.register(client -> {
 			if (keyBinding.wasPressed()) {

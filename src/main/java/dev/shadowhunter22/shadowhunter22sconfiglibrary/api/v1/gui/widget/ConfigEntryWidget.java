@@ -9,12 +9,11 @@ import com.google.common.collect.Lists;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.ConfigEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManager;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractOptionEntry;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.BooleanEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.EnumEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.IntSliderEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.SectionEntry;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.SimpleAbstractEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.BaseConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.BooleanConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.EnumConfigOption;
@@ -58,6 +57,10 @@ public class ConfigEntryWidget<T extends ConfigData> extends ElementListWidget<C
         context.fillGradient(0, 0, this.width, this.height, -1072689136, -804253680);
     }
 
+    public void add(AbstractEntry entry) {
+        this.addEntry(entry.build());
+    }
+
     public void add(Field field, BaseConfigOption<?> option) {
         if (field.isAnnotationPresent(ConfigEntry.Gui.Section.class)) {
             this.add(new SectionEntry<>(this.manager, field.getName()));
@@ -76,20 +79,10 @@ public class ConfigEntryWidget<T extends ConfigData> extends ElementListWidget<C
         }
     }
 
-    public void add(SimpleAbstractEntry entry) {
-        this.addEntry(entry.build());
-    }
-
     public static class Entry extends ElementListWidget.Entry<Entry> {
         private final List<ClickableWidget> children = Lists.newArrayList();
 
-        public <T extends ConfigData> Entry(AbstractOptionEntry<T> entry) {
-            if (entry.getLayout() != null) {
-                entry.getLayout().forEachChild(this.children::add);
-            }
-        }
-
-        public Entry(SimpleAbstractEntry entry) {
+        public Entry(AbstractEntry entry) {
             if (entry.getLayout() != null) {
                 entry.getLayout().forEachChild(this.children::add);
             }

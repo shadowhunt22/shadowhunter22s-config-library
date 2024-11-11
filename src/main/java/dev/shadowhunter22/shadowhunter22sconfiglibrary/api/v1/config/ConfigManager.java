@@ -10,7 +10,6 @@ import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
 public class ConfigManager<T extends ConfigData> implements ConfigHolder<T> {
-    private final Class<T> configClass;
     private final ConfigSerializer<T> serializer;
 
     private final Config definition;
@@ -19,7 +18,6 @@ public class ConfigManager<T extends ConfigData> implements ConfigHolder<T> {
 
     public ConfigManager(Class<T> configClass) {
         this.definition = configClass.getAnnotation(Config.class);
-        this.configClass = configClass;
         this.serializer = new ConfigSerializer<>(this.definition, configClass);
 
         this.load();

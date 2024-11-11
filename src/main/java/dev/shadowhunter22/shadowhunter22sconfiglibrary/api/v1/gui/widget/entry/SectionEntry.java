@@ -10,8 +10,9 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManag
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
-public class SectionEntry<T extends ConfigData> extends SimpleAbstractEntry {
+public class SectionEntry<T extends ConfigData> extends AbstractEntry {
 	private final ConfigManager<T> manager;
 	private final String fieldName;
 
@@ -22,14 +23,19 @@ public class SectionEntry<T extends ConfigData> extends SimpleAbstractEntry {
 
 	@Override
 	public ConfigEntryWidget.Entry build() {
-		String translationKey = String.format("text.%s.%s.@Section", this.manager.getDefinition().name(), this.fieldName);
+		Text text = this.translatableText(String.format("text.%s.%s.@Section", this.manager.getDefinition().name(), this.fieldName));
 
-		TextWidget textWidget = new TextWidget(150, 20, Text.translatable(translationKey), this.client.textRenderer);
+		TextWidget textWidget = new TextWidget(150, 20, text, this.client.textRenderer);
 		textWidget.alignLeft();
 		textWidget.setX(textWidget.getX() + 15);
 
 		this.layout.addBody(textWidget);
 
 		return new ConfigEntryWidget.Entry(this);
+	}
+
+	@Override
+	protected Text translatableText(String text) {
+		return Text.translatable(text).formatted(Formatting.WHITE);
 	}
 }

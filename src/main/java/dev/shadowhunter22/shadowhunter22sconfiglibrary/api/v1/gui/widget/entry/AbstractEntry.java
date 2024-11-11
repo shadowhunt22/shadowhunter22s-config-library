@@ -13,18 +13,19 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
+import net.minecraft.text.Text;
 
-public abstract class SimpleAbstractEntry implements Element, Selectable {
+public abstract class AbstractEntry implements Element, Selectable {
 	protected MinecraftClient client = MinecraftClient.getInstance();
 
 	protected Field field;
 
 	protected ThreePartsLayoutWidget layout = new ThreePartsLayoutWidget(this.client.currentScreen);
-	protected int width;
 	protected boolean focused;
 	protected boolean hovered;
 
 	public abstract ConfigEntryWidget.Entry build();
+	protected abstract Text translatableText(String text);
 
 	public ThreePartsLayoutWidget getLayout() {
 		return this.layout;
