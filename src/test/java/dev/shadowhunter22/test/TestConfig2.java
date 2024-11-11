@@ -9,8 +9,8 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.ConfigEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 
-@Config(name = "config-library", file = "test")
-public class TestConfig implements ConfigData {
+@Config(name = "config-library", file = "test2")
+public class TestConfig2 implements ConfigData {
     public String test1 = "Test";
 
     @ConfigEntry.Gui.Section

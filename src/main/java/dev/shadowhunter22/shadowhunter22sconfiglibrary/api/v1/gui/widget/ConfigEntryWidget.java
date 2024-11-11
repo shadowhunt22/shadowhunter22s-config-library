@@ -14,7 +14,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.B
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.EnumEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.IntSliderEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.SectionEntry;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.BaseConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.BooleanConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.EnumConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.IntegerConfigOption;
@@ -24,6 +24,8 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
+import net.minecraft.util.math.ColorHelper;
+import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.lang.reflect.Field;
@@ -61,9 +63,9 @@ public class ConfigEntryWidget<T extends ConfigData> extends ElementListWidget<C
         this.addEntry(entry.build());
     }
 
-    public void add(Field field, BaseConfigOption<?> option) {
+    public void add(Field field, ConfigOption<?> option) {
         if (field.isAnnotationPresent(ConfigEntry.Gui.Section.class)) {
-            this.add(new SectionEntry<>(this.manager, field.getName()));
+            this.add(new SectionEntry<>(this.manager, field.getName(), this.width));
         }
 
         if (option instanceof BooleanConfigOption<?> typeOption) {

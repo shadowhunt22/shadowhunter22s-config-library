@@ -9,37 +9,11 @@ import net.minecraft.text.Text;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
-public class ConfigOption<T> {
-    private final BaseConfigOption<T> instance;
-    private final String key, translationKey;
+public interface ConfigOption<T> {
+    Text getText();
+    T getValue();
+    void setValue(T value);
+    T getDefaultValue();
 
-    public ConfigOption(BaseConfigOption<T> instance, String key, String translationKey) {
-        this.instance = instance;
-        this.key = key;
-        this.translationKey = translationKey;
-    }
-
-    public String getKey() {
-        return this.key;
-    }
-
-    public String getTranslationKey() {
-        return this.translationKey;
-    }
-
-    public T getDefaultValue() {
-        return instance.getDefaultValue();
-    }
-
-    public Text getText() {
-        return instance.getText();
-    }
-
-    public T getValue() {
-        return instance.getValue();
-    }
-
-    public void setValue(T value) {
-        instance.setValue(value);
-    }
+    String getTranslationKey();
 }

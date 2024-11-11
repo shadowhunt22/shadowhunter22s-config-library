@@ -9,18 +9,15 @@ import java.lang.reflect.Field;
 
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManager;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.BaseConfigOption;
-import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 public abstract class AbstractOptionEntry<T extends ConfigData> extends AbstractEntry {
 	protected ConfigManager<T> manager;
-	protected BaseConfigOption<?> option;
+	protected ConfigOption<?> option;
 
-	protected int width;
-
-	public AbstractOptionEntry(ConfigManager<T> manager, Field field, BaseConfigOption<?> option, int width) {
+	public AbstractOptionEntry(ConfigManager<T> manager, Field field, ConfigOption<?> option, int width) {
 		this.manager = manager;
 		this.field = field;
 		this.option = option;

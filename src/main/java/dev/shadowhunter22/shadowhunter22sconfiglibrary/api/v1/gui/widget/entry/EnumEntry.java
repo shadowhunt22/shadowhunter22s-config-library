@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.BaseConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.EnumConfigOption;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextWidget;
@@ -19,7 +19,7 @@ import net.minecraft.text.Text;
 public class EnumEntry<T extends ConfigData, E extends Enum<E>> extends AbstractOptionEntry<T> {
 	private final EnumConfigOption<E> typedOption;
 
-	public EnumEntry(ConfigManager<T> manager, Field field, BaseConfigOption<?> option, int width) {
+	public EnumEntry(ConfigManager<T> manager, Field field, ConfigOption<?> option, int width) {
 		super(manager, field, option, width);
 
 		this.typedOption = (EnumConfigOption<E>) option;

@@ -24,6 +24,8 @@ public abstract class AbstractEntry implements Element, Selectable {
 	protected boolean focused;
 	protected boolean hovered;
 
+	protected int width;
+
 	public abstract ConfigEntryWidget.Entry build();
 	protected abstract Text translatableText(String text);
 

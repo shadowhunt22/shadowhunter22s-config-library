@@ -4,6 +4,7 @@
 //
 
 package dev.shadowhunter22.test;import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.Config;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -25,10 +26,12 @@ public class ShadowHunter22sConfigLibraryTestMod implements ClientModInitializer
 	));
 
 	public static final TestConfig test = Config.register(TestConfig.class).getConfig();
+	public static final TestConfig2 test2 = Config.register(TestConfig2.class).getConfig();
 
 	@Override
 	public void onInitializeClient() {
 		Config.getConfigManager(TestConfig.class).getSerializer();
+		Config.getConfigManager(TestConfig2.class).getSerializer();
 
 		ClientTickEvents.START_CLIENT_TICK.register(client -> {
 			if (keyBinding.wasPressed()) {

@@ -6,7 +6,6 @@
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type;
 
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.BaseConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.util.TranslationUtil;
 import net.minecraft.text.Text;
@@ -16,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @ApiStatus.Internal
-public class EnumConfigOption<T extends Enum<T>> implements BaseConfigOption<T> {
+public class EnumConfigOption<T extends Enum<T>> implements ConfigOption<T> {
     private final Config definition;
 
     private final String key, translationKey;
@@ -61,15 +60,6 @@ public class EnumConfigOption<T extends Enum<T>> implements BaseConfigOption<T> 
     @Override
     public T getDefaultValue() {
         return this.defaultValue;
-    }
-
-    @Override
-    public ConfigOption<T> asConfigOption() {
-        return new ConfigOption<>(
-                this,
-                this.key,
-                this.translationKey
-        );
     }
 
     public void cycle() {

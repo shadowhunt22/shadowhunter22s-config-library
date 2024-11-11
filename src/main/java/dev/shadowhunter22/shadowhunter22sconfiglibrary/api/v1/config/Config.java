@@ -52,7 +52,7 @@ public class Config {
             throw new RuntimeException(String.format("Could not find a manager for '%s' config.  Was it registered?", configClass));
         }
 
-        return (ConfigManager<T>) configs.get(configClass).getConfig();
+        return (ConfigManager<T>) configs.get(configClass);
     }
 
     @SuppressWarnings("unchecked")

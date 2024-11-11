@@ -18,4 +18,5 @@ public @interface Config {
      * <a href="https://betterprogramming.pub/string-case-styles-camel-pascal-snake-and-kebab-case-981407998841">Kebab case</a> programming naming convention.
      */
     String name();
+    String file() default "";
 }

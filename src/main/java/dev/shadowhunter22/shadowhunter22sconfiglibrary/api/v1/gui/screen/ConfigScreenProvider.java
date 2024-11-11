@@ -8,7 +8,7 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.registry.GuiRegistry;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.BaseConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
 import net.minecraft.client.gui.screen.Screen;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -28,8 +28,6 @@ public class ConfigScreenProvider<T extends ConfigData> {
     }
 
     public Screen get() {
-		HashMap<Field, BaseConfigOption<?>> options = GuiRegistry.getOptions(this.configClass);
-
-        return new ConfigScreen<>(this.configManager, options, this.currentScreen);
+        return new ConfigScreen<>(this.configManager, GuiRegistry.getOptions(this.configClass), this.currentScreen);
     }
 }

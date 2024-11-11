@@ -6,7 +6,6 @@
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type;
 
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.BaseConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.util.TranslationUtil;
 import net.minecraft.text.Text;
@@ -14,7 +13,7 @@ import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
-public class BooleanConfigOption<T extends Boolean> implements BaseConfigOption<T> {
+public class BooleanConfigOption<T extends Boolean> implements ConfigOption<T> {
     private final String key, translationKey;
     private T value;
     private final T defaultValue;
@@ -55,14 +54,5 @@ public class BooleanConfigOption<T extends Boolean> implements BaseConfigOption<
     @Override
     public T getDefaultValue() {
         return this.defaultValue;
-    }
-
-    @Override
-    public ConfigOption<T> asConfigOption() {
-        return new ConfigOption<>(
-                this,
-                this.key,
-                this.translationKey
-        );
     }
 }

@@ -16,16 +16,17 @@ public class SectionEntry<T extends ConfigData> extends AbstractEntry {
 	private final ConfigManager<T> manager;
 	private final String fieldName;
 
-	public SectionEntry(ConfigManager<T> manager, String fieldName) {
+	public SectionEntry(ConfigManager<T> manager, String fieldName, int width) {
 		this.manager = manager;
 		this.fieldName = fieldName;
+		this.width = width;
 	}
 
 	@Override
 	public ConfigEntryWidget.Entry build() {
 		Text text = this.translatableText(String.format("text.%s.%s.@Section", this.manager.getDefinition().name(), this.fieldName));
 
-		TextWidget textWidget = new TextWidget(150, 20, text, this.client.textRenderer);
+		TextWidget textWidget = new TextWidget(this.width, 20, text, this.client.textRenderer);
 		textWidget.alignLeft();
 		textWidget.setX(textWidget.getX() + 15);
 

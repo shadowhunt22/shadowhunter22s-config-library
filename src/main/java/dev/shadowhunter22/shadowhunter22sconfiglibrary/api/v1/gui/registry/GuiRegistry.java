@@ -10,7 +10,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.ConfigEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManager;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.BaseConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.BooleanConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.EnumConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.IntegerConfigOption;
@@ -26,7 +26,7 @@ import java.util.Map;
 public class GuiRegistry {
     private static final Logger LOGGER = LoggerFactory.getLogger(ShadowHunter22sConfigLibraryClient.MOD_ID + "/GuiRegistry");
 
-    private static final LinkedHashMap<Class<? extends ConfigData>, LinkedHashMap<Field, BaseConfigOption<?>>> registry = new LinkedHashMap<>();
+    private static final LinkedHashMap<Class<? extends ConfigData>, LinkedHashMap<Field, ConfigOption<?>>> registry = new LinkedHashMap<>();
 
     public static <T extends ConfigData> void register(Class<T> configClass, ConfigManager<T> configManager) {
         if (registry.containsKey(configClass)) {
@@ -36,7 +36,7 @@ public class GuiRegistry {
         registry.put(configClass, populateOptions(configClass, configManager));
     }
 
-    public static <T extends ConfigData> LinkedHashMap<Field, BaseConfigOption<?>> getOptions(Class<T> configClass) {
+    public static <T extends ConfigData> LinkedHashMap<Field, ConfigOption<?>> getOptions(Class<T> configClass) {
         if (!registry.containsKey(configClass)) {
             throw new RuntimeException(String.format("Could not find a registered gui for '%s'. Was it registered?", configClass));
         }
@@ -44,11 +44,11 @@ public class GuiRegistry {
         return registry.get(configClass);
     }
 
-    private static <T extends ConfigData> LinkedHashMap<Field, BaseConfigOption<?>> populateOptions(Class<T> configClass, ConfigManager<T> configManager) {
+    private static <T extends ConfigData> LinkedHashMap<Field, ConfigOption<?>> populateOptions(Class<T> configClass, ConfigManager<T> configManager) {
         T config = configManager.getConfig();
         T defaultConfig = configManager.getSerializer().constructConfig();
 
-        LinkedHashMap<Field, BaseConfigOption<?>> options = new LinkedHashMap<>();
+        LinkedHashMap<Field, ConfigOption<?>> options = new LinkedHashMap<>();
 
         try {
             for (Field field : configClass.getDeclaredFields()) {
@@ -87,8 +87,23 @@ public class GuiRegistry {
 
         int value = field.getInt(config);
         int defaultValue = field.getInt(defaultConfig);
-        int min = field.getDeclaredAnnotation(ConfigEntry.Integer.class).min();
-        int max = field.getDeclaredAnnotation(ConfigEntry.Integer.class).max();
+
+        int min, max;
+
+        try {
+            min = field.getDeclaredAnnotation(ConfigEntry.Integer.class).min();
+            max = field.getDeclaredAnnotation(ConfigEntry.Integer.class).max();
+        } catch (Exception e) {
+            LOGGER.error("Unable to get minimum and maximum values for '{}' field because the '{}' annotation was not present.", field.getName(), ConfigEntry.Integer.class.getName());
+
+            throw new NullPointerException(
+                    String.format(
+                            "Unable to get minimum and maximum values for '%s' field because the '%s' annotation was not present.",
+                            field.getName(),
+                            ConfigEntry.Integer.class.getName()
+                    )
+            );
+        }
 
         return Map.of(field, new IntegerConfigOption<>(configClass.getDeclaredAnnotation(Config.class), key, min, max, value, defaultValue));
     }

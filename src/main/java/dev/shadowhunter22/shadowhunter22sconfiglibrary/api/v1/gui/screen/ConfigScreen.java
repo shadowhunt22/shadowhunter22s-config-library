@@ -8,7 +8,7 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.BaseConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.util.TranslationUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -22,12 +22,12 @@ import java.util.HashMap;
 @ApiStatus.Internal
 public class ConfigScreen<T extends ConfigData> extends Screen {
     private final Screen parent;
-    private final HashMap<Field, BaseConfigOption<?>> options;
+    private final HashMap<Field, ConfigOption<?>> options;
     private final ConfigManager<T> configManager;
 
     ConfigEntryWidget<T> configEntryWidget;
 
-    protected ConfigScreen(ConfigManager<T> configManager, HashMap<Field, BaseConfigOption<?>> options, Screen parent) {
+    protected ConfigScreen(ConfigManager<T> configManager, HashMap<Field, ConfigOption<?>> options, Screen parent) {
         super(Text.translatable(TranslationUtil.translationKey("text", configManager.getDefinition().name(), "title")));
 
         this.configManager = configManager;

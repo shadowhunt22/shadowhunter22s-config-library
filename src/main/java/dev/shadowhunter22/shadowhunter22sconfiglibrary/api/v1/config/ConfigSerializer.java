@@ -43,32 +43,47 @@ public class ConfigSerializer<T> {
     }
 
     private Path getConfigPath() {
-        return FabricLoader.getInstance().getConfigDir().resolve(this.definition.name() + "/options.json");
+        return FabricLoader.getInstance().getConfigDir().resolve(this.getConfigFileDirectory() + "/" + this.getConfigFileName());
     }
 
-    public void serialize(T config) throws SerializationException {
+    private String getConfigFileDirectory() {
+        return this.definition.name();
+    }
+
+    private String getConfigFileName() {
+        return this.definition.file().isEmpty() ? "options.json" : this.definition.file() + ".json";
+    }
+
+    private void createDirectoryIfAbsent() {
         if (!Files.exists(this.getConfigPath())) {
-            String configFileName = this.definition.name();
+            String configFileDirectory = this.getConfigFileDirectory();
 
-            LOGGER.info("Unable to find a config file for {}.  Creating...", configFileName);
+            LOGGER.info("Unable to find a config file for {}/{}.  Creating...", configFileDirectory, this.getConfigFileName());
 
-            File directory = new File(FabricLoader.getInstance().getConfigDir() + "/" + configFileName);
+            File directory = new File(FabricLoader.getInstance().getConfigDir() + "/" + configFileDirectory);
 
             if (!directory.exists()) {
                 boolean created = directory.mkdir();
 
                 if (created) {
-                    LOGGER.info("Successfully created a config directory for {}.", configFileName);
+                    LOGGER.info("Successfully created a config directory for {}.", configFileDirectory);
                 }
             }
         }
+    }
 
+    private void writeToConfigFile(T config) {
         try (BufferedWriter fileWriter = Files.newBufferedWriter(this.getConfigPath())) {
             this.gson.toJson(config, fileWriter);
         } catch (IOException e) {
             LOGGER.warn("Unable to serialize config file: {}", this.getConfigPath());
             throw new SerializationException(e);
         }
+    }
+
+    public void serialize(T config) throws SerializationException {
+        this.createDirectoryIfAbsent();
+        this.writeToConfigFile(config);
     }
 
     public T deserialize() throws SerializationException {
@@ -85,7 +100,12 @@ public class ConfigSerializer<T> {
                 throw new SerializationException(e);
             }
         } else {
-            return this.constructConfig();
+            T config = this.constructConfig();
+
+            this.createDirectoryIfAbsent();
+            this.writeToConfigFile(config);
+
+            return config;
         }
     }
 

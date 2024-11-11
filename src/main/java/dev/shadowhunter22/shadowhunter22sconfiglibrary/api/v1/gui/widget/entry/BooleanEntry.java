@@ -10,16 +10,16 @@ import java.lang.reflect.Field;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.BaseConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.BooleanConfigOption;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Text;
 
 public class BooleanEntry<T extends ConfigData> extends AbstractOptionEntry<T> {
-	private final BaseConfigOption<Boolean> typedOption;
+	private final ConfigOption<Boolean> typedOption;
 
-	public BooleanEntry(ConfigManager<T> manager, Field field, BaseConfigOption<?> option, int width) {
+	public BooleanEntry(ConfigManager<T> manager, Field field, ConfigOption<?> option, int width) {
 		super(manager, field, option, width);
 
 		this.typedOption = (BooleanConfigOption<Boolean>) option;

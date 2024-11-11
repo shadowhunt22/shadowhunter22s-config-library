@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.BaseConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.IntegerConfigOption;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.client.gui.widget.TextWidget;
@@ -21,7 +21,7 @@ import net.minecraft.util.math.MathHelper;
 public class IntSliderEntry<T extends ConfigData> extends AbstractOptionEntry<T> {
 	private final IntegerConfigOption<Integer> typedOption;
 
-	public IntSliderEntry(ConfigManager<T> manager, Field field, BaseConfigOption<?> option, int width) {
+	public IntSliderEntry(ConfigManager<T> manager, Field field, ConfigOption<?> option, int width) {
 		super(manager, field, option, width);
 
 		this.typedOption = (IntegerConfigOption<Integer>) option;
@@ -38,7 +38,7 @@ public class IntSliderEntry<T extends ConfigData> extends AbstractOptionEntry<T>
 		this.toggleButton = new SliderWidget(this.width - 151, 0, 125, 20, ScreenTexts.EMPTY, this.typedOption.getValue()) {
 			{
 				this.updateMessage();
-				this.setValue(((this.value - IntSliderEntry.this.typedOption.getMin()) / (IntSliderEntry.this.typedOption.getMax() - IntSliderEntry.this.typedOption.getMin())));
+				this.setValue((this.value - IntSliderEntry.this.typedOption.getMin()) / (IntSliderEntry.this.typedOption.getMax() - IntSliderEntry.this.typedOption.getMin()));
 			}
 
 			@Override
