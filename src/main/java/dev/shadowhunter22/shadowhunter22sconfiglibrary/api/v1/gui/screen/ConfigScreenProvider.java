@@ -5,23 +5,19 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen;
 
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.AutoConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.registry.GuiRegistry;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
 import net.minecraft.client.gui.screen.Screen;
 import org.jetbrains.annotations.ApiStatus;
-
-import java.lang.reflect.Field;
-import java.util.HashMap;
 
 @ApiStatus.Internal
 public class ConfigScreenProvider<T extends ConfigData> {
     private final Class<T> configClass;
-    private final ConfigManager<T> configManager;
+    private final AutoConfigManager<T> configManager;
     private final Screen currentScreen;
 
-	public ConfigScreenProvider(Class<T> configClass, ConfigManager<T> configManager, Screen currentScreen) {
+	public ConfigScreenProvider(Class<T> configClass, AutoConfigManager<T> configManager, Screen currentScreen) {
         this.configClass = configClass;
         this.configManager = configManager;
         this.currentScreen = currentScreen;

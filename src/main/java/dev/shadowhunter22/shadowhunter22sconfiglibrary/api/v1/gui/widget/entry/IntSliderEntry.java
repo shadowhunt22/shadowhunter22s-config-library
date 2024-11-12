@@ -5,10 +5,7 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry;
 
-import java.lang.reflect.Field;
-
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AbstractConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ResetButtonWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
@@ -19,11 +16,11 @@ import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 
-public class IntSliderEntry<T extends ConfigData> extends AbstractOptionEntry<T> {
+public class IntSliderEntry extends AbstractOptionEntry {
 	private final IntegerConfigOption<Integer> typedOption;
 
-	public IntSliderEntry(ConfigManager<T> manager, Field field, ConfigOption<?> option, int width) {
-		super(manager, field, option, width);
+	public IntSliderEntry(AbstractConfigManager manager, String optionKey, ConfigOption<?> option, int width) {
+		super(manager, optionKey, option, width);
 
 		this.typedOption = (IntegerConfigOption<Integer>) option;
 	}
@@ -40,7 +37,7 @@ public class IntSliderEntry<T extends ConfigData> extends AbstractOptionEntry<T>
 
 		ResetButtonWidget resetButton = ResetButtonWidget.builder(this.typedOption, action -> {
 			this.typedOption.setValue(this.typedOption.getDefaultValue());
-			this.manager.getSerializer().setValue(field, this.manager.getConfig(), this.typedOption.getValue());
+			this.manager.getSerializer().setValue(this.manager, this.optionKey, this.typedOption.getValue());
 			this.update();
 		}).dimensions(this.width - 45, 0, 20, 20).build();
 
@@ -68,7 +65,7 @@ public class IntSliderEntry<T extends ConfigData> extends AbstractOptionEntry<T>
 				int newValue = MathHelper.floor(MathHelper.clampedLerp(IntSliderEntry.this.typedOption.getMin(), IntSliderEntry.this.typedOption.getMax(), this.value));
 
 				IntSliderEntry.this.typedOption.setValue(newValue);
-				IntSliderEntry.this.manager.getSerializer().setValue(IntSliderEntry.this.field, IntSliderEntry.this.manager.getConfig(), newValue);
+				IntSliderEntry.this.manager.getSerializer().setValue(IntSliderEntry.this.manager, IntSliderEntry.this.optionKey, newValue);
 				IntSliderEntry.this.update();
 			}
 		};

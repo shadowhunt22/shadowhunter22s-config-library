@@ -8,8 +8,8 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.registry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibraryClient;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.ConfigEntry;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.AutoConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.BooleanConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.EnumConfigOption;
@@ -24,14 +24,12 @@ import java.util.Map;
 
 @ApiStatus.Internal
 public class GuiRegistry {
-    // TODO make the gui not dependent on a field to modify a value; use key-value pairs
-
     private static final Logger LOGGER = LoggerFactory.getLogger(ShadowHunter22sConfigLibraryClient.MOD_ID + "/GuiRegistry");
 
-    private static final LinkedHashMap<Class<? extends ConfigData>, LinkedHashMap<Field, ConfigOption<?>>> registry = new LinkedHashMap<>();
+    private static final LinkedHashMap<Class<? extends ConfigData>, LinkedHashMap<String, ConfigOption<?>>> registry = new LinkedHashMap<>();
 
-    public static <T extends ConfigData> void register(Class<T> configClass, ConfigManager<T> configManager) {
-        if (!dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.Config.isRegistered(configClass)) {
+    public static <T extends ConfigData> void register(Class<T> configClass, AutoConfigManager<T> configManager) {
+        if (!dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.Config.isRegistered(configClass)) {
             throw new RuntimeException(String.format("GuiRegistry attempted to register a missing config file: '%s'. Was it registered with Config.register()?", configClass));
         }
 
@@ -46,7 +44,7 @@ public class GuiRegistry {
         return registry.containsKey(configClass);
     }
 
-    public static <T extends ConfigData> LinkedHashMap<Field, ConfigOption<?>> getOptions(Class<T> configClass) {
+    public static <T extends ConfigData> LinkedHashMap<String, ConfigOption<?>> getOptions(Class<T> configClass) {
         if (!registry.containsKey(configClass)) {
             throw new RuntimeException(String.format("Could not find a registered gui for '%s'. Was it registered?", configClass));
         }
@@ -54,11 +52,11 @@ public class GuiRegistry {
         return registry.get(configClass);
     }
 
-    private static <T extends ConfigData> LinkedHashMap<Field, ConfigOption<?>> populateOptions(Class<T> configClass, ConfigManager<T> configManager) {
+    private static <T extends ConfigData> LinkedHashMap<String, ConfigOption<?>> populateOptions(Class<T> configClass, AutoConfigManager<T> configManager) {
         T config = configManager.getConfig();
         T defaultConfig = configManager.getSerializer().constructConfig();
 
-        LinkedHashMap<Field, ConfigOption<?>> options = new LinkedHashMap<>();
+        LinkedHashMap<String, ConfigOption<?>> options = new LinkedHashMap<>();
 
         try {
             for (Field field : configClass.getDeclaredFields()) {
@@ -84,15 +82,15 @@ public class GuiRegistry {
         return new LinkedHashMap<>(options);
     }
 
-    private static <T extends ConfigData> Map<Field, BooleanConfigOption<Boolean>> getBooleanOption(Class<T> configClass, T config, T defaultConfig, Field field) throws IllegalAccessException {
+    private static <T extends ConfigData> Map<String, BooleanConfigOption<Boolean>> getBooleanOption(Class<T> configClass, T config, T defaultConfig, Field field) throws IllegalAccessException {
         String key = field.getName();
         boolean value = field.getBoolean(config);
         boolean defaultValue = field.getBoolean(defaultConfig);
 
-        return Map.of(field, new BooleanConfigOption<>(configClass.getDeclaredAnnotation(Config.class), key, value, defaultValue));
+        return Map.of(key, new BooleanConfigOption<>(configClass.getDeclaredAnnotation(Config.class), key, value, defaultValue));
     }
 
-    private static <T extends ConfigData> Map<Field, IntegerConfigOption<Integer>> getIntegerOption(Class<T> configClass, T config, T defaultConfig, Field field) throws IllegalAccessException {
+    private static <T extends ConfigData> Map<String, IntegerConfigOption<Integer>> getIntegerOption(Class<T> configClass, T config, T defaultConfig, Field field) throws IllegalAccessException {
         String key = field.getName();
 
         int value = field.getInt(config);
@@ -115,16 +113,16 @@ public class GuiRegistry {
             );
         }
 
-        return Map.of(field, new IntegerConfigOption<>(configClass.getDeclaredAnnotation(Config.class), key, min, max, value, defaultValue));
+        return Map.of(key, new IntegerConfigOption<>(configClass.getDeclaredAnnotation(Config.class), key, min, max, value, defaultValue));
     }
 
     @SuppressWarnings("unchecked")
-    private static <T extends ConfigData, E extends Enum<E>> Map<Field, EnumConfigOption<E>> getEnumOption(Class<T> configClass, T config, T defaultConfig, Field field) throws IllegalAccessException {
+    private static <T extends ConfigData, E extends Enum<E>> Map<String, EnumConfigOption<E>> getEnumOption(Class<T> configClass, T config, T defaultConfig, Field field) throws IllegalAccessException {
         String key = field.getName();
         E[] values = ((Enum<E>) field.get(defaultConfig)).getDeclaringClass().getEnumConstants();
         E value = (E) field.get(config);
         E defaultValue = (E) field.get(defaultConfig);
 
-        return Map.of(field, new EnumConfigOption<>(configClass.getDeclaredAnnotation(Config.class), key, values, value, defaultValue));
+        return Map.of(key, new EnumConfigOption<>(configClass.getDeclaredAnnotation(Config.class), key, values, value, defaultValue));
     }
 }

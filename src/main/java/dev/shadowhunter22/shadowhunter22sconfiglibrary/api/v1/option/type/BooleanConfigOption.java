@@ -47,8 +47,8 @@ public class BooleanConfigOption<T extends Boolean> implements ConfigOption<T> {
         return this.value;
     }
 
-    public void setValue(T value) {
-        this.value = value;
+    public void setValue(Object value) {
+        this.value = (T) value;
     }
 
     @Override

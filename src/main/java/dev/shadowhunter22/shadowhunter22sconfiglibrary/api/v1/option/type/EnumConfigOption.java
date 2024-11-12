@@ -53,8 +53,9 @@ public class EnumConfigOption<T extends Enum<T>> implements ConfigOption<T> {
         return this.values;
     }
 
-    public void setValue(T value) {
-        this.value = value;
+    @Override
+    public void setValue(Object value) {
+        this.value = (T) value;
     }
 
     @Override

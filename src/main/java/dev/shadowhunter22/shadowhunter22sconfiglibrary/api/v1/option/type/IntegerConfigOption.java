@@ -15,8 +15,8 @@ import org.jetbrains.annotations.ApiStatus;
 public class IntegerConfigOption<T extends Integer> implements ConfigOption<T> {
     private final Config definition;
     private final String key, translationKey;
-    private T value, min, max;
-    private final T defaultValue;
+    private T value;
+    private final T defaultValue, min, max;
 
     public IntegerConfigOption(Config definition, String key, T min, T max, T value, T defaultValue) {
         this.definition = definition;
@@ -45,24 +45,17 @@ public class IntegerConfigOption<T extends Integer> implements ConfigOption<T> {
         return this.value;
     }
 
-    public void setValue(T value) {
-        this.value = value;
+    @Override
+    public void setValue(Object value) {
+        this.value = (T) value;
     }
 
     public T getMin() {
         return this.min;
     }
 
-    public void setMin(T min) {
-        this.min = min;
-    }
-
     public T getMax() {
         return this.max;
-    }
-
-    public void setMax(T max) {
-        this.max = max;
     }
 
     @Override

@@ -3,9 +3,12 @@
 // See LICENSE file in the project root for details.
 //
 
-package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config;
+package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig;
 
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AbstractConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigBuilder;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.registry.GuiRegistry;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen.ConfigScreen;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen.ConfigScreenProvider;
 import net.minecraft.client.gui.screen.Screen;
 
@@ -15,28 +18,32 @@ import java.util.Objects;
 
 /**
  * This class is used to register configs.  To register a config, call {@link Config#register(Class)},
- * passing in the config class as a parameter.
+ * passing in the config class as a parameter.  This will automatically register a {@link ConfigScreenProvider} which
+ * you can get the {@link ConfigScreen}.
+ * <br> <br>
+ * If you want to build your own config (without the need of a class) or config screen, see
+ * {@link ConfigBuilder}
  */
 public class Config {
-    private static final Map<Class<? extends ConfigData>, ConfigHolder<? extends ConfigData>> configs = new HashMap<>();
+    private static final Map<Class<? extends ConfigData>, AbstractConfigManager> configs = new HashMap<>();
 
     /**
      * Given a class containing config information, register a config file and return a
      * ConfigManager to get the config class and its information.
      *
-     * @param configClass the class to serialize to JSON.  If this value is null,
-     * a {@link NullPointerException} is thrown.
+     * @param configClass the class to serialize to JSON.  If this value is null,a {@link NullPointerException} is
+     * thrown.
      *
      * @return a config manager that gives access to the config and all of its fields
      */
-    public static <T extends ConfigData> ConfigManager<T> register(Class<T> configClass) {
+    public static <T extends ConfigData> AutoConfigManager<T> register(Class<T> configClass) {
         Objects.requireNonNull(configClass);
 
         if (configs.containsKey(configClass)) {
             throw new RuntimeException(String.format("Config '%s' already registered", configClass));
         }
 
-        ConfigManager<T> manager = new ConfigManager<>(configClass);
+        AutoConfigManager<T> manager = new AutoConfigManager<>(configClass);
 
         configs.put(configClass, manager);
         GuiRegistry.register(configClass, manager);
@@ -49,22 +56,11 @@ public class Config {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends ConfigData> ConfigManager<T> getConfigManager(Class<T> configClass) {
-        Objects.requireNonNull(configClass);
-
-        if (!configs.containsKey(configClass)) {
-            throw new RuntimeException(String.format("Could not find a manager for '%s' config.  Was it registered?", configClass));
-        }
-
-        return (ConfigManager<T>) configs.get(configClass);
-    }
-
-    @SuppressWarnings("unchecked")
     public static <T extends ConfigData> ConfigScreenProvider<T> getConfigScreen(Class<T> configClass, Screen currentScreen) {
         if (!configs.containsKey(configClass)) {
             throw new RuntimeException(String.format("Could not find config file '%s'. Was it registered?", configClass));
         }
 
-        return new ConfigScreenProvider<>(configClass, (ConfigManager<T>) configs.get(configClass), currentScreen);
+        return new ConfigScreenProvider<>(configClass, (AutoConfigManager<T>) configs.get(configClass), currentScreen);
     }
 }

@@ -12,7 +12,8 @@ import org.jetbrains.annotations.ApiStatus;
 public interface ConfigOption<T> {
     Text getText();
     T getValue();
-    void setValue(T value);
+    // void setValue(T value);
+    void setValue(Object value);
     T getDefaultValue();
 
     String getTranslationKey();

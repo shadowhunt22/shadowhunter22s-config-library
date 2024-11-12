@@ -5,44 +5,46 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config;
 
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
+import java.util.Map;
+
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.serializer.ConfigSerializer;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
-public class ConfigManager<T extends ConfigData> implements ConfigHolder<T> {
-    private final ConfigSerializer<T> serializer;
+public class ConfigManager extends AbstractConfigManager {
+    private final Map<String, ConfigOption<?>> config;
+    private final String definition;
+    private final ConfigSerializer serializer;
 
-    private final Config definition;
-
-    private T config;
-
-    public ConfigManager(Class<T> configClass) {
-        this.definition = configClass.getAnnotation(Config.class);
-        this.serializer = new ConfigSerializer<>(this.definition, configClass);
+    public ConfigManager(Map<String, ConfigOption<?>> config, String definition) {
+        this.config = config;
+        this.definition = definition;
+        this.serializer = new ConfigSerializer(definition, config);
 
         this.load();
     }
 
-    @Override
     public void save() {
         this.serializer.serialize(this.config);
     }
 
     @Override
-    public void load() {
-        this.config = this.serializer.deserialize();
+    protected void load() {
+        this.serializer.deserialize();
     }
 
-    @Override
-    public T getConfig() {
+    public Map<String, ConfigOption<?>> getConfig() {
         return this.config;
     }
 
-    public ConfigSerializer<T> getSerializer() {
-        return this.serializer;
+    @Override
+	public String getDefinition() {
+        return this.definition;
     }
 
-    public Config getDefinition() {
-        return this.definition;
+    @Override
+    public ConfigSerializer getSerializer() {
+        return this.serializer;
     }
 }

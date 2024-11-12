@@ -3,17 +3,7 @@
 // See LICENSE file in the project root for details.
 //
 
-package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config;
-
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibraryClient;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
-import net.fabricmc.loader.api.FabricLoader;
-import org.apache.commons.lang3.SerializationException;
-import org.jetbrains.annotations.ApiStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.spongepowered.include.com.google.gson.Gson;
-import org.spongepowered.include.com.google.gson.GsonBuilder;
+package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.serializer;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,41 +14,51 @@ import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@ApiStatus.Internal
-public class ConfigSerializer<T> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ShadowHunter22sConfigLibraryClient.MOD_ID + "/ConfigSerializer");
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibraryClient;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.ConfigData;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.serializer.AbstractSerializer;
+import net.fabricmc.loader.api.FabricLoader;
+import org.apache.commons.lang3.SerializationException;
+import org.jetbrains.annotations.ApiStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.spongepowered.include.com.google.gson.Gson;
+import org.spongepowered.include.com.google.gson.GsonBuilder;
 
+@ApiStatus.Internal
+public class AutoConfigSerializer<T extends ConfigData> extends AbstractSerializer {
     private final Class<T> configClass;
     private final Config definition;
     private final Gson gson;
 
-    private ConfigSerializer(Config definition, Class<T> configClass, Gson gson) {
+    private AutoConfigSerializer(Config definition, Class<T> configClass, Gson gson) {
         this.configClass = configClass;
         this.gson = gson;
         this.definition = definition;
     }
 
-    public ConfigSerializer(Config definition, Class<T> configClass) {
+    public AutoConfigSerializer(Config definition, Class<T> configClass) {
         this(definition, configClass, new GsonBuilder().setPrettyPrinting().create());
     }
 
-    private Path getConfigPath() {
+    protected Path getConfigPath() {
         return FabricLoader.getInstance().getConfigDir().resolve(this.getConfigFileDirectory() + "/" + this.getConfigFileName());
     }
 
-    private String getConfigFileDirectory() {
+    protected String getConfigFileDirectory() {
         return this.definition.name();
     }
 
-    private String getConfigFileName() {
+    protected String getConfigFileName() {
         return this.definition.file().isEmpty() ? "options.json" : this.definition.file() + ".json";
     }
 
-    private void createDirectoryIfAbsent() {
+    protected void createDirectoryIfAbsent() {
         if (!Files.exists(this.getConfigPath())) {
             String configFileDirectory = this.getConfigFileDirectory();
 
-            LOGGER.info("Unable to find a config file for {}/{}.  Creating...", configFileDirectory, this.getConfigFileName());
+            this.logger().info("Unable to find a config file for {}/{}.  Creating...", configFileDirectory, this.getConfigFileName());
 
             File directory = new File(FabricLoader.getInstance().getConfigDir() + "/" + configFileDirectory);
 
@@ -66,18 +66,9 @@ public class ConfigSerializer<T> {
                 boolean created = directory.mkdir();
 
                 if (created) {
-                    LOGGER.info("Successfully created a config directory for {}.", configFileDirectory);
+                    this.logger().info("Successfully created a config directory for {}.", configFileDirectory);
                 }
             }
-        }
-    }
-
-    private void writeToConfigFile(T config) {
-        try (BufferedWriter fileWriter = Files.newBufferedWriter(this.getConfigPath())) {
-            this.gson.toJson(config, fileWriter);
-        } catch (IOException e) {
-            LOGGER.warn("Unable to serialize config file: {}", this.getConfigPath());
-            throw new SerializationException(e);
         }
     }
 
@@ -96,7 +87,7 @@ public class ConfigSerializer<T> {
 
                 return object;
             } catch (IOException e) {
-                LOGGER.warn("Unable to deserialize config file: {}", configPath);
+                this.logger().warn("Unable to deserialize config file: {}", configPath);
                 throw new SerializationException(e);
             }
         } else {
@@ -109,12 +100,13 @@ public class ConfigSerializer<T> {
         }
     }
 
-    public void setValue(Field field, T config, Object newValue) {
+    public void setValue(ConfigData config, String key, Object value) {
         try {
+            Field field = config.getClass().getDeclaredField(key);
             field.setAccessible(true);
-            field.set(config, newValue);
+            field.set(config, value);
         } catch (ReflectiveOperationException e) {
-            LOGGER.warn("Failed to set new value for config class: {}", config.getClass().getName());
+            this.logger().warn("Failed to set new value for config class: {}", config.getClass().getName());
             throw new RuntimeException(e);
         }
     }
@@ -126,6 +118,20 @@ public class ConfigSerializer<T> {
             return constructor.newInstance();
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    protected Logger logger() {
+        return LoggerFactory.getLogger(ShadowHunter22sConfigLibraryClient.MOD_ID + "/AutoConfigSerializer");
+    }
+
+    private void writeToConfigFile(T config) {
+        try (BufferedWriter fileWriter = Files.newBufferedWriter(this.getConfigPath())) {
+            this.gson.toJson(config, fileWriter);
+        } catch (IOException e) {
+            this.logger().warn("Unable to serialize config file: {}", this.getConfigPath());
+            throw new SerializationException(e);
         }
     }
 }

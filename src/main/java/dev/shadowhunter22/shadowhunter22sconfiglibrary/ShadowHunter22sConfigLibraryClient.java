@@ -9,7 +9,6 @@ import net.fabricmc.api.ClientModInitializer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.Config;
 
 public class ShadowHunter22sConfigLibraryClient implements ClientModInitializer {
 	public static final String MOD_ID = "shadowhunter22s-config-library";

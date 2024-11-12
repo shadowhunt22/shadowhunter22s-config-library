@@ -5,8 +5,6 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry;
 
-import java.lang.reflect.Field;
-
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.SimpleLayoutWidget;
 import net.minecraft.client.MinecraftClient;
@@ -18,7 +16,7 @@ import net.minecraft.text.Text;
 public abstract class AbstractEntry implements Element, Selectable {
 	protected MinecraftClient client = MinecraftClient.getInstance();
 
-	protected Field field;
+	protected String optionKey;
 
 	protected SimpleLayoutWidget layout = new SimpleLayoutWidget(this.client.currentScreen);
 	protected boolean focused;

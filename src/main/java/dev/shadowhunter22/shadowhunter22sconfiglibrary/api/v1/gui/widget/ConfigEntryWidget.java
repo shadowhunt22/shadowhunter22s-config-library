@@ -7,8 +7,9 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget;
 
 import com.google.common.collect.Lists;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.ConfigEntry;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.AutoConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.ConfigData;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AbstractConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.BooleanEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.EnumEntry;
@@ -31,9 +32,9 @@ import java.util.List;
 
 @ApiStatus.Internal
 public class ConfigEntryWidget<T extends ConfigData> extends ElementListWidget<ConfigEntryWidget.Entry> {
-    private final ConfigManager<T> manager;
+    private final AbstractConfigManager manager;
 
-    public ConfigEntryWidget(ConfigManager<T> configManager, MinecraftClient client, int width, int height, int top, int bottom, int itemHeight) {
+    public ConfigEntryWidget(AbstractConfigManager configManager, MinecraftClient client, int width, int height, int top, int bottom, int itemHeight) {
         super(client, width, height, top, bottom, itemHeight);
 
         this.manager = configManager;
@@ -61,22 +62,36 @@ public class ConfigEntryWidget<T extends ConfigData> extends ElementListWidget<C
         this.addEntry(entry.build());
     }
 
-    public void add(Field field, ConfigOption<?> option) {
-        if (field.isAnnotationPresent(ConfigEntry.Gui.Section.class)) {
-            this.add(new SectionEntry<>(this.manager, field.getName(), this.width));
-        }
+    public void add(String optionKey, ConfigOption<?> option) {
+        if (this.manager instanceof AutoConfigManager<?>) {
+            Field field;
+
+            try {
+                field = ((AutoConfigManager<T>) this.manager).getConfig().getClass().getDeclaredField(optionKey);
+            } catch (NoSuchFieldException e) {
+				throw new RuntimeException(e);
+			}
+
+            if (field.isAnnotationPresent(ConfigEntry.Gui.Section.class)) {
+                this.addSection(optionKey);
+            }
+		}
 
         if (option instanceof BooleanConfigOption<?> typeOption) {
-            this.addEntry(new BooleanEntry<>(this.manager, field, typeOption, this.width).build());
+            this.addEntry(new BooleanEntry(this.manager, optionKey, typeOption, this.width).build());
         }
 
         if (option instanceof IntegerConfigOption<?> typedOption) {
-            this.addEntry(new IntSliderEntry<>(this.manager, field, typedOption, this.width).build());
+            this.addEntry(new IntSliderEntry(this.manager, optionKey, typedOption, this.width).build());
         }
 
         if (option instanceof EnumConfigOption<?> typedOption) {
-            this.addEntry(new EnumEntry<>(this.manager, field, typedOption, this.width).build());
+            this.addEntry(new EnumEntry(this.manager, optionKey, typedOption, this.width).build());
         }
+    }
+
+    private void addSection(String optionKey) {
+        this.addEntry(new SectionEntry(this.manager, optionKey, this.width).build());
     }
 
     public static class Entry extends ElementListWidget.Entry<Entry> {

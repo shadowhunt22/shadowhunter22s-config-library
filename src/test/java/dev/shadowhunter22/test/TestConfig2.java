@@ -7,7 +7,7 @@ package dev.shadowhunter22.test;
 
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.ConfigEntry;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.ConfigData;
 
 @Config(name = "config-library", file = "test2")
 public class TestConfig2 implements ConfigData {

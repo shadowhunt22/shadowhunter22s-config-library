@@ -3,7 +3,7 @@
 // See LICENSE file in the project root for details.
 //
 
-package dev.shadowhunter22.test;import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.Config;
+package dev.shadowhunter22.test;import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.Config;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
