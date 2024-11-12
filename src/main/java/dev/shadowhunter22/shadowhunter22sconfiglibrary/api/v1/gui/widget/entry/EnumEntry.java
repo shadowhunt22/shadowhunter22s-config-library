@@ -5,7 +5,6 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry;
 
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AbstractConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ResetButtonWidget;
@@ -14,7 +13,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.EnumCo
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 
-public class EnumEntry<T extends ConfigData, E extends Enum<E>> extends AbstractOptionEntry<T> {
+public class EnumEntry<E extends Enum<E>> extends AbstractOptionEntry {
 	private final EnumConfigOption<E> typedOption;
 
 	public EnumEntry(AbstractConfigManager manager, String optionKey, ConfigOption<?> option, int width) {
