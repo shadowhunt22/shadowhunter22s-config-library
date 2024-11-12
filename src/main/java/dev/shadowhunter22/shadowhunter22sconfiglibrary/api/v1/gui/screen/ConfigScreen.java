@@ -37,7 +37,7 @@ public class ConfigScreen<T extends ConfigData> extends Screen {
 
     @Override
     protected void init() {
-        this.configEntryWidget = new ConfigEntryWidget<>(this.configManager, this.client, this.width, this.height, 50, this.height, 36);
+        this.configEntryWidget = new ConfigEntryWidget<>(this.configManager, this.client, this.width, this.height, 50, this.height, 27);
 
         this.options.forEach((field, baseConfigOption) -> this.configEntryWidget.add(field, baseConfigOption));
 

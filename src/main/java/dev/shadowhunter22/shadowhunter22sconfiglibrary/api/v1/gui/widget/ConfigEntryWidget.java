@@ -24,8 +24,6 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
-import net.minecraft.util.math.ColorHelper;
-import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.lang.reflect.Field;

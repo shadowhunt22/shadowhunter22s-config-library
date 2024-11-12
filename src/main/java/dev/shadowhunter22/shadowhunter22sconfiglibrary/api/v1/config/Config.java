@@ -44,6 +44,10 @@ public class Config {
         return manager;
     }
 
+    public static <T extends ConfigData> boolean isRegistered(Class<T> configClass) {
+        return configs.containsKey(configClass);
+    }
+
     @SuppressWarnings("unchecked")
     public static <T extends ConfigData> ConfigManager<T> getConfigManager(Class<T> configClass) {
         Objects.requireNonNull(configClass);

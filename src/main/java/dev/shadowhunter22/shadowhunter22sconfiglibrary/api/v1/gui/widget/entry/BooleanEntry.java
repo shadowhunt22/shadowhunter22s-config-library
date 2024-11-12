@@ -10,11 +10,11 @@ import java.lang.reflect.Field;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ResetButtonWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.BooleanConfigOption;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextWidget;
-import net.minecraft.text.Text;
 
 public class BooleanEntry<T extends ConfigData> extends AbstractOptionEntry<T> {
 	private final ConfigOption<Boolean> typedOption;
@@ -26,7 +26,6 @@ public class BooleanEntry<T extends ConfigData> extends AbstractOptionEntry<T> {
 	}
 
 	private ButtonWidget toggleButton;
-	private ButtonWidget resetButton;
 
 	@Override
 	public ConfigEntryWidget.Entry build() {
@@ -38,19 +37,17 @@ public class BooleanEntry<T extends ConfigData> extends AbstractOptionEntry<T> {
 			this.typedOption.setValue(!this.typedOption.getValue());
 			this.manager.getSerializer().setValue(field, this.manager.getConfig(), this.typedOption.getValue());
 			this.update();
-		}).dimensions(this.width - 151, 0, 75, 20).build();
+		}).dimensions(this.width - 151, 0, 105, 20).build();
 
-		this.resetButton = ButtonWidget.builder(Text.translatable("controls.reset"), button -> {
+		ResetButtonWidget resetButton = ResetButtonWidget.builder(this.typedOption, action -> {
 			this.typedOption.setValue(this.typedOption.getDefaultValue());
 			this.manager.getSerializer().setValue(field, this.manager.getConfig(), this.typedOption.getValue());
 			this.update();
-		}).dimensions(this.width - 75, 0, 50, 20).build();
-
-		this.resetButton.active = this.typedOption.getValue() != this.typedOption.getDefaultValue();
+		}).dimensions(this.width - 45, 0, 20, 20).build();
 
 		this.layout.addBody(textWidget);
 		this.layout.addBody(this.toggleButton);
-		this.layout.addBody(this.resetButton);
+		this.layout.addBody(resetButton);
 
 		return new ConfigEntryWidget.Entry(this);
 	}
@@ -61,10 +58,6 @@ public class BooleanEntry<T extends ConfigData> extends AbstractOptionEntry<T> {
 
 		if (this.toggleButton != null) {
 			this.toggleButton.setMessage(this.typedOption.getText());
-		}
-
-		if (this.resetButton != null) {
-			this.resetButton.active = this.typedOption.getValue() != this.typedOption.getDefaultValue();
 		}
 	}
 }

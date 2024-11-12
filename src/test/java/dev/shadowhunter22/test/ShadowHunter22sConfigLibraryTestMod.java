@@ -4,10 +4,10 @@
 //
 
 package dev.shadowhunter22.test;import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.Config;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
@@ -25,14 +25,11 @@ public class ShadowHunter22sConfigLibraryTestMod implements ClientModInitializer
 			"category."  + MOD_ID +  ".mod"
 	));
 
-	public static final TestConfig test = Config.register(TestConfig.class).getConfig();
-	public static final TestConfig2 test2 = Config.register(TestConfig2.class).getConfig();
+	public static final TestConfig test;
+	public static final TestConfig2 test2;
 
 	@Override
 	public void onInitializeClient() {
-		Config.getConfigManager(TestConfig.class).getSerializer();
-		Config.getConfigManager(TestConfig2.class).getSerializer();
-
 		ClientTickEvents.START_CLIENT_TICK.register(client -> {
 			if (keyBinding.wasPressed()) {
 				client.setScreen(Config.getConfigScreen(TestConfig.class, client.currentScreen).get());
@@ -40,5 +37,15 @@ public class ShadowHunter22sConfigLibraryTestMod implements ClientModInitializer
 		});
 
         LOGGER.info("Successfully loaded {}!", MOD_ID);
+	}
+
+	static {
+		if (FabricLoader.getInstance().isModLoaded("shadowhunter22s-config-library")) {
+			test = Config.register(TestConfig.class).getConfig();
+			test2 = Config.register(TestConfig2.class).getConfig();
+		} else {
+			test = new TestConfig();
+			test2 = new TestConfig2();
+		}
 	}
 }

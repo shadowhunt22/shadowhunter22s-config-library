@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ResetButtonWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.IntegerConfigOption;
 import net.minecraft.client.gui.widget.SliderWidget;
@@ -27,7 +28,7 @@ public class IntSliderEntry<T extends ConfigData> extends AbstractOptionEntry<T>
 		this.typedOption = (IntegerConfigOption<Integer>) option;
 	}
 
-	private SliderWidget toggleButton;
+	private SliderWidget sliderWidget;
 
 	@Override
 	public ConfigEntryWidget.Entry build() {
@@ -35,7 +36,23 @@ public class IntSliderEntry<T extends ConfigData> extends AbstractOptionEntry<T>
 		textWidget.alignLeft();
 		textWidget.setX(textWidget.getX() + 15);
 
-		this.toggleButton = new SliderWidget(this.width - 151, 0, 125, 20, ScreenTexts.EMPTY, this.typedOption.getValue()) {
+		this.sliderWidget = this.createSlider();
+
+		ResetButtonWidget resetButton = ResetButtonWidget.builder(this.typedOption, action -> {
+			this.typedOption.setValue(this.typedOption.getDefaultValue());
+			this.manager.getSerializer().setValue(field, this.manager.getConfig(), this.typedOption.getValue());
+			this.update();
+		}).dimensions(this.width - 45, 0, 20, 20).build();
+
+		this.layout.addBody(textWidget);
+		this.layout.addBody(this.sliderWidget);
+		this.layout.addBody(resetButton);
+
+		return new ConfigEntryWidget.Entry(this);
+	}
+
+	private SliderWidget createSlider() {
+		return new SliderWidget(this.width - 151, 0, 105, 20, ScreenTexts.EMPTY, this.typedOption.getValue()) {
 			{
 				this.updateMessage();
 				this.setValue((this.value - IntSliderEntry.this.typedOption.getMin()) / (IntSliderEntry.this.typedOption.getMax() - IntSliderEntry.this.typedOption.getMin()));
@@ -55,19 +72,15 @@ public class IntSliderEntry<T extends ConfigData> extends AbstractOptionEntry<T>
 				IntSliderEntry.this.update();
 			}
 		};
-
-		this.layout.addBody(textWidget);
-		this.layout.addBody(this.toggleButton);
-
-		return new ConfigEntryWidget.Entry(this);
 	}
 
 	@Override
 	public void update() {
 		this.manager.save();
 
-		if (this.toggleButton != null) {
-			this.toggleButton.setMessage(Text.of(this.typedOption.getValue().toString()));
+		if (this.sliderWidget != null) {
+			this.sliderWidget.setValue(((double) this.typedOption.getValue() - IntSliderEntry.this.typedOption.getMin()) / (IntSliderEntry.this.typedOption.getMax() - IntSliderEntry.this.typedOption.getMin()));
+			this.sliderWidget.setMessage(Text.of(this.typedOption.getValue().toString()));
 		}
 	}
 }

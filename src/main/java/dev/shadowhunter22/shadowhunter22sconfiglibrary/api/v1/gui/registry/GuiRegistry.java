@@ -24,16 +24,26 @@ import java.util.Map;
 
 @ApiStatus.Internal
 public class GuiRegistry {
+    // TODO make the gui not dependent on a field to modify a value; use key-value pairs
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ShadowHunter22sConfigLibraryClient.MOD_ID + "/GuiRegistry");
 
     private static final LinkedHashMap<Class<? extends ConfigData>, LinkedHashMap<Field, ConfigOption<?>>> registry = new LinkedHashMap<>();
 
     public static <T extends ConfigData> void register(Class<T> configClass, ConfigManager<T> configManager) {
+        if (!dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.Config.isRegistered(configClass)) {
+            throw new RuntimeException(String.format("GuiRegistry attempted to register a missing config file: '%s'. Was it registered with Config.register()?", configClass));
+        }
+
         if (registry.containsKey(configClass)) {
             throw new RuntimeException(String.format("Gui for config '%s' already registered", configClass));
         }
 
         registry.put(configClass, populateOptions(configClass, configManager));
+    }
+
+    public static <T extends ConfigData> boolean isRegistered(Class<T> configClass) {
+        return registry.containsKey(configClass);
     }
 
     public static <T extends ConfigData> LinkedHashMap<Field, ConfigOption<?>> getOptions(Class<T> configClass) {

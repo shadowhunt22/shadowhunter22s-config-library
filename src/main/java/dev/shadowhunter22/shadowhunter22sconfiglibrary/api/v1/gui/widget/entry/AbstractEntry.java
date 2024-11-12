@@ -8,11 +8,11 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry;
 import java.lang.reflect.Field;
 
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.SimpleLayoutWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
-import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
 import net.minecraft.text.Text;
 
 public abstract class AbstractEntry implements Element, Selectable {
@@ -20,7 +20,7 @@ public abstract class AbstractEntry implements Element, Selectable {
 
 	protected Field field;
 
-	protected ThreePartsLayoutWidget layout = new ThreePartsLayoutWidget(this.client.currentScreen);
+	protected SimpleLayoutWidget layout = new SimpleLayoutWidget(this.client.currentScreen);
 	protected boolean focused;
 	protected boolean hovered;
 
@@ -29,7 +29,7 @@ public abstract class AbstractEntry implements Element, Selectable {
 	public abstract ConfigEntryWidget.Entry build();
 	protected abstract Text translatableText(String text);
 
-	public ThreePartsLayoutWidget getLayout() {
+	public SimpleLayoutWidget getLayout() {
 		return this.layout;
 	}
 
