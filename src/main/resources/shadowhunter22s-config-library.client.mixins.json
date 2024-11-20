@@ -3,6 +3,7 @@
   "package": "dev.shadowhunter22.shadowhunter22sconfiglibrary.mixin.client",
   "compatibilityLevel": "JAVA_17",
   "client": [
+	"SliderWidgetInvoker"
   ],
   "injectors": {
 	"defaultRequire": 1

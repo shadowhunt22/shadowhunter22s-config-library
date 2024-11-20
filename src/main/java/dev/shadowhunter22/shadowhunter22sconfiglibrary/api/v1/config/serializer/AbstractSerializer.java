@@ -9,10 +9,9 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.AutoConfigManager;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.ConfigData;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AbstractConfigManager;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigManager;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 
@@ -39,12 +38,14 @@ public abstract class AbstractSerializer {
 		}
 	}
 
-	public <T extends ConfigData> void setValue(AbstractConfigManager manager, String key, Object value) {
-		if (manager instanceof AutoConfigManager<?>) {
-			((AutoConfigManager<T>) manager).getSerializer().setValue(((AutoConfigManager<?>) manager).getConfig(), key, value);
-		} else if (manager.getSerializer() instanceof ConfigSerializer) {
-			((ConfigManager) manager).getSerializer().setValue(key, value);
+	public void setValue(AbstractConfigManager manager, String key, Object value) {
+		if (manager instanceof AutoConfigManager<?> autoConfigManager) {
+			this.setValue(autoConfigManager, key, value);
 		}
+	}
+
+	private <T extends ConfigData> void setValue(AutoConfigManager<T> manager, String key, Object value) {
+		manager.getSerializer().setValue(manager.getConfig(), key, value);
 	}
 
 	protected abstract Logger logger();

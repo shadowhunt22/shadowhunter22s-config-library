@@ -5,7 +5,6 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type;
 
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.util.TranslationUtil;
 import net.minecraft.text.Text;
@@ -18,12 +17,11 @@ public class BooleanConfigOption<T extends Boolean> implements ConfigOption<T> {
     private T value;
     private final T defaultValue;
 
-    private final Text enabled;
-    private final Text disabled;
+    private final Text enabled, disabled;
 
-    public BooleanConfigOption(Config definition, String key, T value, T defaultValue) {
+    public BooleanConfigOption(String definition, String key, T value, T defaultValue) {
         this.key = key;
-        this.translationKey = TranslationUtil.translationKey("option", definition.name(), this.key);
+        this.translationKey = TranslationUtil.translationKey("option", definition, this.key);
 
         this.value = value;
         this.defaultValue = defaultValue;
@@ -54,5 +52,10 @@ public class BooleanConfigOption<T extends Boolean> implements ConfigOption<T> {
     @Override
     public T getDefaultValue() {
         return this.defaultValue;
+    }
+
+    @Override
+    public String getKey() {
+        return this.key;
     }
 }

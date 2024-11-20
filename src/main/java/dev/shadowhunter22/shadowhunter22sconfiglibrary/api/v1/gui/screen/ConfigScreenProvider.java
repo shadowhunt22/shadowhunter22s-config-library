@@ -5,8 +5,8 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen;
 
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.AutoConfigManager;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.ConfigData;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.registry.GuiRegistry;
 import net.minecraft.client.gui.screen.Screen;
 import org.jetbrains.annotations.ApiStatus;

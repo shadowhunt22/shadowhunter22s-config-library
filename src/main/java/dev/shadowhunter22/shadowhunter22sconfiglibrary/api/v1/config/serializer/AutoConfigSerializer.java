@@ -3,11 +3,10 @@
 // See LICENSE file in the project root for details.
 //
 
-package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.serializer;
+package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.serializer;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -16,8 +15,7 @@ import java.nio.file.Path;
 
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibraryClient;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.ConfigData;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.serializer.AbstractSerializer;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import net.fabricmc.loader.api.FabricLoader;
 import org.apache.commons.lang3.SerializationException;
 import org.jetbrains.annotations.ApiStatus;
@@ -54,24 +52,6 @@ public class AutoConfigSerializer<T extends ConfigData> extends AbstractSerializ
         return this.definition.file().isEmpty() ? "options.json" : this.definition.file() + ".json";
     }
 
-    protected void createDirectoryIfAbsent() {
-        if (!Files.exists(this.getConfigPath())) {
-            String configFileDirectory = this.getConfigFileDirectory();
-
-            this.logger().info("Unable to find a config file for {}/{}.  Creating...", configFileDirectory, this.getConfigFileName());
-
-            File directory = new File(FabricLoader.getInstance().getConfigDir() + "/" + configFileDirectory);
-
-            if (!directory.exists()) {
-                boolean created = directory.mkdir();
-
-                if (created) {
-                    this.logger().info("Successfully created a config directory for {}.", configFileDirectory);
-                }
-            }
-        }
-    }
-
     public void serialize(T config) throws SerializationException {
         this.createDirectoryIfAbsent();
         this.writeToConfigFile(config);
@@ -100,7 +80,7 @@ public class AutoConfigSerializer<T extends ConfigData> extends AbstractSerializ
         }
     }
 
-    public void setValue(ConfigData config, String key, Object value) {
+    public void setValue(T config, String key, Object value) {
         try {
             Field field = config.getClass().getDeclaredField(key);
             field.setAccessible(true);

@@ -10,6 +10,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigE
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ResetButtonWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.IntegerConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.mixin.client.SliderWidgetInvoker;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.screen.ScreenTexts;
@@ -52,7 +53,7 @@ public class IntSliderEntry extends AbstractOptionEntry {
 		return new SliderWidget(this.width - 151, 0, 105, 20, ScreenTexts.EMPTY, this.typedOption.getValue()) {
 			{
 				this.updateMessage();
-				this.setValue((this.value - IntSliderEntry.this.typedOption.getMin()) / (IntSliderEntry.this.typedOption.getMax() - IntSliderEntry.this.typedOption.getMin()));
+				((SliderWidgetInvoker) ((SliderWidget) this)).invokeSetValue((this.value - IntSliderEntry.this.typedOption.getMin()) / (IntSliderEntry.this.typedOption.getMax() - IntSliderEntry.this.typedOption.getMin()));
 			}
 
 			@Override
@@ -76,7 +77,7 @@ public class IntSliderEntry extends AbstractOptionEntry {
 		this.manager.save();
 
 		if (this.sliderWidget != null) {
-			this.sliderWidget.setValue(((double) this.typedOption.getValue() - IntSliderEntry.this.typedOption.getMin()) / (IntSliderEntry.this.typedOption.getMax() - IntSliderEntry.this.typedOption.getMin()));
+			((SliderWidgetInvoker) this.sliderWidget).invokeSetValue(((double) this.typedOption.getValue() - IntSliderEntry.this.typedOption.getMin()) / (IntSliderEntry.this.typedOption.getMax() - IntSliderEntry.this.typedOption.getMin()));
 			this.sliderWidget.setMessage(Text.of(this.typedOption.getValue().toString()));
 		}
 	}

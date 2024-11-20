@@ -8,8 +8,8 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.registry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibraryClient;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.ConfigEntry;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.AutoConfigManager;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.ConfigData;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.BooleanConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.EnumConfigOption;
@@ -29,7 +29,7 @@ public class GuiRegistry {
     private static final LinkedHashMap<Class<? extends ConfigData>, LinkedHashMap<String, ConfigOption<?>>> registry = new LinkedHashMap<>();
 
     public static <T extends ConfigData> void register(Class<T> configClass, AutoConfigManager<T> configManager) {
-        if (!dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.Config.isRegistered(configClass)) {
+        if (!dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.Config.isRegistered(configClass)) {
             throw new RuntimeException(String.format("GuiRegistry attempted to register a missing config file: '%s'. Was it registered with Config.register()?", configClass));
         }
 
@@ -50,6 +50,22 @@ public class GuiRegistry {
         }
 
         return registry.get(configClass);
+    }
+
+    public static <T extends ConfigData> ConfigOption<?> getOption(Class<T> configClass, Field field) {
+        if (!registry.containsKey(configClass)) {
+            throw new RuntimeException(String.format("Could not find a registered gui for '%s'. Was it registered?", configClass));
+        }
+
+        return registry.get(configClass).get(field.getName());
+    }
+
+    public static <T extends ConfigData> ConfigOption<?> getOption(Class<T> configClass, String name) {
+        if (!registry.containsKey(configClass)) {
+            throw new RuntimeException(String.format("Could not find a registered gui for '%s'. Was it registered?", configClass));
+        }
+
+        return registry.get(configClass).get(name);
     }
 
     private static <T extends ConfigData> LinkedHashMap<String, ConfigOption<?>> populateOptions(Class<T> configClass, AutoConfigManager<T> configManager) {
@@ -87,7 +103,7 @@ public class GuiRegistry {
         boolean value = field.getBoolean(config);
         boolean defaultValue = field.getBoolean(defaultConfig);
 
-        return Map.of(key, new BooleanConfigOption<>(configClass.getDeclaredAnnotation(Config.class), key, value, defaultValue));
+        return Map.of(key, new BooleanConfigOption<>(configClass.getDeclaredAnnotation(Config.class).name(), key, value, defaultValue));
     }
 
     private static <T extends ConfigData> Map<String, IntegerConfigOption<Integer>> getIntegerOption(Class<T> configClass, T config, T defaultConfig, Field field) throws IllegalAccessException {
@@ -113,7 +129,7 @@ public class GuiRegistry {
             );
         }
 
-        return Map.of(key, new IntegerConfigOption<>(configClass.getDeclaredAnnotation(Config.class), key, min, max, value, defaultValue));
+        return Map.of(key, new IntegerConfigOption<>(configClass.getDeclaredAnnotation(Config.class).name(), key, min, max, value, defaultValue));
     }
 
     @SuppressWarnings("unchecked")
@@ -123,6 +139,6 @@ public class GuiRegistry {
         E value = (E) field.get(config);
         E defaultValue = (E) field.get(defaultConfig);
 
-        return Map.of(key, new EnumConfigOption<>(configClass.getDeclaredAnnotation(Config.class), key, values, value, defaultValue));
+        return Map.of(key, new EnumConfigOption<>(configClass.getDeclaredAnnotation(Config.class).name(), key, values, value, defaultValue));
     }
 }

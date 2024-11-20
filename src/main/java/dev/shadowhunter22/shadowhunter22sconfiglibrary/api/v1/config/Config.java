@@ -3,10 +3,8 @@
 // See LICENSE file in the project root for details.
 //
 
-package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig;
+package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config;
 
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AbstractConfigManager;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigBuilder;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.registry.GuiRegistry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen.ConfigScreen;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen.ConfigScreenProvider;
@@ -20,9 +18,6 @@ import java.util.Objects;
  * This class is used to register configs.  To register a config, call {@link Config#register(Class)},
  * passing in the config class as a parameter.  This will automatically register a {@link ConfigScreenProvider} which
  * you can get the {@link ConfigScreen}.
- * <br> <br>
- * If you want to build your own config (without the need of a class) or config screen, see
- * {@link ConfigBuilder}
  */
 public class Config {
     private static final Map<Class<? extends ConfigData>, AbstractConfigManager> configs = new HashMap<>();
@@ -56,11 +51,19 @@ public class Config {
     }
 
     @SuppressWarnings("unchecked")
+    public static <T extends ConfigData> AutoConfigManager<T> getConfigManager(Class<T> configClass) {
+        if (!configs.containsKey(configClass)) {
+            throw new RuntimeException(String.format("Could not find config file '%s'. Was it registered?", configClass));
+        }
+
+        return (AutoConfigManager<T>) configs.get(configClass);
+    }
+
     public static <T extends ConfigData> ConfigScreenProvider<T> getConfigScreen(Class<T> configClass, Screen currentScreen) {
         if (!configs.containsKey(configClass)) {
             throw new RuntimeException(String.format("Could not find config file '%s'. Was it registered?", configClass));
         }
 
-        return new ConfigScreenProvider<>(configClass, (AutoConfigManager<T>) configs.get(configClass), currentScreen);
+        return new ConfigScreenProvider<>(configClass, Config.getConfigManager(configClass), currentScreen);
     }
 }

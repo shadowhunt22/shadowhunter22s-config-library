@@ -3,11 +3,10 @@
 // See LICENSE file in the project root for details.
 //
 
-package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig;
+package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config;
 
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.serializer.AutoConfigSerializer;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AbstractConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.serializer.AutoConfigSerializer;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal

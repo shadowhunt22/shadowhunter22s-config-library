@@ -7,8 +7,8 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget;
 
 import com.google.common.collect.Lists;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.ConfigEntry;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.AutoConfigManager;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.ConfigData;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AbstractConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.BooleanEntry;
@@ -31,7 +31,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 @ApiStatus.Internal
-public class ConfigEntryWidget<T extends ConfigData> extends ElementListWidget<ConfigEntryWidget.Entry> {
+public class ConfigEntryWidget extends ElementListWidget<ConfigEntryWidget.Entry> {
     private final AbstractConfigManager manager;
 
     public ConfigEntryWidget(AbstractConfigManager configManager, MinecraftClient client, int width, int height, int top, int bottom, int itemHeight) {
@@ -59,10 +59,14 @@ public class ConfigEntryWidget<T extends ConfigData> extends ElementListWidget<C
     }
 
     public void add(AbstractEntry entry) {
-        this.addEntry(entry.build());
+        if (entry instanceof ConfigOption<?> option) {
+            this.add(option.getKey(), option);
+        } else {
+            this.addEntry(entry.build());
+        }
     }
 
-    public void add(String optionKey, ConfigOption<?> option) {
+    public <T extends ConfigData> void add(String optionKey, ConfigOption<?> option) {
         if (this.manager instanceof AutoConfigManager<?>) {
             Field field;
 
@@ -86,7 +90,7 @@ public class ConfigEntryWidget<T extends ConfigData> extends ElementListWidget<C
         }
 
         if (option instanceof EnumConfigOption<?> typedOption) {
-            this.addEntry(new EnumEntry(this.manager, optionKey, typedOption, this.width).build());
+            this.addEntry(new EnumEntry<>(this.manager, optionKey, typedOption, this.width).build());
         }
     }
 

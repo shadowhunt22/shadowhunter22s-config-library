@@ -5,8 +5,8 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen;
 
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.AutoConfigManager;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.autoconfig.ConfigData;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.util.TranslationUtil;
@@ -24,7 +24,7 @@ public class ConfigScreen<T extends ConfigData> extends Screen {
     private final HashMap<String, ConfigOption<?>> options;
     private final AutoConfigManager<T> configManager;
 
-    ConfigEntryWidget<T> configEntryWidget;
+    ConfigEntryWidget configEntryWidget;
 
     protected ConfigScreen(AutoConfigManager<T> configManager, HashMap<String, ConfigOption<?>> options, Screen parent) {
         super(Text.translatable(TranslationUtil.translationKey("text", configManager.getDefinition(), "title")));
@@ -36,9 +36,9 @@ public class ConfigScreen<T extends ConfigData> extends Screen {
 
     @Override
     protected void init() {
-        this.configEntryWidget = new ConfigEntryWidget<>(this.configManager, this.client, this.width, this.height, 50, this.height, 27);
+        this.configEntryWidget = new ConfigEntryWidget(this.configManager, this.client, this.width, this.height, 50, this.height, 27);
 
-        this.options.forEach((field, baseConfigOption) -> this.configEntryWidget.add(field, baseConfigOption));
+        this.options.forEach((key, option) -> this.configEntryWidget.add(key, option));
 
         this.addDrawableChild(this.configEntryWidget);
     }
