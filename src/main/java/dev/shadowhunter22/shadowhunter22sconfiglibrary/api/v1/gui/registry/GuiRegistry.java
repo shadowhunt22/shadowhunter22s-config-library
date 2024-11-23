@@ -22,7 +22,6 @@ import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@ApiStatus.Internal
 public class GuiRegistry {
     private static final Logger LOGGER = LoggerFactory.getLogger(ShadowHunter22sConfigLibraryClient.MOD_ID + "/GuiRegistry");
 

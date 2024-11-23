@@ -8,13 +8,15 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.option;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.ApiStatus;
 
-@ApiStatus.Internal
 public interface ConfigOption<T> {
-    Text getText();
-    T getValue();
-    void setValue(Object value);
-    T getDefaultValue();
-
     String getKey();
     String getTranslationKey();
+
+    T getValue();
+    void setValue(Object value);
+
+    T getDefaultValue();
+    void setDefaultValue(Object value);
+
+    Text getText();
 }

@@ -16,7 +16,7 @@ import net.minecraft.text.Text;
 public abstract class AbstractEntry implements Element, Selectable {
 	protected MinecraftClient client = MinecraftClient.getInstance();
 
-	protected String optionKey;
+	protected String key;
 
 	protected SimpleLayoutWidget layout = new SimpleLayoutWidget(this.client.currentScreen);
 	protected boolean focused;

@@ -9,7 +9,6 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.serializer.AutoConfigSerializer;
 import org.jetbrains.annotations.ApiStatus;
 
-@ApiStatus.Internal
 public class AutoConfigManager<T extends ConfigData> extends AbstractConfigManager {
     private final AutoConfigSerializer<T> serializer;
 
@@ -27,6 +26,7 @@ public class AutoConfigManager<T extends ConfigData> extends AbstractConfigManag
     @Override
     public void save() {
         this.serializer.serialize(this.config);
+        this.config.afterSave();
     }
 
     @Override

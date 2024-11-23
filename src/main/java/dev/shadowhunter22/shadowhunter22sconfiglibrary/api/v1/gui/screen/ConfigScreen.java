@@ -22,21 +22,21 @@ import java.util.HashMap;
 public class ConfigScreen<T extends ConfigData> extends Screen {
     private final Screen parent;
     private final HashMap<String, ConfigOption<?>> options;
-    private final AutoConfigManager<T> configManager;
+    private final AutoConfigManager<T> manager;
 
     ConfigEntryWidget configEntryWidget;
 
-    protected ConfigScreen(AutoConfigManager<T> configManager, HashMap<String, ConfigOption<?>> options, Screen parent) {
-        super(Text.translatable(TranslationUtil.translationKey("text", configManager.getDefinition(), "title")));
+    protected ConfigScreen(AutoConfigManager<T> manager, HashMap<String, ConfigOption<?>> options, Screen parent) {
+        super(Text.translatable(TranslationUtil.translationKey("text", manager.getDefinition(), "title")));
 
-        this.configManager = configManager;
+        this.manager = manager;
         this.options = options;
         this.parent = parent;
     }
 
     @Override
     protected void init() {
-        this.configEntryWidget = new ConfigEntryWidget(this.configManager, this.client, this.width, this.height, 50, this.height, 27);
+        this.configEntryWidget = new ConfigEntryWidget(this.manager, this.client, this.width, this.height, 50, this.height, 27);
 
         this.options.forEach((key, option) -> this.configEntryWidget.add(key, option));
 
@@ -45,8 +45,14 @@ public class ConfigScreen<T extends ConfigData> extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        this.renderBackground(context);
         super.render(context, mouseX, mouseY, delta);
         context.drawText(this.textRenderer, this.title, this.width / 2 - (this.textRenderer.getWidth(this.title) / 2), 10, Colors.WHITE, true);
+    }
+
+    @Override
+    public void renderBackground(DrawContext context) {
+        context.fillGradient(0, 0, this.width, this.height, -1072689136, -804253680);
     }
 
     @Override

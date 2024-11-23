@@ -14,8 +14,7 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.Internal
 public class BooleanConfigOption<T extends Boolean> implements ConfigOption<T> {
     private final String key, translationKey;
-    private T value;
-    private final T defaultValue;
+    private T value, defaultValue;
 
     private final Text enabled, disabled;
 
@@ -52,6 +51,11 @@ public class BooleanConfigOption<T extends Boolean> implements ConfigOption<T> {
     @Override
     public T getDefaultValue() {
         return this.defaultValue;
+    }
+
+    @Override
+    public void setDefaultValue(Object value) {
+        this.defaultValue = (T) value;
     }
 
     @Override

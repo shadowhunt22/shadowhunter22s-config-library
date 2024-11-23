@@ -6,6 +6,8 @@
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry;
 
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AbstractConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ResetButtonWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
@@ -16,10 +18,10 @@ import net.minecraft.client.gui.widget.TextWidget;
 public class BooleanEntry extends AbstractOptionEntry {
 	private final ConfigOption<Boolean> typedOption;
 
-	public BooleanEntry(AbstractConfigManager manager, String optionKey, ConfigOption<?> option, int width) {
-		super(manager, optionKey, option, width);
+	public <T extends ConfigData> BooleanEntry(AutoConfigManager<T> manager, String key, int width) {
+		super(manager, key, width);
 
-		this.typedOption = (BooleanConfigOption<Boolean>) option;
+		this.typedOption = (BooleanConfigOption<Boolean>) this.option;
 	}
 
 	private ButtonWidget toggleButton;
@@ -32,13 +34,13 @@ public class BooleanEntry extends AbstractOptionEntry {
 
 		this.toggleButton = ButtonWidget.builder(this.typedOption.getText(), button -> {
 			this.typedOption.setValue(!this.typedOption.getValue());
-			this.manager.getSerializer().setValue(this.manager, this.optionKey, this.typedOption.getValue());
+			this.manager.getSerializer().setValue(this.manager, this.key, this.typedOption.getValue());
 			this.update();
 		}).dimensions(this.width - 151, 0, 105, 20).build();
 
 		ResetButtonWidget resetButton = (ResetButtonWidget) ResetButtonWidget.builder(this.typedOption, action -> {
 			this.typedOption.setValue(this.typedOption.getDefaultValue());
-			this.manager.getSerializer().setValue(this.manager, this.optionKey, this.typedOption.getValue());
+			this.manager.getSerializer().setValue(this.manager, this.key, this.typedOption.getValue());
 			this.update();
 		}).dimensions(this.width - 45, 0, 20, 20).build();
 
@@ -56,5 +58,7 @@ public class BooleanEntry extends AbstractOptionEntry {
 		if (this.toggleButton != null) {
 			this.toggleButton.setMessage(this.typedOption.getText());
 		}
+
+		this.manager.getConfig().afterChange(this.manager.getConfig().getClass(), this.key);
 	}
 }

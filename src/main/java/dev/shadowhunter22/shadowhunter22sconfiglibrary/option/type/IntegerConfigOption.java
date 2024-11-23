@@ -13,8 +13,7 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.Internal
 public class IntegerConfigOption<T extends Integer> implements ConfigOption<T> {
     private final String key, translationKey, definition;
-    private T value, min, max;
-    private final T defaultValue;
+    private T value, defaultValue, min, max;
 
     public IntegerConfigOption(String definition, String key, T min, T max, T value, T defaultValue) {
         this.definition = definition;
@@ -72,5 +71,10 @@ public class IntegerConfigOption<T extends Integer> implements ConfigOption<T> {
     @Override
     public T getDefaultValue() {
         return this.defaultValue;
+    }
+
+    @Override
+    public void setDefaultValue(Object value) {
+        this.defaultValue = (T) value;
     }
 }

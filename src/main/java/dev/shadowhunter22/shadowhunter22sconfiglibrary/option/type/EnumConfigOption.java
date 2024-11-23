@@ -17,8 +17,7 @@ import java.util.List;
 public class EnumConfigOption<T extends Enum<T>> implements ConfigOption<T> {
     private final String key, translationKey, definition;
 
-    private T value;
-    private final T defaultValue;
+    private T value, defaultValue;
     private final T[] values;
 
     public EnumConfigOption(String definition, String key, T[] values, T value, T defaultValue) {
@@ -64,6 +63,11 @@ public class EnumConfigOption<T extends Enum<T>> implements ConfigOption<T> {
     @Override
     public T getDefaultValue() {
         return this.defaultValue;
+    }
+
+    @Override
+    public void setDefaultValue(Object value) {
+        this.defaultValue = (T) value;
     }
 
     public void cycle() {

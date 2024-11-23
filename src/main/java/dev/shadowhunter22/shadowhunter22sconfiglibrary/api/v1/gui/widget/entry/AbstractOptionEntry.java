@@ -6,17 +6,22 @@
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry;
 
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AbstractConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.registry.GuiRegistry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 public abstract class AbstractOptionEntry extends AbstractEntry {
-	protected AbstractConfigManager manager;
+	protected AutoConfigManager<? extends ConfigData> manager;
 	protected ConfigOption<?> option;
 
-	public AbstractOptionEntry(AbstractConfigManager manager, String optionKey, ConfigOption<?> option, int width) {
+	public <T extends ConfigData> AbstractOptionEntry(AutoConfigManager<T> manager, String key, int width) {
+		ConfigOption<?> option = GuiRegistry.getOption(manager.getConfig().getClass(), key);
+
 		this.manager = manager;
-		this.optionKey = optionKey;
+		this.key = key;
 		this.option = option;
 		this.width = width;
 	}
