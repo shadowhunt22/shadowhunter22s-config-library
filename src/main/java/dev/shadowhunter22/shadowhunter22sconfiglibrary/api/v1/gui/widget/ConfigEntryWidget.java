@@ -15,10 +15,10 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.B
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.EnumEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.IntSliderEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.SectionEntry;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.BooleanConfigOption;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.EnumConfigOption;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.IntegerConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.BooleanConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.EnumConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.IntegerConfigOption;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;

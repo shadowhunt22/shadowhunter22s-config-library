@@ -3,7 +3,7 @@
 // See LICENSE file in the project root for details.
 //
 
-package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.util;
+package dev.shadowhunter22.shadowhunter22sconfiglibrary.util;
 
 import org.jetbrains.annotations.ApiStatus;
 

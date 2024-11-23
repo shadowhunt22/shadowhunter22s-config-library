@@ -3,7 +3,7 @@
 // See LICENSE file in the project root for details.
 //
 
-package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.serializer;
+package dev.shadowhunter22.shadowhunter22sconfiglibrary.serializer;
 
 import java.io.File;
 import java.nio.file.Files;

@@ -8,8 +8,8 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AbstractConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ResetButtonWidget;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.type.IntegerConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.IntegerConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.mixin.client.SliderWidgetInvoker;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.client.gui.widget.TextWidget;
@@ -36,7 +36,7 @@ public class IntSliderEntry extends AbstractOptionEntry {
 
 		this.sliderWidget = this.createSlider();
 
-		ResetButtonWidget resetButton = ResetButtonWidget.builder(this.typedOption, action -> {
+		ResetButtonWidget resetButton = (ResetButtonWidget) ResetButtonWidget.builder(this.typedOption, action -> {
 			this.typedOption.setValue(this.typedOption.getDefaultValue());
 			this.manager.getSerializer().setValue(this.manager, this.optionKey, this.typedOption.getValue());
 			this.update();

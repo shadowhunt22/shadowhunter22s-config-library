@@ -5,7 +5,7 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config;
 
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.serializer.AbstractSerializer;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.serializer.AbstractSerializer;
 
 public abstract class AbstractConfigManager {
 	public abstract String getDefinition();

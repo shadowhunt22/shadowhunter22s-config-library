@@ -6,7 +6,7 @@
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry;
 
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AbstractConfigManager;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 

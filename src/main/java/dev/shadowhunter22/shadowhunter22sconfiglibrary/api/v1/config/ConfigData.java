@@ -6,4 +6,6 @@
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config;
 
 public interface ConfigData {
+	default void afterLoad() {
+	}
 }

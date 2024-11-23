@@ -6,7 +6,7 @@
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget;
 
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibraryClient;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option.ConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
@@ -15,20 +15,20 @@ import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class ResetButtonWidget extends PressableWidget {
+public class ResetButtonWidget extends AbstractButtonWidget {
 	private static final Identifier TEXTURE = new Identifier(ShadowHunter22sConfigLibraryClient.MOD_ID, "textures/gui/reset_button.png");
-	private final PressAction action;
+	private final AbstractButtonWidget.PressAction action;
 
 	private final ConfigOption<?> option;
 
-	protected ResetButtonWidget(int x, int y, int width, int height, ConfigOption<?> option, ResetButtonWidget.PressAction action) {
-		super(x, y, width, height, Text.empty());
+	protected ResetButtonWidget(int x, int y, int width, int height, ConfigOption<?> option, AbstractButtonWidget.PressAction action) {
+		super(x, y, width, height, Text.empty(), action);
 
 		this.option = option;
 		this.action = action;
 	}
 
-	public static ResetButtonWidget.Builder builder(ConfigOption<?> option, ResetButtonWidget.PressAction action) {
+	public static ResetButtonWidget.Builder builder(ConfigOption<?> option, AbstractButtonWidget.PressAction action) {
 		return new ResetButtonWidget.Builder(option, action);
 	}
 
@@ -53,42 +53,20 @@ public class ResetButtonWidget extends PressableWidget {
 		context.drawTexture(TEXTURE, this.getX(), this.getY(), this.getU(), this.getV(), 20, 20, 20, 60);
 	}
 
-	@Override
-	public void onPress() {
-		this.action.onPress(this);
-	}
-
-	@Override
-	protected void appendClickableNarrations(NarrationMessageBuilder builder) {
-	}
-
-	public static class Builder {
+	public static class Builder extends AbstractButtonWidget.Builder {
 		private final ConfigOption<?> option;
-		private final ResetButtonWidget.PressAction action;
+		private final AbstractButtonWidget.PressAction action;
 
-		private int x, y, width, height;
+		public Builder(ConfigOption<?> option, AbstractButtonWidget.PressAction action) {
+			super(action);
 
-		public Builder(ConfigOption<?> option, ResetButtonWidget.PressAction action) {
 			this.option = option;
 			this.action = action;
 		}
 
-		public Builder dimensions(int x, int y, int width, int height) {
-			this.x = x;
-			this.y = y;
-			this.width = width;
-			this.height = height;
-
-			return this;
-		}
-
+		@Override
 		public ResetButtonWidget build() {
 			return new ResetButtonWidget(this.x, this.y, this.width, this.height, this.option, this.action);
 		}
-	}
-
-	@Environment(EnvType.CLIENT)
-	public interface PressAction {
-		void onPress(ResetButtonWidget button);
 	}
 }

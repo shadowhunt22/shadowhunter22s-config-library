@@ -3,7 +3,7 @@
 // See LICENSE file in the project root for details.
 //
 
-package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.option;
+package dev.shadowhunter22.shadowhunter22sconfiglibrary.option;
 
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.ApiStatus;

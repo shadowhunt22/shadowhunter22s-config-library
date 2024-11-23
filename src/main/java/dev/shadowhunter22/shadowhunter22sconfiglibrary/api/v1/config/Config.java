@@ -42,6 +42,7 @@ public class Config {
 
         configs.put(configClass, manager);
         GuiRegistry.register(configClass, manager);
+        manager.getConfig().afterLoad();
 
         return manager;
     }

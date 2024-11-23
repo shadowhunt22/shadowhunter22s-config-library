@@ -6,7 +6,7 @@
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config;
 
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.serializer.AutoConfigSerializer;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.serializer.AutoConfigSerializer;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
