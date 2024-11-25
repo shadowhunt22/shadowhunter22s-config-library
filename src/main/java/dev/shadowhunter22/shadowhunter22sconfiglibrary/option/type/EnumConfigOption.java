@@ -22,7 +22,7 @@ public class EnumConfigOption<T extends Enum<T>> implements ConfigOption<T> {
         this.definition = definition;
 
         this.key = key;
-        this.translationKey = TranslationUtil.translationKey("option", definition, key);
+        this.translationKey = TranslationUtil.translationKey(definition, "option", key);
 
         this.value = value;
         this.defaultValue = defaultValue;
@@ -31,7 +31,7 @@ public class EnumConfigOption<T extends Enum<T>> implements ConfigOption<T> {
 
     @Override
     public Text getText() {
-        return Text.translatable(TranslationUtil.translationKey("option", this.definition, this.key, String.valueOf(this.value)));
+        return Text.translatable(TranslationUtil.translationKey(this.definition, "option", this.key, String.valueOf(this.value)));
     }
 
     @Override

@@ -65,6 +65,15 @@ public class ConfigMigration<T extends ConfigData> {
 		return this;
 	}
 
+	/**
+	 * Using this method means there is a 1:1 translation of the key from {@code config_a.json} to {@code config_b.json}.
+	 */
+	public ConfigMigration<T> migrateInt(String key) {
+		this.migrateInt(key, key);
+
+		return this;
+	}
+
 	public ConfigMigration<T> migrateBoolean(String oldKey, String newKey) {
 		if (this.oldConfig.toFile().exists()) {
 			try (JsonReader jsonReader = new JsonReader(new FileReader(this.oldConfig.toString()))) {
@@ -82,6 +91,15 @@ public class ConfigMigration<T extends ConfigData> {
 				throw new SerializationException(e);
 			}
 		}
+
+		return this;
+	}
+
+	/**
+	 * Using this method means there is a 1:1 translation of the key from {@code config_a.json} to {@code config_b.json}.
+	 */
+	public ConfigMigration<T> migrateBoolean(String key) {
+		this.migrateBoolean(key, key);
 
 		return this;
 	}
@@ -110,6 +128,15 @@ public class ConfigMigration<T extends ConfigData> {
 		return this;
 	}
 
+	/**
+	 * Using this method means there is a 1:1 translation of the key from {@code config_a.json} to {@code config_b.json}.
+	 */
+	public ConfigMigration<T> migrateEnum(String key, EnumSpecification specification) {
+		this.migrateEnum(key, key, specification);
+
+		return this;
+	}
+
 	public <E extends Enum<E>> ConfigMigration<T> migrateEnum(String oldKey, String newKey, EnumSpecification.Mapper mapper) {
 		EnumSpecification specification = mapper.specification(new EnumSpecification());
 		specification.validate();
@@ -131,6 +158,15 @@ public class ConfigMigration<T extends ConfigData> {
 				throw new SerializationException(e);
 			}
 		}
+
+		return this;
+	}
+
+	/**
+	 * Using this method means there is a 1:1 translation of the key from {@code config_a.json} to {@code config_b.json}.
+	 */
+	public ConfigMigration<T> migrateEnum(String key, EnumSpecification.Mapper mapper) {
+		this.migrateEnum(key, key, mapper);
 
 		return this;
 	}

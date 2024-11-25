@@ -18,7 +18,7 @@ public class BooleanConfigOption<T extends Boolean> implements ConfigOption<T> {
 
     public BooleanConfigOption(String definition, String key, T value, T defaultValue) {
         this.key = key;
-        this.translationKey = TranslationUtil.translationKey("option", definition, this.key);
+        this.translationKey = TranslationUtil.translationKey(definition, "option", this.key);
 
         this.value = value;
         this.defaultValue = defaultValue;

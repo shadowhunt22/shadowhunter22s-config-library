@@ -17,7 +17,7 @@ public class IntegerConfigOption<T extends Integer> implements ConfigOption<T> {
         this.definition = definition;
 
         this.key = key;
-        this.translationKey = TranslationUtil.translationKey("option", definition, this.key);
+        this.translationKey = TranslationUtil.translationKey(definition, "option", this.key);
 
         this.value = value;
         this.min = min;
@@ -27,7 +27,7 @@ public class IntegerConfigOption<T extends Integer> implements ConfigOption<T> {
 
     @Override
     public Text getText() {
-        return Text.translatable(TranslationUtil.translationKey("option", this.definition, this.key));
+        return Text.translatable(TranslationUtil.translationKey(this.definition, "option", this.key));
     }
 
     @Override

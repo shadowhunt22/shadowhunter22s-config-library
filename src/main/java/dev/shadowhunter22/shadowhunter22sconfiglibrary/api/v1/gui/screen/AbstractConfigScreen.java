@@ -12,13 +12,16 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
+import net.minecraft.util.Formatting;
 
 public abstract class AbstractConfigScreen extends Screen {
 	protected final Screen parent;
 	protected final AutoConfigManager<? extends ConfigData> manager;
 
+	protected boolean drawHorizontalBorder = true;
+
 	protected <T extends ConfigData> AbstractConfigScreen(AutoConfigManager<T> manager, Screen parent) {
-		super(Text.translatable(TranslationUtil.translationKey("text", manager.getDefinition(), "title")));
+		super(Text.translatable(TranslationUtil.translationKey(manager.getDefinition(), "title")));
 
 		this.manager = manager;
 		this.parent = parent;
@@ -36,6 +39,11 @@ public abstract class AbstractConfigScreen extends Screen {
 	@Override
 	public void renderBackground(DrawContext context) {
 		context.fillGradient(0, 0, this.width, this.height, -1072689136, -804253680);
+
+		if (this.drawHorizontalBorder) {
+			context.drawHorizontalLine(0, this.width, 40, 0xbfa1a1a1);
+			context.drawHorizontalLine(0, this.width, 41, 0xbf3c3c3c);
+		}
 	}
 
 	@Override
