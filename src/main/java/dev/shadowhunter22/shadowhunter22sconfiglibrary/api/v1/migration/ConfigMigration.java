@@ -16,6 +16,7 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
@@ -46,7 +47,15 @@ public class ConfigMigration<T extends ConfigData> {
 	public ConfigMigration<T> migrateInt(String oldKey, String newKey) {
 		if (this.oldConfig.toFile().exists()) {
 			try (JsonReader jsonReader = new JsonReader(new FileReader(this.oldConfig.toString()))) {
-				int value = JsonParser.parseReader(jsonReader).getAsJsonObject().get(oldKey).getAsInt();
+				JsonElement element = JsonParser.parseReader(jsonReader).getAsJsonObject().get(oldKey);
+
+				if (element == null) {
+					throw new SerializationException(
+							String.format("The key of '%s' does not exist in %s", oldKey, this.oldConfig)
+					);
+				}
+
+				int value = element.getAsInt();
 				this.configValues.put(newKey, value);
 			} catch (IOException e) {
 				throw new SerializationException(e);
@@ -59,7 +68,15 @@ public class ConfigMigration<T extends ConfigData> {
 	public ConfigMigration<T> migrateBoolean(String oldKey, String newKey) {
 		if (this.oldConfig.toFile().exists()) {
 			try (JsonReader jsonReader = new JsonReader(new FileReader(this.oldConfig.toString()))) {
-				Boolean value = JsonParser.parseReader(jsonReader).getAsJsonObject().get(oldKey).getAsBoolean();
+				JsonElement element = JsonParser.parseReader(jsonReader).getAsJsonObject().get(oldKey);
+
+				if (element == null) {
+					throw new SerializationException(
+							String.format("The key of '%s' does not exist in %s", oldKey, this.oldConfig)
+					);
+				}
+
+				boolean value = element.getAsBoolean();
 				this.configValues.put(newKey, value);
 			} catch (IOException e) {
 				throw new SerializationException(e);
@@ -74,7 +91,15 @@ public class ConfigMigration<T extends ConfigData> {
 
 		if (this.oldConfig.toFile().exists()) {
 			try (JsonReader jsonReader = new JsonReader(new FileReader(this.oldConfig.toString()))) {
-				String value = JsonParser.parseReader(jsonReader).getAsJsonObject().get(oldKey).getAsString();
+				JsonElement element = JsonParser.parseReader(jsonReader).getAsJsonObject().get(oldKey);
+
+				if (element == null) {
+					throw new SerializationException(
+							String.format("The key of '%s' does not exist in %s", oldKey, this.oldConfig)
+					);
+				}
+
+				String value = element.getAsString();
 				EnumSpecification.Value<E> finalMapper = specification.convert(value);
 				this.configEnumValues.put(newKey, finalMapper);
 			} catch (IOException e) {
@@ -91,7 +116,15 @@ public class ConfigMigration<T extends ConfigData> {
 
 		if (this.oldConfig.toFile().exists()) {
 			try (JsonReader jsonReader = new JsonReader(new FileReader(this.oldConfig.toString()))) {
-				String value = JsonParser.parseReader(jsonReader).getAsJsonObject().get(oldKey).getAsString();
+				JsonElement element = JsonParser.parseReader(jsonReader).getAsJsonObject().get(oldKey);
+
+				if (element == null) {
+					throw new SerializationException(
+							String.format("The key of '%s' does not exist in %s", oldKey, this.oldConfig)
+					);
+				}
+
+				String value = element.getAsString();
 				EnumSpecification.Value<E> finalMapper = specification.convert(value);
 				this.configEnumValues.put(newKey, finalMapper);
 			} catch (IOException e) {
@@ -145,23 +178,12 @@ public class ConfigMigration<T extends ConfigData> {
 	 * and apply them to {@link ConfigMigration#config}
 	 */
 	private void apply() {
-		// Field[] fields = this.config.getClass().getDeclaredFields();
-		//
-		// try {
-		// 	for (Field field : fields) {
-		// 		field.setAccessible(true);
-		// 		System.out.println(field.getName() + " : " + field.get(this.config));
-		// 	}
-		// } catch (IllegalAccessException e) {
-		// 	throw new RuntimeException(e);
-		// }
-
 		this.configValues.forEach((key, value) -> {
 			try {
 				Field field = this.config.getClass().getDeclaredField(key);
 				field.setAccessible(true);
 
-				if (!field.getType().isEnum()) {
+				if (!field.getType().isEnum()) { // enums need to handled differently, see next forEach
 					field.set(this.config, value);
 				}
 			} catch (NoSuchFieldException | IllegalAccessException e) {
@@ -178,18 +200,5 @@ public class ConfigMigration<T extends ConfigData> {
 				throw new RuntimeException(e);
 			}
 		});
-
-		// System.out.println();
-		// System.out.println("New Values: ");
-		// System.out.println();
-		//
-		// try {
-		// 	for (Field field : fields) {
-		// 		field.setAccessible(true);
-		// 		System.out.println(field.getName() + " : " + field.get(this.config));
-		// 	}
-		// } catch (IllegalAccessException e) {
-		// 	throw new RuntimeException(e);
-		// }
 	}
 }
