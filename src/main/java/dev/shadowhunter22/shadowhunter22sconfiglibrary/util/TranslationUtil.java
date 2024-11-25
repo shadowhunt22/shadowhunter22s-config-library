@@ -5,9 +5,6 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.util;
 
-import org.jetbrains.annotations.ApiStatus;
-
-@ApiStatus.Internal
 public class TranslationUtil {
     public static String translationKey(String type, String name, String id) {
         return String.format("%s.%s.%s", type, name, id);

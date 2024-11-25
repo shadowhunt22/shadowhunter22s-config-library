@@ -8,12 +8,10 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.util.TranslationUtil;
 import net.minecraft.text.Text;
-import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Arrays;
 import java.util.List;
 
-@ApiStatus.Internal
 public class EnumConfigOption<T extends Enum<T>> implements ConfigOption<T> {
     private final String key, translationKey, definition;
 

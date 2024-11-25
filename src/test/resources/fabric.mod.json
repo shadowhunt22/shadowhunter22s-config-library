@@ -7,7 +7,7 @@
   "license": "ARR",
   "entrypoints": {
     "client": [
-      "dev.shadowhunter22.test.ShadowHunter22sConfigLibraryTestMod"
+	  "dev.shadowhunter22.shadowhunter22sconfiglibrary.test.ShadowHunter22sConfigLibraryTestMod"
     ]
   }
 }

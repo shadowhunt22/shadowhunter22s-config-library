@@ -9,9 +9,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.util.TranslationUtil;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import org.jetbrains.annotations.ApiStatus;
 
-@ApiStatus.Internal
 public class BooleanConfigOption<T extends Boolean> implements ConfigOption<T> {
     private final String key, translationKey;
     private T value, defaultValue;

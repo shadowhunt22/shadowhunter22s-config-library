@@ -6,7 +6,6 @@
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.option;
 
 import net.minecraft.text.Text;
-import org.jetbrains.annotations.ApiStatus;
 
 public interface ConfigOption<T> {
     String getKey();

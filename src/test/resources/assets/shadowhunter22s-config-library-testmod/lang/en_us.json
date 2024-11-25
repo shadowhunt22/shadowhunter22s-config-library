@@ -1,6 +1,21 @@
 {
-  "option.config-library.test5.TopLeft": "Top Left",
-  "option.config-library.test5.TopRight": "Top Right",
-  "option.config-library.test5.BottomLeft": "Bottom Left",
-  "option.config-library.test5.BottomRight": "Bottom Right"
+  "option.config-library.TEST_5.TopLeft": "Top Left",
+  "option.config-library.TEST_5.TopRight": "Top Right",
+  "option.config-library.TEST_5.BottomLeft": "Bottom Left",
+  "option.config-library.TEST_5.BottomRight": "Bottom Right",
+
+  "option.config-library.TEST_6.TopLeft": "Top Left",
+  "option.config-library.TEST_6.TopRight": "Top Right",
+  "option.config-library.TEST_6.BottomLeft": "Bottom Left",
+  "option.config-library.TEST_6.BottomRight": "Bottom Right",
+
+  "option.config-library.TEST_7.TopLeft": "Top Left",
+  "option.config-library.TEST_7.TopRight": "Top Right",
+  "option.config-library.TEST_7.BottomLeft": "Bottom Left",
+  "option.config-library.TEST_7.BottomRight": "Bottom Right",
+
+  "option.config-library.TEST_8.TopLeft": "Top Left",
+  "option.config-library.TEST_8.TopRight": "Top Right",
+  "option.config-library.TEST_8.BottomLeft": "Bottom Left",
+  "option.config-library.TEST_8.BottomRight": "Bottom Right"
 }

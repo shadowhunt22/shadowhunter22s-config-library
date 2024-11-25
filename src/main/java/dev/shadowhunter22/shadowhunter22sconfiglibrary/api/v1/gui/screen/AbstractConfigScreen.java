@@ -40,7 +40,7 @@ public abstract class AbstractConfigScreen extends Screen {
 
 	@Override
 	public void close() {
-
+		this.manager.getConfig().afterScreenClose();
 		this.client.setScreen(this.parent);
 	}
 }

@@ -5,7 +5,6 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry;
 
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AbstractConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;

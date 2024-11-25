@@ -14,7 +14,6 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.BooleanConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.EnumConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.IntegerConfigOption;
-import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

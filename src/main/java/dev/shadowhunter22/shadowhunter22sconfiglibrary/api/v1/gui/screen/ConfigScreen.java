@@ -14,11 +14,9 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
-import org.jetbrains.annotations.ApiStatus;
 
 import java.util.HashMap;
 
-@ApiStatus.Internal
 public class ConfigScreen<T extends ConfigData> extends Screen {
     private final Screen parent;
     private final HashMap<String, ConfigOption<?>> options;

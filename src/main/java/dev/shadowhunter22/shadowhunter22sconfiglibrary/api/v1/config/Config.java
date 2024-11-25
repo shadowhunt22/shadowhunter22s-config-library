@@ -67,4 +67,12 @@ public class Config {
 
         return new ConfigScreenProvider<>(configClass, Config.getConfigManager(configClass), currentScreen);
     }
+
+    public static <T extends ConfigData> String getDefinition(Class<T> configClass) {
+        if (!configs.containsKey(configClass)) {
+            throw new RuntimeException(String.format("Could not find config file '%s'. Was it registered?", configClass));
+        }
+
+        return Config.getConfigManager(configClass).getDefinition();
+    }
 }

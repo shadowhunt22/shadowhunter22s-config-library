@@ -3,14 +3,14 @@
 // See LICENSE file in the project root for details.
 //
 
-package dev.shadowhunter22.test;
+package dev.shadowhunter22.shadowhunter22sconfiglibrary.test;
 
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.ConfigEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 
-@Config(name = "config-library", file = "test2")
-public class TestConfig2 implements ConfigData {
+@Config(name = "config-library", file = "test")
+public class TestConfig implements ConfigData {
     public String test1 = "Test";
 
     @ConfigEntry.Gui.Section
@@ -23,15 +23,15 @@ public class TestConfig2 implements ConfigData {
     public boolean test4 = false;
 
     public enum Location {
-        TopLeft,
-        TopRight,
-        BottomLeft,
-        BottomRight
+        topLeft,
+        topRight,
+        bottomLeft,
+        bottomRight
     }
 
-    Location test5 = Location.BottomLeft;
+    Location test5 = Location.topLeft;
 
-    Location test6 = Location.TopLeft;
+    Location test6 = Location.topRight;
 
-    Location test7 = Location.TopLeft;
+    Location test7 = Location.bottomLeft;
 }

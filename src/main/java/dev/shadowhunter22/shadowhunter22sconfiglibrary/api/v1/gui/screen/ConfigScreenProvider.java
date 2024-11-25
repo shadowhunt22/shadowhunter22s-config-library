@@ -9,21 +9,19 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigM
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.registry.GuiRegistry;
 import net.minecraft.client.gui.screen.Screen;
-import org.jetbrains.annotations.ApiStatus;
 
-@ApiStatus.Internal
 public class ConfigScreenProvider<T extends ConfigData> {
     private final Class<T> configClass;
-    private final AutoConfigManager<T> configManager;
+    private final AutoConfigManager<T> manager;
     private final Screen currentScreen;
 
 	public ConfigScreenProvider(Class<T> configClass, AutoConfigManager<T> configManager, Screen currentScreen) {
         this.configClass = configClass;
-        this.configManager = configManager;
+        this.manager = configManager;
         this.currentScreen = currentScreen;
     }
 
     public Screen get() {
-        return new ConfigScreen<>(this.configManager, GuiRegistry.getOptions(this.configClass), this.currentScreen);
+        return new ConfigScreen<>(this.manager, GuiRegistry.getOptions(this.configClass), this.currentScreen);
     }
 }

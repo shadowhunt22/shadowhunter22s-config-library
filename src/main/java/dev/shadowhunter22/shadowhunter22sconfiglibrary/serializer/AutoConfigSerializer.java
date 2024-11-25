@@ -18,13 +18,11 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import net.fabricmc.loader.api.FabricLoader;
 import org.apache.commons.lang3.SerializationException;
-import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongepowered.include.com.google.gson.Gson;
 import org.spongepowered.include.com.google.gson.GsonBuilder;
 
-@ApiStatus.Internal
 public class AutoConfigSerializer<T extends ConfigData> extends AbstractSerializer {
     private final Class<T> configClass;
     private final Config definition;
@@ -87,6 +85,17 @@ public class AutoConfigSerializer<T extends ConfigData> extends AbstractSerializ
             field.set(config, value);
         } catch (ReflectiveOperationException e) {
             this.logger().warn("Failed to set new value for config class: {}", config.getClass().getName());
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Object getValue(T config, String key) {
+        try {
+            Field field = config.getClass().getDeclaredField(key);
+            field.setAccessible(true);
+            return field.get(config);
+        } catch (ReflectiveOperationException e) {
+            this.logger().warn("Failed to get for config class: {}", config.getClass().getName());
             throw new RuntimeException(e);
         }
     }

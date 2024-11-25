@@ -8,9 +8,7 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.util.TranslationUtil;
 import net.minecraft.text.Text;
-import org.jetbrains.annotations.ApiStatus;
 
-@ApiStatus.Internal
 public class IntegerConfigOption<T extends Integer> implements ConfigOption<T> {
     private final String key, translationKey, definition;
     private T value, defaultValue, min, max;
