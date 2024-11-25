@@ -23,10 +23,10 @@ public class Config {
     private static final Map<Class<? extends ConfigData>, AbstractConfigManager> configs = new HashMap<>();
 
     /**
-     * Given a class containing config information, register a config file and return a
-     * ConfigManager to get the config class and its information.
+     * Given a class containing config information, register a config file and return an
+     * {@link AutoConfigManager} to get the config class and its information.
      *
-     * @param configClass the class to serialize to JSON.  If this value is null,a {@link NullPointerException} is
+     * @param configClass the class to serialize to JSON.  If this value is null, a {@link NullPointerException} is
      * thrown.
      *
      * @return a config manager that gives access to the config and all of its fields
@@ -60,6 +60,13 @@ public class Config {
         return (AutoConfigManager<T>) configs.get(configClass);
     }
 
+    /**
+     * Get an automatically generated config screen by provided a config class and current screen.
+     *
+     * @param configClass the config class that was registered
+     * @param currentScreen the current screen, obtained through {@code MinecraftClient.getInstance().currentScreen}.
+     * @return A {@link ConfigScreenProvider} that contains the screen that has been generated
+     */
     public static <T extends ConfigData> ConfigScreenProvider<T> getConfigScreen(Class<T> configClass, Screen currentScreen) {
         if (!configs.containsKey(configClass)) {
             throw new RuntimeException(String.format("Could not find config file '%s'. Was it registered?", configClass));

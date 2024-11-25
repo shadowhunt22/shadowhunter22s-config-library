@@ -26,6 +26,13 @@ public class GuiRegistry {
 
     private static final LinkedHashMap<Class<? extends ConfigData>, LinkedHashMap<String, ConfigOption<?>>> registry = new LinkedHashMap<>();
 
+    /**
+     * Register a GUI for a config class. This will go through each field in the config class and populate a hash map of {@link ConfigOption}s that
+     * that can later be retrieved be calling {@link GuiRegistry#getOptions(Class)}.
+     *
+     * @param configClass the config class
+     * @param configManager the config manager of the config class
+     */
     public static <T extends ConfigData> void register(Class<T> configClass, AutoConfigManager<T> configManager) {
         if (!dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.Config.isRegistered(configClass)) {
             throw new RuntimeException(String.format("GuiRegistry attempted to register a missing config file: '%s'. Was it registered with Config.register()?", configClass));
@@ -50,20 +57,12 @@ public class GuiRegistry {
         return registry.get(configClass);
     }
 
-    public static <T extends ConfigData> ConfigOption<?> getOption(Class<T> configClass, Field field) {
+    public static <T extends ConfigData> ConfigOption<?> getOption(Class<T> configClass, String key) {
         if (!registry.containsKey(configClass)) {
             throw new RuntimeException(String.format("Could not find a registered gui for '%s'. Was it registered?", configClass));
         }
 
-        return registry.get(configClass).get(field.getName());
-    }
-
-    public static <T extends ConfigData> ConfigOption<?> getOption(Class<T> configClass, String name) {
-        if (!registry.containsKey(configClass)) {
-            throw new RuntimeException(String.format("Could not find a registered gui for '%s'. Was it registered?", configClass));
-        }
-
-        return registry.get(configClass).get(name);
+        return registry.get(configClass).get(key);
     }
 
     private static <T extends ConfigData> LinkedHashMap<String, ConfigOption<?>> populateOptions(Class<T> configClass, AutoConfigManager<T> configManager) {

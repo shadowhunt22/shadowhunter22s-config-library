@@ -10,14 +10,18 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.registry.GuiRegistry;
 import net.minecraft.client.gui.screen.Screen;
 
+/**
+ * Given a {@code configClass}, {@code manager}, and {@code currentScreen}, create a new {@link ConfigScreen} that can be retrieved to view and
+ * edit config options.
+ */
 public class ConfigScreenProvider<T extends ConfigData> {
     private final Class<T> configClass;
     private final AutoConfigManager<T> manager;
     private final Screen currentScreen;
 
-	public ConfigScreenProvider(Class<T> configClass, AutoConfigManager<T> configManager, Screen currentScreen) {
+	public ConfigScreenProvider(Class<T> configClass, AutoConfigManager<T> manager, Screen currentScreen) {
         this.configClass = configClass;
-        this.manager = configManager;
+        this.manager = manager;
         this.currentScreen = currentScreen;
     }
 

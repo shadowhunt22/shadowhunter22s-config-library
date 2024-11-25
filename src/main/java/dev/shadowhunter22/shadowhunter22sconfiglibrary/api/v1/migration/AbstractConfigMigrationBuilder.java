@@ -21,35 +21,33 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractConfigMigrationBuilder<T extends ConfigData> {
 	public static final Logger LOGGER = LoggerFactory.getLogger(ShadowHunter22sConfigLibraryClient.MOD_ID + "/AbstractConfigMigration");
 
-	protected ConfigMigration<T> migration;
-
-	protected abstract void build();
+	protected abstract ConfigMigration<T> build();
 
 	public void migrate() {
 		final Instant started = Instant.now();
 
 		LOGGER.debug("Building migration specification");
-		this.build();
+		ConfigMigration<T> configMigration = this.build();
 
 		LOGGER.debug("Migrating config files...");
-		boolean migrated = this.migration.migrate();
+		boolean migrated = configMigration.migrate();
 
 		if (migrated) {
-			this.updateOptionsAfterMigration();
+			this.updateOptionsAfterMigration(configMigration.config);
 			LOGGER.debug("Updated options after migration");
-			LOGGER.debug("Config migration for {} took {}ms.", this.migration.config.getClass().getSimpleName(), Duration.between(started, Instant.now()).toMillis());
-			this.migration.config.afterMigration();
+			LOGGER.debug("Config migration for {} took {}ms.", configMigration.config.getClass().getSimpleName(), Duration.between(started, Instant.now()).toMillis());
+			configMigration.config.afterMigration();
 		} else {
 			LOGGER.debug("Did not update options after migration");
 		}
 	}
 
-	private void updateOptionsAfterMigration() {
-		AutoConfigManager<T> manager = (AutoConfigManager<T>) Config.getConfigManager(this.migration.config.getClass());
-		LinkedHashMap<String, ConfigOption<?>> options = GuiRegistry.getOptions(this.migration.config.getClass());
+	private void updateOptionsAfterMigration(T config) {
+		AutoConfigManager<T> manager = (AutoConfigManager<T>) Config.getConfigManager(config.getClass());
+		LinkedHashMap<String, ConfigOption<?>> options = GuiRegistry.getOptions(config.getClass());
 
 		options.forEach((key, option) -> {
-			Object value = manager.getSerializer().getValue(this.migration.config, key);
+			Object value = manager.getSerializer().getValue(config, key);
 			option.setValue(value);
 		});
 	}

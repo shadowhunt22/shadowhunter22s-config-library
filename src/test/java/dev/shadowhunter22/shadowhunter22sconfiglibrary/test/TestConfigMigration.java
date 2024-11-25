@@ -11,8 +11,8 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.migration.EnumSpec
 
 public class TestConfigMigration extends AbstractConfigMigrationBuilder<TestConfig2> {
 	@Override
-	protected void build() {
-		this.migration = new ConfigMigration<>(
+	protected ConfigMigration<TestConfig2> build() {
+		ConfigMigration<TestConfig2> migration = new ConfigMigration<>(
 				ShadowHunter22sConfigLibraryTestMod.test2,
 				"config-library/test.json",
 				"config-library/test2.json",
@@ -21,7 +21,7 @@ public class TestConfigMigration extends AbstractConfigMigrationBuilder<TestConf
 
 		EnumSpecification specification1 = this.specification1();
 
-		this.migration
+		migration
 				.migrateInt("test2", "TEST_2")
 				.migrateBoolean("test3", "TEST_3")
 				.migrateBoolean("test4", "TEST_4")
@@ -36,6 +36,8 @@ public class TestConfigMigration extends AbstractConfigMigrationBuilder<TestConf
 
 					return mapper;
 				});
+
+		return migration;
 	}
 
 	private EnumSpecification specification1() {

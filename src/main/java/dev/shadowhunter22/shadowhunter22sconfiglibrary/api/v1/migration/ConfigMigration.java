@@ -102,7 +102,7 @@ public class ConfigMigration<T extends ConfigData> {
 		return this;
 	}
 
-	public boolean migrate() {
+	protected boolean migrate() {
 		if (this.migrationFile.toFile().exists()) {
 			try (JsonReader jsonReader = new JsonReader(new FileReader(this.migrationFile.toString()))) {
 				this.hasMigrated = JsonParser.parseReader(jsonReader).getAsJsonObject().get("migrated").getAsBoolean();

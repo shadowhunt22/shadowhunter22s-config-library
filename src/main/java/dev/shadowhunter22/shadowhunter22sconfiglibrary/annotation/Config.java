@@ -18,5 +18,9 @@ public @interface Config {
      * <a href="https://betterprogramming.pub/string-case-styles-camel-pascal-snake-and-kebab-case-981407998841">Kebab case</a> programming naming convention.
      */
     String name();
+
+    /**
+     * The name of the json file. If no value is supplied, it will default to {@code options}.  There is no need to suffix the string with {@code .json}.
+     */
     String file() default "";
 }
