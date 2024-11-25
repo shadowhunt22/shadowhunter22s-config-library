@@ -16,11 +16,6 @@ public interface ConfigEntry {
     @interface Integer {
         int min();
         int max();
-
-        /**
-         * Whether min() and max() will be changed and it's changes need to be persisted
-         */
-        boolean dynamic() default false;
     }
 
     interface Gui {

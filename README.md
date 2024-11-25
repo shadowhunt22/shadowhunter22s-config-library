@@ -6,7 +6,7 @@ Before going into any specifics, I need to list out what this library IS and wha
 
 This library is:
 
-- An abstraction of my config system used by the majority of my mods.  All of my mods that have their own config system, with the exception being `armor-indicator`, implement the same exact code.  This code is also very brittle and limiting in what I can do.
+- An abstraction of my config system used by the majority of my mods.  All of my mods that have their own config system, with the exception being `armor-indicator`, implement the same exact code.  That same code they implement is also very brittle and limiting in what I can do.
 - An implementation to fit the needs of my mods.  There are plenty of far better config libraries out there, but I need one that fits the various needs of my mods.
 
 ## What this library ISN'T
@@ -27,7 +27,7 @@ Now that I have aired that out, here is what this library does:
 
 Like the Cloth Config API, this mod has a way to automatically build the config screen and the widgets to configure the values.  In order for a config file to be registered without throwing compile-time errors or crashing the game, the class needs to,
 
-- Implement [`ConfigData`](/src/main/java/dev/shadowhunter22/shadowhunter22sconfiglibrary/api/v1/config/ConfigData.java) and at bare minimum specify the `name`, or what I like to specify as the`definition`, of the config class.  `file` is the name of the config file and will default to `options` if no value is present. 
+- Implement [`ConfigData`](/src/main/java/dev/shadowhunter22/shadowhunter22sconfiglibrary/api/v1/config/ConfigData.java) and at bare minimum specify the `name`, or what I like to call the`definition`, of the config class.  `file` is the name of the config file and will default to `options` if no value is present (note: no need to suffix with `.json`). 
 - Decorate the class with the [`@Config`](/src/main/java/dev/shadowhunter22/shadowhunter22sconfiglibrary/annotation/Config.java) annotation.
 
 To add sections, 
@@ -40,7 +40,7 @@ An `int` config option needs to,
 
 ### Events
 
-One of my mods, [Ender Eyes](https://modrinth.com/mod/ender-eyes), makes a lot of changes the config option's default and max values and after applying those changes on the client-side, send a packet to the server to make those changes visible to all players.  As such, this  mod provides the following methods, that can be optionally implemented, from [`ConfigData`](/src/main/java/dev/shadowhunter22/shadowhunter22sconfiglibrary/api/v1/config/ConfigData.java):     
+One of my mods, [Ender Eyes](https://modrinth.com/mod/ender-eyes), makes a lot of changes the config option's default and max values and after applying those changes on the client-side, and sends a packet to the server to make those changes visible to all players.  As such, this  mod provides the following methods, that can be optionally implemented, from [`ConfigData`](/src/main/java/dev/shadowhunter22/shadowhunter22sconfiglibrary/api/v1/config/ConfigData.java):     
 
 - `ConfigData#afterMigration`
 - `ConfigData#afterLoad`
@@ -53,3 +53,16 @@ See [`ConfigData`](/src/main/java/dev/shadowhunter22/shadowhunter22sconfiglibrar
 ### Migration
 
 In my opinion, the only cool part about this mod is the ability to migrate a user's options from `config_a.json` to `config_b.json`.  See [`TestConfigMigration`](/src/test/java/dev/shadowhunter22/shadowhunter22sconfiglibrary/test/TestConfigMigration.java) for an example.
+
+## Versions
+
+This mod is for *Fabric* only. There is no plan to support Forge.
+
+This mod is available for the following Minecraft versions:
+
+`1.20`
+`1.20.1`
+
+## Client and Server Support
+
+This mod only needs to be on the client and will not work on the server.
