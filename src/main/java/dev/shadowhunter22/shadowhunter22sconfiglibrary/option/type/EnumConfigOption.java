@@ -5,6 +5,10 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type;
 
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractOptionEntry;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.EnumEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.util.TranslationUtil;
 import net.minecraft.text.Text;
@@ -22,7 +26,7 @@ public class EnumConfigOption<T extends Enum<T>> implements ConfigOption<T> {
         this.definition = definition;
 
         this.key = key;
-        this.translationKey = TranslationUtil.translationKey(definition, "option", key);
+        this.translationKey = TranslationUtil.translationKey("option", definition, key);
 
         this.value = value;
         this.defaultValue = defaultValue;
@@ -31,7 +35,7 @@ public class EnumConfigOption<T extends Enum<T>> implements ConfigOption<T> {
 
     @Override
     public Text getText() {
-        return Text.translatable(TranslationUtil.translationKey(this.definition, "option", this.key, String.valueOf(this.value)));
+        return Text.translatable(TranslationUtil.translationKey("option", this.definition, this.key, String.valueOf(this.value)));
     }
 
     @Override
@@ -73,5 +77,14 @@ public class EnumConfigOption<T extends Enum<T>> implements ConfigOption<T> {
 
         int index = values.indexOf(this.value);
         this.value = values.get((index + 1) % values.size());
+    }
+
+    @Override
+    public <D extends ConfigData> AbstractOptionEntry asEntry(AutoConfigManager<D> manager, int width) {
+        return new EnumEntry<>(
+                manager,
+                this.key,
+                width
+        );
     }
 }

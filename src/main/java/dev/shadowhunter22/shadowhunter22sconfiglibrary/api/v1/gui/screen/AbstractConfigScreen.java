@@ -11,14 +11,10 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.util.TranslationUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
-import net.minecraft.util.Colors;
-import net.minecraft.util.Formatting;
 
 public abstract class AbstractConfigScreen extends Screen {
 	protected final Screen parent;
 	protected final AutoConfigManager<? extends ConfigData> manager;
-
-	protected boolean drawHorizontalBorder = true;
 
 	protected <T extends ConfigData> AbstractConfigScreen(AutoConfigManager<T> manager, Screen parent) {
 		super(Text.translatable(TranslationUtil.translationKey(manager.getDefinition(), "title")));
@@ -33,17 +29,14 @@ public abstract class AbstractConfigScreen extends Screen {
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		this.renderBackground(context);
 		super.render(context, mouseX, mouseY, delta);
-		context.drawText(this.textRenderer, this.title, this.width / 2 - (this.textRenderer.getWidth(this.title) / 2), 10, Colors.WHITE, true);
+
+		// disable for now
+		// context.drawText(this.textRenderer, this.title, this.width / 2 - (this.textRenderer.getWidth(this.title) / 2), 10, Colors.WHITE, true);
 	}
 
 	@Override
 	public void renderBackground(DrawContext context) {
 		context.fillGradient(0, 0, this.width, this.height, -1072689136, -804253680);
-
-		if (this.drawHorizontalBorder) {
-			context.drawHorizontalLine(0, this.width, 40, 0xbfa1a1a1);
-			context.drawHorizontalLine(0, this.width, 41, 0xbf3c3c3c);
-		}
 	}
 
 	@Override

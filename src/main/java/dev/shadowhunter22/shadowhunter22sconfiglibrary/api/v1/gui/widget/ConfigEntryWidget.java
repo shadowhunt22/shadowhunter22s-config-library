@@ -9,30 +9,30 @@ import com.google.common.collect.Lists;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.ConfigEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.category.ConfigCategory;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractEntry;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.BooleanEntry;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.EnumEntry;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.IntSliderEntry;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractOptionEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.SectionEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.BooleanConfigOption;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.EnumConfigOption;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.IntegerConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.util.TranslationUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
+import net.minecraft.text.Text;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigEntryWidget extends ElementListWidget<ConfigEntryWidget.Entry> {
     private final AutoConfigManager<?> manager;
+    public final List<ConfigCategory> categories = new ArrayList<>();
 
-    public <T extends ConfigData> ConfigEntryWidget(AutoConfigManager<T> configManager, MinecraftClient client, int width, int height, int top, int bottom, int itemHeight) {
-        super(client, width, height, top, bottom, itemHeight);
+    public <T extends ConfigData> ConfigEntryWidget(AutoConfigManager<T> configManager,  MinecraftClient client, int width, int height) {
+        super(client, width, height, 50, height, 27);
 
         this.manager = configManager;
 
@@ -59,35 +59,75 @@ public class ConfigEntryWidget extends ElementListWidget<ConfigEntryWidget.Entry
     }
 
     public void add(String key, ConfigOption<?> option) {
-        if (this.manager instanceof AutoConfigManager<?>) {
-            Field field;
+        boolean addedConfigOptionEntryToCategory = false;
 
-            try {
-                field = this.manager.getConfig().getClass().getDeclaredField(key);
-            } catch (NoSuchFieldException e) {
-				throw new RuntimeException(e);
-			}
+        Field field;
 
-            if (field.isAnnotationPresent(ConfigEntry.Gui.Section.class)) {
-                this.addSection(key);
-            }
-		}
-
-        if (option instanceof BooleanConfigOption<?>) {
-            this.addEntry(new BooleanEntry(this.manager, key, this.width).build());
+        try {
+            field = this.manager.getConfig().getClass().getDeclaredField(key);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
         }
 
-        if (option instanceof IntegerConfigOption<?>) {
-            this.addEntry(new IntSliderEntry(this.manager, key, this.width).build());
+        AbstractOptionEntry entry = option.asEntry(this.manager, this.width);
+        this.addEntry(entry.build());
+
+        if (
+                field.isAnnotationPresent(ConfigEntry.Gui.Section.class) &&
+                field.isAnnotationPresent(ConfigEntry.Gui.Category.class)
+        ) {
+            this.addSection(key, true);
+            this.addToOrCreateCategory(entry, false);
+            addedConfigOptionEntryToCategory = true;
+        } else if (field.isAnnotationPresent(ConfigEntry.Gui.Section.class)) {
+            this.addSection(key);
+        } else if (field.isAnnotationPresent(ConfigEntry.Gui.Category.class)) {
+            this.addToOrCreateCategory(entry, true);
+            addedConfigOptionEntryToCategory = true;
         }
 
-        if (option instanceof EnumConfigOption<?>) {
-            this.addEntry(new EnumEntry<>(this.manager, key, this.width).build());
+
+        if (!addedConfigOptionEntryToCategory) {
+            this.addToOrCreateCategory(entry, false);
         }
     }
 
-    private void addSection(String optionKey) {
-        this.addEntry(new SectionEntry(this.manager, optionKey, this.width).build());
+    private void addSection(String key, boolean createCategory) {
+        SectionEntry entry = new SectionEntry(this.manager, key, this.width);
+        this.addToOrCreateCategory(entry, createCategory);
+
+        this.addEntry(entry.build());
+    }
+
+    public void addSection(String key) {
+        this.addSection(key, false);
+    }
+
+    private void addToOrCreateCategory(AbstractEntry entry, boolean createCategory) {
+        if (createCategory) {
+            this.categories.add(
+                    new ConfigCategory(
+                            this.manager,
+                            this.client.currentScreen,
+                            Text.translatable(
+                                    TranslationUtil.translationKey("text", this.manager.getDefinition(), entry.getKey(), "@Category")
+
+                            )
+                    )
+            );
+        }
+
+        if (!this.categories.isEmpty()) {
+            ConfigCategory category = this.categories.get(this.categories.size() - 1);
+            this.categories.set(this.categories.size() - 1, category.add(entry));
+        }
+    }
+
+    /**
+     * The minimum required categories for the categories screen to be displayed is two or more
+     */
+    public boolean hasMinimumRequiredCategories() {
+        return this.categories.size() > 1;
     }
 
     public static class Entry extends ElementListWidget.Entry<Entry> {
@@ -111,10 +151,10 @@ public class ConfigEntryWidget extends ElementListWidget<ConfigEntryWidget.Entry
 
         @Override
         public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            this.children.forEach(child -> {
+            for (ClickableWidget child : this.children) {
                 child.setY(y);
                 child.render(context, mouseX, mouseY, tickDelta);
-            });
+            }
         }
     }
 }

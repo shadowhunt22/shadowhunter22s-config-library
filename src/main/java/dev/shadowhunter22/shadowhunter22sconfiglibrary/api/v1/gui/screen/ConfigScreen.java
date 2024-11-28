@@ -5,15 +5,19 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.category.ConfigCategory;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.Colors;
-
-import java.util.HashMap;
+import net.minecraft.client.gui.tab.Tab;
+import net.minecraft.client.gui.tab.TabManager;
+import net.minecraft.client.gui.widget.TabNavigationWidget;
 
 public class ConfigScreen<T extends ConfigData> extends AbstractConfigScreen {
     private final HashMap<String, ConfigOption<?>> options;
@@ -26,12 +30,37 @@ public class ConfigScreen<T extends ConfigData> extends AbstractConfigScreen {
         this.options = options;
     }
 
-    @Override
-    protected void init() {
-        this.configEntryWidget = new ConfigEntryWidget(this.manager, this.client, this.width, this.height, 50, this.height, 27);
+    private final TabManager tabManager = new TabManager(this::addDrawableChild, this::remove);
 
+	@Override
+    protected void init() {
+        this.configEntryWidget = new ConfigEntryWidget(this.manager, this.client, this.width, this.height);
         this.options.forEach((key, option) -> this.configEntryWidget.add(key, option));
 
-        this.addDrawableChild(this.configEntryWidget);
+        if (this.configEntryWidget.hasMinimumRequiredCategories()) {
+            // TODO ConfigEntryWidget and children elements not clickable
+            this.initializeCategoryWidget();
+        } else {
+            this.addDrawableChild(this.configEntryWidget);
+        }
+    }
+
+    private void initializeCategoryWidget() {
+        List<Tab> tabs = new ArrayList<>();
+
+        for (ConfigCategory category : this.configEntryWidget.categories) {
+            tabs.add(category.getTab());
+        }
+
+        Tab[] tabsArray = tabs.toArray(new Tab[0]);
+
+		TabNavigationWidget categoryWidget = TabNavigationWidget.builder(this.tabManager, this.width)
+				.tabs(tabsArray)
+				.build();
+
+        this.addDrawableChild(categoryWidget);
+
+        categoryWidget.selectTab(0, false);
+        categoryWidget.init();
     }
 }

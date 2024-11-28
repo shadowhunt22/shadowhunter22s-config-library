@@ -5,6 +5,9 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.option;
 
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractOptionEntry;
 import net.minecraft.text.Text;
 
 public interface ConfigOption<T> {
@@ -18,4 +21,6 @@ public interface ConfigOption<T> {
     void setDefaultValue(Object value);
 
     Text getText();
+
+    <D extends ConfigData> AbstractOptionEntry asEntry(AutoConfigManager<D> manager, int width);
 }

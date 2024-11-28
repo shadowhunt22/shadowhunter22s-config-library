@@ -17,5 +17,8 @@
   "option.config-library.TEST_8.TopLeft": "Top Left",
   "option.config-library.TEST_8.TopRight": "Top Right",
   "option.config-library.TEST_8.BottomLeft": "Bottom Left",
-  "option.config-library.TEST_8.BottomRight": "Bottom Right"
+  "option.config-library.TEST_8.BottomRight": "Bottom Right",
+
+  "text.config-library.TEST_2.@Category": "Category 1",
+  "text.config-library.TEST_4.@Category": "Category 2"
 }

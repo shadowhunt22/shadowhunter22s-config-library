@@ -31,9 +31,9 @@ public class GuiRegistry {
      * that can later be retrieved be calling {@link GuiRegistry#getOptions(Class)}.
      *
      * @param configClass the config class
-     * @param configManager the config manager of the config class
+     * @param manager the config manager of the config class
      */
-    public static <T extends ConfigData> void register(Class<T> configClass, AutoConfigManager<T> configManager) {
+    public static <T extends ConfigData> void register(Class<T> configClass, AutoConfigManager<T> manager) {
         if (!dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.Config.isRegistered(configClass)) {
             throw new RuntimeException(String.format("GuiRegistry attempted to register a missing config file: '%s'. Was it registered with Config.register()?", configClass));
         }
@@ -42,7 +42,7 @@ public class GuiRegistry {
             throw new RuntimeException(String.format("Gui for config '%s' already registered", configClass));
         }
 
-        registry.put(configClass, populateOptions(configClass, configManager));
+        registry.put(configClass, populateOptions(configClass, manager));
     }
 
     public static <T extends ConfigData> boolean isRegistered(Class<T> configClass) {

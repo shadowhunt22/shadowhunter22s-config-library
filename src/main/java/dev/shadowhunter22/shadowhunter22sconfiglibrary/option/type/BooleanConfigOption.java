@@ -5,6 +5,10 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type;
 
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractOptionEntry;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.BooleanEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.util.TranslationUtil;
 import net.minecraft.text.Text;
@@ -18,7 +22,7 @@ public class BooleanConfigOption<T extends Boolean> implements ConfigOption<T> {
 
     public BooleanConfigOption(String definition, String key, T value, T defaultValue) {
         this.key = key;
-        this.translationKey = TranslationUtil.translationKey(definition, "option", this.key);
+        this.translationKey = TranslationUtil.translationKey("option", definition, this.key);
 
         this.value = value;
         this.defaultValue = defaultValue;
@@ -59,5 +63,14 @@ public class BooleanConfigOption<T extends Boolean> implements ConfigOption<T> {
     @Override
     public String getKey() {
         return this.key;
+    }
+
+    @Override
+    public <D extends ConfigData> AbstractOptionEntry asEntry(AutoConfigManager<D> manager, int width) {
+        return new BooleanEntry(
+                manager,
+                this.key,
+                width
+        );
     }
 }

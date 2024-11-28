@@ -13,16 +13,12 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 public abstract class AbstractOptionEntry extends AbstractEntry {
-	protected final AutoConfigManager<? extends ConfigData> manager;
 	protected final ConfigOption<?> option;
 
 	public <T extends ConfigData> AbstractOptionEntry(AutoConfigManager<T> manager, String key, int width) {
-		ConfigOption<?> option = GuiRegistry.getOption(manager.getConfig().getClass(), key);
+		super(manager, key, width);
 
-		this.manager = manager;
-		this.key = key;
-		this.option = option;
-		this.width = width;
+		this.option = GuiRegistry.getOption(manager.getConfig().getClass(), key);
 	}
 
 	protected abstract void update();

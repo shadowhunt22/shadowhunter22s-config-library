@@ -23,5 +23,10 @@ public interface ConfigEntry {
         @Target(ElementType.FIELD)
         @interface Section {
         }
-    }
+
+		@Retention(RetentionPolicy.RUNTIME)
+		@Target(ElementType.FIELD)
+		@interface Category {
+		}
+	}
 }
