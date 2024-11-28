@@ -24,14 +24,14 @@ public class CategoryTab implements Tab {
 	public CategoryTab(ConfigCategory category, Screen screen) {
 		this.category = category;
 
-		ConfigEntryWidget widget = new ConfigEntryWidget(category.manager, MinecraftClient.getInstance(), screen.width, screen.height);
+		ConfigEntryWidget entryWidget = new ConfigEntryWidget(category.manager, MinecraftClient.getInstance(), screen.width, screen.height);
 
 		for (AbstractEntry entry : this.category.entries) {
-			widget.add(entry);
+			entryWidget.add(entry);
 		}
 
 		this.widget = new ConfigEntryWidgetHolder<>(
-				widget
+				entryWidget
 		);
 	}
 
