@@ -9,11 +9,14 @@ import java.util.function.Consumer;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.navigation.GuiNavigation;
+import net.minecraft.client.gui.navigation.GuiNavigationPath;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.Nullable;
 
-public class ConfigEntryWidgetHolder<T extends ConfigEntryWidget> extends ClickableWidget {
+public class ConfigEntryWidgetHolder<T extends AbstractConfigEntryWidget<?>> extends ClickableWidget {
 	public final T list;
 
 	public ConfigEntryWidgetHolder(T list) {
@@ -24,11 +27,56 @@ public class ConfigEntryWidgetHolder<T extends ConfigEntryWidget> extends Clicka
 
 	@Override
 	public void forEachChild(Consumer<ClickableWidget> consumer) {
-		for (ConfigEntryWidget.Entry child : this.list.children()) {
+		for (AbstractConfigEntryWidget.Entry<?> child : this.list.children()) {
 			for (Element element : child.children()) {
 				consumer.accept((ClickableWidget) element);
 			}
 		}
+	}
+
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		return this.list.mouseClicked(mouseX, mouseY, button);
+	}
+
+	@Override
+	public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+		return this.list.mouseScrolled(mouseX, mouseY, amount);
+	}
+
+	@Override
+	public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+		return this.list.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+	}
+
+	@Override
+	public boolean mouseReleased(double mouseX, double mouseY, int button) {
+		return this.list.mouseReleased(mouseX, mouseY, button);
+	}
+
+	@Override
+	public boolean isMouseOver(double mouseX, double mouseY) {
+		return this.list.isMouseOver(mouseX, mouseY);
+	}
+
+	@Override
+	public void mouseMoved(double mouseX, double mouseY) {
+		this.list.mouseMoved(mouseX, mouseY);
+	}
+
+	@Override
+	public boolean charTyped(char chr, int modifiers) {
+		return this.list.charTyped(chr, modifiers);
+	}
+
+	@Override
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+		return this.list.keyPressed(keyCode, scanCode, modifiers);
+	}
+
+	@Override
+	public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+		return this.list.keyReleased(keyCode, scanCode, modifiers);
 	}
 
 	@Override
@@ -38,5 +86,20 @@ public class ConfigEntryWidgetHolder<T extends ConfigEntryWidget> extends Clicka
 
 	@Override
 	protected void appendClickableNarrations(NarrationMessageBuilder builder) {
+	}
+
+	@Override
+	public void setFocused(boolean focused) {
+		this.list.setFocused(focused);
+	}
+
+	@Override
+	public @Nullable GuiNavigationPath getNavigationPath(GuiNavigation navigation) {
+		return this.list.getNavigationPath(navigation);
+	}
+
+	@Override
+	public @Nullable GuiNavigationPath getFocusedPath() {
+		return this.list.getFocusedPath();
 	}
 }

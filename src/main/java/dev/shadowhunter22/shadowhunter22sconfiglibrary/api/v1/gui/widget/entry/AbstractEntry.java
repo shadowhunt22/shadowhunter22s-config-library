@@ -8,21 +8,23 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.SimpleLayoutWidget;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ListWidget;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.text.Text;
 
-public abstract class AbstractEntry implements Element, Selectable {
+public abstract class AbstractEntry implements Element, Drawable, Selectable {
 	protected final MinecraftClient client = MinecraftClient.getInstance();
 
 	protected final AutoConfigManager<? extends ConfigData> manager;
 	protected final String key;
 	protected final int width;
+	protected int y = 0;
 
-	protected SimpleLayoutWidget layout = new SimpleLayoutWidget(this.client.currentScreen);
+	protected ListWidget listWidget = new ListWidget();
 	protected boolean focused;
 	protected boolean hovered;
 
@@ -35,8 +37,16 @@ public abstract class AbstractEntry implements Element, Selectable {
 	public abstract ConfigEntryWidget.Entry build();
 	protected abstract Text translatableText(String text);
 
-	public SimpleLayoutWidget getLayout() {
-		return this.layout;
+	public ListWidget getListWidget() {
+		return this.listWidget;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+
+		this.listWidget.children.forEach(child -> {
+			child.setY(y);
+		});
 	}
 
 	public String getKey() {

@@ -21,16 +21,15 @@ import net.minecraft.client.gui.widget.TabNavigationWidget;
 
 public class ConfigScreen<T extends ConfigData> extends AbstractConfigScreen {
     private final HashMap<String, ConfigOption<?>> options;
+    private final TabManager tabManager = new TabManager(this::addDrawableChild, this::remove);
 
-    ConfigEntryWidget configEntryWidget;
+    private ConfigEntryWidget configEntryWidget;
 
     protected ConfigScreen(AutoConfigManager<T> manager, HashMap<String, ConfigOption<?>> options, Screen parent) {
         super(manager, parent);
 
         this.options = options;
     }
-
-    private final TabManager tabManager = new TabManager(this::addDrawableChild, this::remove);
 
 	@Override
     protected void init() {

@@ -5,7 +5,6 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget;
 
-import com.google.common.collect.Lists;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.ConfigEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
@@ -21,33 +20,21 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
+import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.text.Text;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfigEntryWidget extends ElementListWidget<ConfigEntryWidget.Entry> {
+public class ConfigEntryWidget extends AbstractConfigEntryWidget<ConfigEntryWidget.Entry> {
     private final AutoConfigManager<?> manager;
     public final List<ConfigCategory> categories = new ArrayList<>();
 
-    public <T extends ConfigData> ConfigEntryWidget(AutoConfigManager<T> configManager,  MinecraftClient client, int width, int height) {
-        super(client, width, height, 50, height, 27);
+    public <T extends ConfigData> ConfigEntryWidget(AutoConfigManager<T> manger,  MinecraftClient client, int width, int height) {
+        super(client, width, height);
 
-        this.manager = configManager;
-
-        this.setRenderBackground(false);
-        this.setRenderHorizontalShadows(false);
-    }
-
-    @Override
-    protected int getScrollbarPositionX() {
-        return this.width - 10;
-    }
-
-    @Override
-    public int getRowWidth() {
-        return this.width + 100;
+        this.manager = manger;
     }
 
     public void add(AbstractEntry entry) {
@@ -103,7 +90,7 @@ public class ConfigEntryWidget extends ElementListWidget<ConfigEntryWidget.Entry
         this.addSection(key, false);
     }
 
-    private void addToOrCreateCategory(AbstractEntry entry, boolean createCategory) {
+    public void addToOrCreateCategory(AbstractEntry entry, boolean createCategory) {
         if (createCategory) {
             this.categories.add(
                     new ConfigCategory(
@@ -130,31 +117,15 @@ public class ConfigEntryWidget extends ElementListWidget<ConfigEntryWidget.Entry
         return this.categories.size() > 1;
     }
 
-    public static class Entry extends ElementListWidget.Entry<Entry> {
-        private final List<ClickableWidget> children = Lists.newArrayList();
-
+    public static class Entry extends AbstractConfigEntryWidget.Entry<Entry> {
         public Entry(AbstractEntry entry) {
-            if (entry.getLayout() != null) {
-                entry.getLayout().forEachChild(this.children::add);
-            }
-        }
-
-        @Override
-        public List<? extends Selectable> selectableChildren() {
-            return this.children;
-        }
-
-        @Override
-        public List<? extends Element> children() {
-            return this.children;
+            super(entry);
         }
 
         @Override
         public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            for (ClickableWidget child : this.children) {
-                child.setY(y);
-                child.render(context, mouseX, mouseY, tickDelta);
-            }
+            this.entry.setY(y);
+            this.entry.render(context, mouseX, mouseY, tickDelta);
         }
     }
 }
