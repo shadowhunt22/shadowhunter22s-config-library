@@ -11,22 +11,21 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.Abstrac
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ResetButtonWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.EnumConfigOption;
+
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 
 public class EnumEntry<E extends Enum<E>> extends AbstractOptionEntry {
 	private final EnumConfigOption<E> typedOption;
-
+	private TextWidget textWidget;
+	private ButtonWidget toggleButton;
+	private AbstractButtonWidget resetButton;
 	public <T extends ConfigData> EnumEntry(AutoConfigManager<T> manager, String key, int width) {
 		super(manager, key, width);
 
 		this.typedOption = (EnumConfigOption<E>) this.option;
 	}
-
-	private TextWidget textWidget;
-	private ButtonWidget toggleButton;
-	private AbstractButtonWidget resetButton;
 
 	@Override
 	public ConfigEntryWidget.Entry build() {
@@ -40,7 +39,7 @@ public class EnumEntry<E extends Enum<E>> extends AbstractOptionEntry {
 			this.update();
 		}).dimensions(this.width - 151, 0, 105, 20).build();
 
-		this.resetButton = (ResetButtonWidget) ResetButtonWidget.builder(this.typedOption, action -> {
+		this.resetButton = ResetButtonWidget.builder(this.typedOption, action -> {
 			this.typedOption.setValue(this.typedOption.getDefaultValue());
 			this.manager.getSerializer().setValue(this.manager, this.key, this.typedOption.getValue());
 			this.update();

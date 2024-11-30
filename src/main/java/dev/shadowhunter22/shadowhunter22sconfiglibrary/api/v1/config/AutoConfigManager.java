@@ -9,41 +9,41 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.serializer.AutoConfigSerializer;
 
 public class AutoConfigManager<T extends ConfigData> extends AbstractConfigManager {
-    private final AutoConfigSerializer<T> serializer;
+	private final AutoConfigSerializer<T> serializer;
 
-    private final Config definition;
+	private final Config definition;
 
-    private T config;
+	private T config;
 
-    public AutoConfigManager(Class<T> configClass) {
-        this.definition = configClass.getAnnotation(Config.class);
-        this.serializer = new AutoConfigSerializer<>(this.definition, configClass);
+	public AutoConfigManager(Class<T> configClass) {
+		this.definition = configClass.getAnnotation(Config.class);
+		this.serializer = new AutoConfigSerializer<>(this.definition, configClass);
 
-        this.load();
-    }
+		this.load();
+	}
 
-    @Override
-    public void save() {
-        this.serializer.serialize(this.config);
-        this.config.afterSave();
-    }
+	@Override
+	public void save() {
+		this.serializer.serialize(this.config);
+		this.config.afterSave();
+	}
 
-    @Override
-    public void load() {
-        this.config = this.serializer.deserialize();
-    }
+	@Override
+	public void load() {
+		this.config = this.serializer.deserialize();
+	}
 
-    public T getConfig() {
-        return this.config;
-    }
+	public T getConfig() {
+		return this.config;
+	}
 
-    @Override
-    public AutoConfigSerializer<T> getSerializer() {
-        return this.serializer;
-    }
+	@Override
+	public AutoConfigSerializer<T> getSerializer() {
+		return this.serializer;
+	}
 
-    @Override
-    public String getDefinition() {
-        return this.definition.name();
-    }
+	@Override
+	public String getDefinition() {
+		return this.definition.name();
+	}
 }

@@ -11,6 +11,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen.Abstrac
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.BooleanEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.EnumEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.IntPlusMinusEntry;
+
 import net.minecraft.client.gui.screen.Screen;
 
 public class TestConfig2Screen extends AbstractConfigScreen {

@@ -9,15 +9,19 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AbstractConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AbstractConfigManager;
+
 import net.fabricmc.loader.api.FabricLoader;
+
 import org.slf4j.Logger;
 
 public abstract class AbstractSerializer {
 	protected abstract Path getConfigPath();
+
 	protected abstract String getConfigFileDirectory();
+
 	protected abstract String getConfigFileName();
 
 	protected void createDirectoryIfAbsent() {

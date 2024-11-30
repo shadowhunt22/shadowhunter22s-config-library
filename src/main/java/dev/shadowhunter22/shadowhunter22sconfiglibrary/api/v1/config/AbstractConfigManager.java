@@ -9,7 +9,10 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.serializer.AbstractSerial
 
 public abstract class AbstractConfigManager {
 	public abstract String getDefinition();
+
 	public abstract AbstractSerializer getSerializer();
+
 	public abstract void save();
+
 	protected abstract void load();
 }

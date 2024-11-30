@@ -5,30 +5,43 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.mixin.client.category;
 
-import com.google.common.collect.ImmutableList;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.mojang.blaze3d.systems.RenderSystem;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibraryClient;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen.AbstractConfigScreen;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.GridWidget;
 import net.minecraft.client.gui.widget.TabButtonWidget;
 import net.minecraft.client.gui.widget.TabNavigationWidget;
 import net.minecraft.util.Identifier;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
+import com.google.common.collect.ImmutableList;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+
 @Mixin(TabNavigationWidget.class)
 public class MixinTabNavigationWidget {
-	@Shadow @Final private GridWidget grid;
-	@Shadow @Final private ImmutableList<TabButtonWidget> tabButtons;
-	@Shadow private int tabNavWidth;
-	@Unique private final MinecraftClient client = MinecraftClient.getInstance();
+	@Unique
+	private final MinecraftClient client = MinecraftClient.getInstance();
+
+	@Shadow
+	@Final
+	private GridWidget grid;
+
+	@Shadow
+	@Final
+	private ImmutableList<TabButtonWidget> tabButtons;
+
+	@Shadow
+	private int tabNavWidth;
 
 	@WrapOperation(
 			method = "render",

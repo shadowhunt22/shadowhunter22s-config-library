@@ -30,8 +30,8 @@ public interface ConfigData {
 
 	/**
 	 * The purpose of the method is to "listen" for a change to a specific config option and then perform an operation.
-	 * <p>
-	 * Example usage:
+	 *
+	 * <p>Example usage:
 	 *
 	 * <pre>{@code
 	 * @Config(name = "config-class")
@@ -48,7 +48,7 @@ public interface ConfigData {
 	 * }</pre>
 	 *
 	 * @param config the config class that is emitting a change
-	 * @param key the name of the field that is being changed
+	 * @param key    the name of the field that is being changed
 	 */
 	default <T extends ConfigData> void afterChange(Class<T> config, String key) {
 	}

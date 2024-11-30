@@ -11,18 +11,19 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 public interface ConfigEntry {
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.FIELD)
-    @interface Integer {
-        int min();
-        int max();
-    }
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.FIELD)
+	@interface Integer {
+		int min();
 
-    interface Gui {
-        @Retention(RetentionPolicy.RUNTIME)
-        @Target(ElementType.FIELD)
-        @interface Section {
-        }
+		int max();
+	}
+
+	interface Gui {
+		@Retention(RetentionPolicy.RUNTIME)
+		@Target(ElementType.FIELD)
+		@interface Section {
+		}
 
 		@Retention(RetentionPolicy.RUNTIME)
 		@Target(ElementType.FIELD)

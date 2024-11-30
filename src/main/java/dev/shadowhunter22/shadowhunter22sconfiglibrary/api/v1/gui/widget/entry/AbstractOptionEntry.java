@@ -9,6 +9,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigM
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.registry.GuiRegistry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
+
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 

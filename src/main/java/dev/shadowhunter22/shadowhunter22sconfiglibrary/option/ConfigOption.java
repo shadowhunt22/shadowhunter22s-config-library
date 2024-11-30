@@ -8,19 +8,23 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.option;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractOptionEntry;
+
 import net.minecraft.text.Text;
 
 public interface ConfigOption<T> {
-    String getKey();
-    String getTranslationKey();
+	String getKey();
 
-    T getValue();
-    void setValue(Object value);
+	String getTranslationKey();
 
-    T getDefaultValue();
-    void setDefaultValue(Object value);
+	T getValue();
 
-    Text getText();
+	void setValue(Object value);
 
-    <D extends ConfigData> AbstractOptionEntry asEntry(AutoConfigManager<D> manager, int width);
+	T getDefaultValue();
+
+	void setDefaultValue(Object value);
+
+	Text getText();
+
+	<D extends ConfigData> AbstractOptionEntry asEntry(AutoConfigManager<D> manager, int width);
 }

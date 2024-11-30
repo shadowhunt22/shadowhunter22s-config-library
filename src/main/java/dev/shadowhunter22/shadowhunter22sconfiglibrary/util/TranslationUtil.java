@@ -6,15 +6,15 @@
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.util;
 
 public class TranslationUtil {
-    public static String translationKey(String type, String definition) {
-        return String.format("%s.%s", type, definition);
-    }
+	public static String translationKey(String type, String definition) {
+		return String.format("%s.%s", type, definition);
+	}
 
-    public static String translationKey(String type, String definition, String key) {
-        return String.format("%s.%s.%s", type, definition, key);
-    }
+	public static String translationKey(String type, String definition, String key) {
+		return String.format("%s.%s.%s", type, definition, key);
+	}
 
-    public static String translationKey(String type, String definition, String key, String value) {
-        return String.format("%s.%s.%s.%s", type, definition, key, value);
-    }
+	public static String translationKey(String type, String definition, String key, String value) {
+		return String.format("%s.%s.%s.%s", type, definition, key, value);
+	}
 }

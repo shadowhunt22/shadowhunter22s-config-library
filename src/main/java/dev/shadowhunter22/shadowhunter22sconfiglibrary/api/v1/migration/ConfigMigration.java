@@ -14,14 +14,17 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
+
+import net.fabricmc.loader.api.FabricLoader;
+
+import org.apache.commons.lang3.SerializationException;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
-import net.fabricmc.loader.api.FabricLoader;
-import org.apache.commons.lang3.SerializationException;
 
 public class ConfigMigration<T extends ConfigData> {
 	protected final T config;
@@ -31,11 +34,9 @@ public class ConfigMigration<T extends ConfigData> {
 	private final Path migrationFile;
 
 	private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-	private boolean hasMigrated = false;
-
 	private final HashMap<String, Object> configValues = new HashMap<>();
 	private final HashMap<String, EnumSpecification.Value<? extends Enum<?>>> configEnumValues = new HashMap<>();
+	private boolean hasMigrated = false;
 
 	public ConfigMigration(T config, String oldConfigLocation, String newConfigLocation, String migrationFile) {
 		this.config = config;
@@ -211,7 +212,7 @@ public class ConfigMigration<T extends ConfigData> {
 
 	/**
 	 * Take the vales from {@link ConfigMigration#configValues} and {@link ConfigMigration#configEnumValues}
-	 * and apply them to {@link ConfigMigration#config}
+	 * and apply them to {@link ConfigMigration#config}.
 	 */
 	private void apply() {
 		this.configValues.forEach((key, value) -> {

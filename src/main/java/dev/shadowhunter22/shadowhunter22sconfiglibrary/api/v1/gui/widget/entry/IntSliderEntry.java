@@ -10,8 +10,9 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.AbstractButtonWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ResetButtonWidget;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.IntegerConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.mixin.client.SliderWidgetInvoker;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.IntegerConfigOption;
+
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.client.gui.widget.TextWidget;
@@ -21,16 +22,14 @@ import net.minecraft.util.math.MathHelper;
 
 public class IntSliderEntry extends AbstractOptionEntry {
 	private final IntegerConfigOption<Integer> typedOption;
-
+	private TextWidget textWidget;
+	private SliderWidget sliderWidget;
+	private AbstractButtonWidget resetButton;
 	public <T extends ConfigData> IntSliderEntry(AutoConfigManager<T> manager, String optionKey, int width) {
 		super(manager, optionKey, width);
 
 		this.typedOption = (IntegerConfigOption<Integer>) this.option;
 	}
-
-	private TextWidget textWidget;
-	private SliderWidget sliderWidget;
-	private AbstractButtonWidget resetButton;
 
 	@Override
 	public ConfigEntryWidget.Entry build() {

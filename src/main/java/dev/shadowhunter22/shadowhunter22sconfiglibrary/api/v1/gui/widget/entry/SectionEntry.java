@@ -8,17 +8,18 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
+
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 public class SectionEntry extends AbstractEntry {
+	private TextWidget textWidget;
+
 	public <T extends ConfigData> SectionEntry(AutoConfigManager<T> manager, String key, int width) {
 		super(manager, key, width);
 	}
-
-	private TextWidget textWidget;
 
 	@Override
 	public ConfigEntryWidget.Entry build() {

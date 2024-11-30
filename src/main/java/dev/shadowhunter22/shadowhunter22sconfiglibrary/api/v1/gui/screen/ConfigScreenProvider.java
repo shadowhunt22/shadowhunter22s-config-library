@@ -8,6 +8,7 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.registry.GuiRegistry;
+
 import net.minecraft.client.gui.screen.Screen;
 
 /**
@@ -15,17 +16,17 @@ import net.minecraft.client.gui.screen.Screen;
  * edit config options.
  */
 public class ConfigScreenProvider<T extends ConfigData> {
-    private final Class<T> configClass;
-    private final AutoConfigManager<T> manager;
-    private final Screen currentScreen;
+	private final Class<T> configClass;
+	private final AutoConfigManager<T> manager;
+	private final Screen currentScreen;
 
 	public ConfigScreenProvider(Class<T> configClass, AutoConfigManager<T> manager, Screen currentScreen) {
-        this.configClass = configClass;
-        this.manager = manager;
-        this.currentScreen = currentScreen;
-    }
+		this.configClass = configClass;
+		this.manager = manager;
+		this.currentScreen = currentScreen;
+	}
 
-    public Screen get() {
-        return new ConfigScreen<>(this.manager, GuiRegistry.getOptions(this.configClass), this.currentScreen);
-    }
+	public Screen get() {
+		return new ConfigScreen<>(this.manager, GuiRegistry.getOptions(this.configClass), this.currentScreen);
+	}
 }

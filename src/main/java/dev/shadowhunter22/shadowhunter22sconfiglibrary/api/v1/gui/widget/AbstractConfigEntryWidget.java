@@ -8,19 +8,16 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget;
 import java.util.List;
 
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractEntry;
+
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.Mouse;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.gui.widget.SliderWidget;
-import net.minecraft.util.math.MathHelper;
+
 import org.jetbrains.annotations.Nullable;
 
-/**
- * Mainly to hide mouse event propagation
- */
 public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWidget.Entry<E>> extends ElementListWidget<E> {
 	public AbstractConfigEntryWidget(MinecraftClient client, int width, int height) {
 		super(client, width, height, 54, height, 27);
@@ -39,7 +36,7 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 				double childY = child.getY();
 				double childHeight = child.getHeight();
 
-				ClickableWidget widthAtPosition = x >= childX && x <= childX + childWidth && y >= childY && y<= childY + childHeight ? child : null;
+				ClickableWidget widthAtPosition = x >= childX && x <= childX + childWidth && y >= childY && y <= childY + childHeight ? child : null;
 
 				if (widthAtPosition != null) {
 					return widthAtPosition;

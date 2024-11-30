@@ -7,6 +7,7 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.text.Text;
@@ -28,7 +29,12 @@ public class AbstractButtonWidget extends PressableWidget {
 	protected void appendClickableNarrations(NarrationMessageBuilder builder) {
 	}
 
-	public static abstract class Builder {
+	@Environment(EnvType.CLIENT)
+	public interface PressAction {
+		void onPress(AbstractButtonWidget button);
+	}
+
+	public abstract static class Builder {
 		protected final AbstractButtonWidget.PressAction action;
 		protected int x, y, width, height;
 
@@ -46,11 +52,5 @@ public class AbstractButtonWidget extends PressableWidget {
 		}
 
 		public abstract AbstractButtonWidget build();
-	}
-
-
-	@Environment(EnvType.CLIENT)
-	public interface PressAction {
-		void onPress(AbstractButtonWidget button);
 	}
 }

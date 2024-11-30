@@ -13,6 +13,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.category.ConfigCategory;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.util.TranslationUtil;
+
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tab.Tab;
@@ -22,13 +23,11 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 
 public abstract class AbstractConfigScreen extends Screen {
-	private final TabManager tabManager = new TabManager(this::addDrawableChild, this::remove);
-	private final List<ConfigCategory> categories = new ArrayList<>();
-
-	protected boolean renderingCategories = false;
-
 	protected final Screen parent;
 	protected final AutoConfigManager<? extends ConfigData> manager;
+	private final TabManager tabManager = new TabManager(this::addDrawableChild, this::remove);
+	private final List<ConfigCategory> categories = new ArrayList<>();
+	protected boolean renderingCategories = false;
 
 	protected <T extends ConfigData> AbstractConfigScreen(AutoConfigManager<T> manager, Screen parent) {
 		super(Text.translatable(TranslationUtil.translationKey("screen.title", manager.getDefinition())));

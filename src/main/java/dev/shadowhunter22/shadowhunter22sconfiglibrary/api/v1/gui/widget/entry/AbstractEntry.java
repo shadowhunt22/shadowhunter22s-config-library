@@ -9,6 +9,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigM
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ListWidget;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
@@ -35,6 +36,7 @@ public abstract class AbstractEntry implements Element, Drawable, Selectable {
 	}
 
 	public abstract ConfigEntryWidget.Entry build();
+
 	protected abstract Text translatableText(String text);
 
 	public ListWidget getListWidget() {

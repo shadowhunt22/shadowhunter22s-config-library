@@ -12,22 +12,21 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigE
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ResetButtonWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.BooleanConfigOption;
+
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 
 public class BooleanEntry extends AbstractOptionEntry {
 	private final ConfigOption<Boolean> typedOption;
-
+	private TextWidget textWidget;
+	private ButtonWidget toggleButton;
+	private AbstractButtonWidget resetButton;
 	public <T extends ConfigData> BooleanEntry(AutoConfigManager<T> manager, String key, int width) {
 		super(manager, key, width);
 
 		this.typedOption = (BooleanConfigOption<Boolean>) this.option;
 	}
-
-	private TextWidget textWidget;
-	private ButtonWidget toggleButton;
-	private AbstractButtonWidget resetButton;
 
 	@Override
 	public ConfigEntryWidget.Entry build() {

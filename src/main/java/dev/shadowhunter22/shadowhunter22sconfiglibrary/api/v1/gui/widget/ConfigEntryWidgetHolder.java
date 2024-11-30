@@ -14,6 +14,7 @@ import net.minecraft.client.gui.navigation.GuiNavigationPath;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.text.Text;
+
 import org.jetbrains.annotations.Nullable;
 
 public class ConfigEntryWidgetHolder<T extends AbstractConfigEntryWidget<?>> extends ClickableWidget {

@@ -6,6 +6,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.Abstrac
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ResetButtonWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.IntegerConfigOption;
+
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextWidget;
@@ -13,17 +14,15 @@ import net.minecraft.text.Text;
 
 public class IntPlusMinusEntry extends AbstractOptionEntry {
 	private final IntegerConfigOption<Integer> typedOption;
-
+	private TextWidget textWidget;
+	private ButtonWidget addButton;
+	private ButtonWidget subtractButton;
+	private AbstractButtonWidget resetButton;
 	public <T extends ConfigData> IntPlusMinusEntry(AutoConfigManager<T> manager, String key, int width) {
 		super(manager, key, width);
 
 		this.typedOption = (IntegerConfigOption<Integer>) this.option;
 	}
-
-	private TextWidget textWidget;
-	private ButtonWidget addButton;
-	private ButtonWidget subtractButton;
-	private AbstractButtonWidget resetButton;
 
 	@Override
 	public ConfigEntryWidget.Entry build() {

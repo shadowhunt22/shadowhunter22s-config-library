@@ -1,6 +1,8 @@
 plugins {
 	id 'fabric-loom' version '1.9-SNAPSHOT'
 	id 'maven-publish'
+
+	id 'checkstyle'
 }
 
 version = project.mod_version
@@ -55,4 +57,23 @@ jar {
 	from("LICENSE") {
 		rename { "${it}_${project.base.archivesName.get()}"}
 	}
+}
+
+// checkstyle
+
+checkstyle {
+	configFile = rootProject.file("checkstyle.xml")
+	toolVersion = "10.12.1"
+}
+
+tasks.register('checkstyleAll', Checkstyle) {
+	configFile = rootProject.file("checkstyle.xml")
+
+	// fail early
+	ignoreFailures false
+	showViolations true
+
+	source 'src'
+
+	classpath = files()
 }

@@ -7,9 +7,11 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.mixin.client.category;
 
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibraryClient;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen.AbstractConfigScreen;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.TabButtonWidget;
 import net.minecraft.util.Identifier;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
