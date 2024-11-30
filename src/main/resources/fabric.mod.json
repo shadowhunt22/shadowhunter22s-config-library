@@ -16,6 +16,9 @@
   "icon": "assets/shadowhunter22s-config-library/icon.png",
   "environment": "*",
   "entrypoints": {
+	"main": [
+	  "dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibrary"
+	],
 	"client": [
 	  "dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibraryClient"
 	]

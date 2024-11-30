@@ -3,7 +3,7 @@
 // See LICENSE file in the project root for details.
 //
 
-package dev.shadowhunter22.shadowhunter22sconfiglibrary.mixin.client.category;
+package dev.shadowhunter22.shadowhunter22sconfiglibrary.mixin.category;
 
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibraryClient;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen.AbstractConfigScreen;

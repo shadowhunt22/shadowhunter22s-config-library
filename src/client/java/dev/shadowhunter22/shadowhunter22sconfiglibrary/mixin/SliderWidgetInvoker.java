@@ -3,7 +3,7 @@
 // See LICENSE file in the project root for details.
 //
 
-package dev.shadowhunter22.shadowhunter22sconfiglibrary.mixin.client;
+package dev.shadowhunter22.shadowhunter22sconfiglibrary.mixin;
 
 import net.minecraft.client.gui.widget.SliderWidget;
 

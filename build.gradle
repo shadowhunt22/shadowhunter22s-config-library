@@ -10,6 +10,15 @@ group = project.maven_group
 
 loom {
 	accessWidenerPath = file("src/main/resources/shadowhunter22s-config-library.accesswidener")
+
+	splitEnvironmentSourceSets()
+
+	mods {
+		"shadowhunter22s-config-library" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
 }
 
 sourceSets {

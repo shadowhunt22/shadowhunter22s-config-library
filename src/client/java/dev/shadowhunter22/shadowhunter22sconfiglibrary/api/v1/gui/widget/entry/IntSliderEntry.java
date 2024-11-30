@@ -10,7 +10,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.AbstractButtonWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ResetButtonWidget;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.mixin.client.SliderWidgetInvoker;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.mixin.SliderWidgetInvoker;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.IntegerConfigOption;
 
 import net.minecraft.client.gui.DrawContext;
