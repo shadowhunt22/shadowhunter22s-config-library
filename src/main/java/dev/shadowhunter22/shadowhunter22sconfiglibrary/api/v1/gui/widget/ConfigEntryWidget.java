@@ -5,8 +5,8 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget;
 
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.ConfigEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigRegistry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.category.ConfigCategory;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractEntry;
@@ -16,11 +16,6 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.util.TranslationUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
-import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.gui.widget.ElementListWidget;
-import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.text.Text;
 
 import java.lang.reflect.Field;
@@ -31,7 +26,7 @@ public class ConfigEntryWidget extends AbstractConfigEntryWidget<ConfigEntryWidg
     private final AutoConfigManager<?> manager;
     public final List<ConfigCategory> categories = new ArrayList<>();
 
-    public <T extends ConfigData> ConfigEntryWidget(AutoConfigManager<T> manger,  MinecraftClient client, int width, int height) {
+    public <T extends ConfigData> ConfigEntryWidget(AutoConfigManager<T> manger, MinecraftClient client, int width, int height) {
         super(client, width, height);
 
         this.manager = manger;
@@ -46,8 +41,6 @@ public class ConfigEntryWidget extends AbstractConfigEntryWidget<ConfigEntryWidg
     }
 
     public void add(String key, ConfigOption<?> option) {
-        boolean addedConfigOptionEntryToCategory = false;
-
         Field field;
 
         try {
@@ -56,25 +49,25 @@ public class ConfigEntryWidget extends AbstractConfigEntryWidget<ConfigEntryWidg
             throw new RuntimeException(e);
         }
 
+        boolean hasSectionAnnotation = ConfigRegistry.hasSectionAnnotation(field);
+        boolean hasCategoryAnnotation = ConfigRegistry.hasCategoryAnnotation(field);
+
         AbstractOptionEntry entry = option.asEntry(this.manager, this.width);
-        this.addEntry(entry.build());
 
-        if (
-                field.isAnnotationPresent(ConfigEntry.Gui.Section.class) &&
-                field.isAnnotationPresent(ConfigEntry.Gui.Category.class)
-        ) {
+        // fun :)
+
+        if (hasSectionAnnotation && hasCategoryAnnotation) {
             this.addSection(key, true);
+            this.addEntry(entry.build());
             this.addToOrCreateCategory(entry, false);
-            addedConfigOptionEntryToCategory = true;
-        } else if (field.isAnnotationPresent(ConfigEntry.Gui.Section.class)) {
+        } else if (hasSectionAnnotation) {
             this.addSection(key);
-        } else if (field.isAnnotationPresent(ConfigEntry.Gui.Category.class)) {
+            this.addEntry(entry.build());
+            this.addToOrCreateCategory(entry, false);
+        } else if (hasCategoryAnnotation) {
             this.addToOrCreateCategory(entry, true);
-            addedConfigOptionEntryToCategory = true;
-        }
-
-
-        if (!addedConfigOptionEntryToCategory) {
+        } else {
+            this.addEntry(entry.build());
             this.addToOrCreateCategory(entry, false);
         }
     }
@@ -98,7 +91,6 @@ public class ConfigEntryWidget extends AbstractConfigEntryWidget<ConfigEntryWidg
                             this.client.currentScreen,
                             Text.translatable(
                                     TranslationUtil.translationKey("text", this.manager.getDefinition(), entry.getKey(), "@Category")
-
                             )
                     )
             );
@@ -111,7 +103,7 @@ public class ConfigEntryWidget extends AbstractConfigEntryWidget<ConfigEntryWidg
     }
 
     /**
-     * The minimum required categories for the categories screen to be displayed is two or more
+     * The minimum required categories for the categories screen to be displayed is two or more.
      */
     public boolean hasMinimumRequiredCategories() {
         return this.categories.size() > 1;

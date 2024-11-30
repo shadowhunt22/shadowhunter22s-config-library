@@ -5,21 +5,23 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config;
 
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.ConfigEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.registry.GuiRegistry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen.ConfigScreen;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen.ConfigScreenProvider;
 import net.minecraft.client.gui.screen.Screen;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 /**
- * This class is used to register configs.  To register a config, call {@link Config#register(Class)},
+ * This class is used to register configs.  To register a config, call {@link ConfigRegistry#register(Class)},
  * passing in the config class as a parameter.  This will automatically register a {@link ConfigScreenProvider} which
  * you can get the {@link ConfigScreen}.
  */
-public class Config {
+public class ConfigRegistry {
     private static final Map<Class<? extends ConfigData>, AbstractConfigManager> configs = new HashMap<>();
 
     /**
@@ -34,7 +36,7 @@ public class Config {
     public static <T extends ConfigData> AutoConfigManager<T> register(Class<T> configClass) {
         Objects.requireNonNull(configClass);
 
-        if (configs.containsKey(configClass)) {
+        if (ConfigRegistry.isRegistered(configClass)) {
             throw new RuntimeException(String.format("Config '%s' already registered", configClass));
         }
 
@@ -53,7 +55,7 @@ public class Config {
 
     @SuppressWarnings("unchecked")
     public static <T extends ConfigData> AutoConfigManager<T> getConfigManager(Class<T> configClass) {
-        if (!configs.containsKey(configClass)) {
+        if (!ConfigRegistry.isRegistered(configClass)) {
             throw new RuntimeException(String.format("Could not find config file '%s'. Was it registered?", configClass));
         }
 
@@ -68,18 +70,26 @@ public class Config {
      * @return A {@link ConfigScreenProvider} that contains the screen that has been generated
      */
     public static <T extends ConfigData> ConfigScreenProvider<T> getConfigScreen(Class<T> configClass, Screen currentScreen) {
-        if (!configs.containsKey(configClass)) {
+        if (!ConfigRegistry.isRegistered(configClass)) {
             throw new RuntimeException(String.format("Could not find config file '%s'. Was it registered?", configClass));
         }
 
-        return new ConfigScreenProvider<>(configClass, Config.getConfigManager(configClass), currentScreen);
+        return new ConfigScreenProvider<>(configClass, ConfigRegistry.getConfigManager(configClass), currentScreen);
     }
 
     public static <T extends ConfigData> String getDefinition(Class<T> configClass) {
-        if (!configs.containsKey(configClass)) {
+        if (!ConfigRegistry.isRegistered(configClass)) {
             throw new RuntimeException(String.format("Could not find config file '%s'. Was it registered?", configClass));
         }
 
-        return Config.getConfigManager(configClass).getDefinition();
+        return ConfigRegistry.getConfigManager(configClass).getDefinition();
+    }
+
+    public static boolean hasSectionAnnotation(Field field) {
+        return field.isAnnotationPresent(ConfigEntry.Gui.Section.class);
+    }
+
+    public static boolean hasCategoryAnnotation(Field field) {
+        return field.isAnnotationPresent(ConfigEntry.Gui.Category.class);
     }
 }

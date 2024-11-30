@@ -37,7 +37,6 @@ public class ConfigScreen<T extends ConfigData> extends AbstractConfigScreen {
         this.options.forEach((key, option) -> this.configEntryWidget.add(key, option));
 
         if (this.configEntryWidget.hasMinimumRequiredCategories()) {
-            // TODO ConfigEntryWidget and children elements not clickable
             this.initializeCategoryWidget();
         } else {
             this.addDrawableChild(this.configEntryWidget);
@@ -61,5 +60,7 @@ public class ConfigScreen<T extends ConfigData> extends AbstractConfigScreen {
 
         categoryWidget.selectTab(0, false);
         categoryWidget.init();
+
+        this.renderingCategories = this.configEntryWidget.hasMinimumRequiredCategories();
     }
 }

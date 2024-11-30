@@ -10,6 +10,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.ConfigEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigRegistry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.BooleanConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.EnumConfigOption;
@@ -34,11 +35,11 @@ public class GuiRegistry {
      * @param manager the config manager of the config class
      */
     public static <T extends ConfigData> void register(Class<T> configClass, AutoConfigManager<T> manager) {
-        if (!dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.Config.isRegistered(configClass)) {
+        if (!ConfigRegistry.isRegistered(configClass)) {
             throw new RuntimeException(String.format("GuiRegistry attempted to register a missing config file: '%s'. Was it registered with Config.register()?", configClass));
         }
 
-        if (registry.containsKey(configClass)) {
+        if (GuiRegistry.isRegistered(configClass)) {
             throw new RuntimeException(String.format("Gui for config '%s' already registered", configClass));
         }
 

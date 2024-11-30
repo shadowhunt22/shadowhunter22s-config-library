@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWidget.Entry<E>> extends ElementListWidget<E> {
 	public AbstractConfigEntryWidget(MinecraftClient client, int width, int height) {
-		super(client, width, height, 50, height, 27);
+		super(client, width, height, 54, height, 27);
 
 		this.setRenderBackground(false);
 		this.setRenderHorizontalShadows(false);
@@ -90,7 +90,7 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 			}
 		}
 
-		return false;
+		return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
 	}
 
 	@Override
@@ -172,7 +172,7 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 
 	@Override
 	public int getRowWidth() {
-		return this.width + 100;
+		return this.width - 10;
 	}
 
 	public abstract static class Entry<E extends Entry<E>> extends ElementListWidget.Entry<E> {

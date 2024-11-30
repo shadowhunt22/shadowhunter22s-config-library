@@ -31,6 +31,11 @@ public class ConfigCategory {
 		return this;
 	}
 
+	public ConfigCategory add(int index, AbstractEntry entry) {
+		this.entries.add(index, entry);
+		return this;
+	}
+
 	public CategoryTab getTab() {
 		return new CategoryTab(this, this.parent);
 	}

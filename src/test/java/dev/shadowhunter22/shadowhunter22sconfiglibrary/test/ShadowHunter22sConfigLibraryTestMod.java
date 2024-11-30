@@ -3,7 +3,7 @@
 // See LICENSE file in the project root for details.
 //
 
-package dev.shadowhunter22.shadowhunter22sconfiglibrary.test;import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.Config;
+package dev.shadowhunter22.shadowhunter22sconfiglibrary.test;import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -34,7 +34,8 @@ public class ShadowHunter22sConfigLibraryTestMod implements ClientModInitializer
 
 		ClientTickEvents.START_CLIENT_TICK.register(client -> {
 			if (this.keyBinding.wasPressed()) {
-				client.setScreen(Config.getConfigScreen(TestConfig2.class, client.currentScreen).get());
+				client.setScreen(ConfigRegistry.getConfigScreen(TestConfig2.class, client.currentScreen).get());
+				// client.setScreen(new TestConfig2Screen(Config.getConfigManager(TestConfig2.class), client.currentScreen));
 			}
 		});
 
@@ -43,8 +44,8 @@ public class ShadowHunter22sConfigLibraryTestMod implements ClientModInitializer
 
 	static {
 		if (FabricLoader.getInstance().isModLoaded("shadowhunter22s-config-library")) {
-			test = Config.register(TestConfig.class).getConfig();
-			test2 = Config.register(TestConfig2.class).getConfig();
+			test = ConfigRegistry.register(TestConfig.class).getConfig();
+			test2 = ConfigRegistry.register(TestConfig2.class).getConfig();
 		} else {
 			test = new TestConfig();
 			test2 = new TestConfig2();
