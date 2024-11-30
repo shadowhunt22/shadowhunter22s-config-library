@@ -1,7 +1,8 @@
 plugins {
 	id 'fabric-loom' version '1.9-SNAPSHOT'
-	id 'maven-publish'
+	id "com.modrinth.minotaur" version "2.+"
 
+	id 'maven-publish'
 	id 'checkstyle'
 }
 
@@ -85,4 +86,42 @@ tasks.register('checkstyleAll', Checkstyle) {
 	source 'src'
 
 	classpath = files()
+}
+
+// Modrinth publishing
+
+def minecraft_versions = [
+		"1.20",
+		"1.20.1"
+]
+
+static def forVersion(String first, String last) {
+	if (first == last) {
+		return first
+	} else {
+		return "${first}-${last}"
+	}
+}
+
+modrinth {
+	token = System.getenv("MODRINTH_TOKEN")
+	projectId = "vDRbR4L9"
+
+	versionNumber = "${project.mod_version}"
+	versionName = "${project.mod_version} for ${forVersion(minecraft_versions.first(), minecraft_versions.last())}"
+	versionType = "beta"
+
+	uploadFile = remapJar
+	additionalFiles = [remapSourcesJar]
+
+	dependencies {
+		required.project "fabric-api"
+	}
+
+	syncBodyFrom = rootProject.file("README.md").text
+	changelog = rootProject.file("CHANGELOG.md").text
+
+	gameVersions = minecraft_versions
+
+	// debugMode = true
 }
