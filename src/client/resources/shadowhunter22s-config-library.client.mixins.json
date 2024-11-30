@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "dev.shadowhunter22.shadowhunter22sconfiglibrary.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+	"SliderWidgetInvoker",
+	"category.MixinTabButtonWidget",
+	"category.MixinTabNavigationWidget"
+  ],
+  "injectors": {
+	"defaultRequire": 1
+  }
+}

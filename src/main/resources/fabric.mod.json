@@ -1,32 +1,49 @@
 {
-	"schemaVersion": 1,
-	"id": "shadowhunter22s-config-library",
-	"version": "${version}",
-	"name": "ShadowHunter22's Config Library",
-	"description": "A config library for all of ShadowHunter22's mods",
-	"authors": [
-		"ShadowHunter22"
+  "schemaVersion": 1,
+  "id": "shadowhunter22s-config-library",
+  "version": "${version}",
+  "name": "ShadowHunter22's Config Library",
+  "description": "A config library for all of ShadowHunter22's mods",
+  "authors": [
+	"ShadowHunter22"
+  ],
+  "contact": {
+	"homepage": "https://shadowhunt22.github.io/mod-wiki/",
+	"issues": "https://github.com/shadowhunt22/shadowhunter22s-config-library/issues",
+	"sources": "https://github.com/shadowhunt22/shadowhunter22s-config-library"
+  },
+  "license": "ARR",
+  "icon": "assets/shadowhunter22s-config-library/icon.png",
+  "environment": "*",
+  "entrypoints": {
+	"main": [
+	  "dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibrary"
 	],
-	"contact": {
-		"homepage": "https://shadowhunt22.github.io/mod-wiki/",
-		"issues": "https://github.com/shadowhunt22/shadowhunter22s-config-library/issues",
-		"sources": "https://github.com/shadowhunt22/shadowhunter22s-config-library"
-	},
-	"license": "ARR",
-	"icon": "assets/shadowhunter22s-config-library/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"client": [
-			"dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibraryClient"
-		]
-	},
-	"depends": {
-		"fabricloader": ">=0.15.3",
-		"minecraft": "~1.20",
-		"java": ">=21",
-		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
+	"client": [
+	  "dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibraryClient"
+	]
+  },
+  "mixins": [
+	{
+	  "config": "shadowhunter22s-config-library.client.mixins.json",
+	  "environment": "client"
 	}
+  ],
+  "depends": {
+	"fabricloader": ">=0.15.3",
+	"minecraft": "~1.20",
+	"java": ">=17",
+	"fabric-api": "*"
+  },
+  "suggests": {
+	"another-mod": "*"
+  },
+  "custom": {
+	"modmenu": {
+	  "badges": [
+		"library"
+	  ],
+	  "update_checker": false
+	}
+  }
 }
