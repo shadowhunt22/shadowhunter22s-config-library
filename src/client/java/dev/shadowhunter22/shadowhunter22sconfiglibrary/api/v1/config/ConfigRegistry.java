@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.ConfigEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.registry.GuiRegistry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen.ConfigScreen;
@@ -77,6 +78,9 @@ public class ConfigRegistry {
 		return new ConfigScreenProvider<>(configClass, ConfigRegistry.getConfigManager(configClass), currentScreen);
 	}
 
+	/**
+	 * Get the {@code name} of the config class annotated with {@link Config}.
+	 */
 	public static <T extends ConfigData> String getDefinition(Class<T> configClass) {
 		if (!ConfigRegistry.isRegistered(configClass)) {
 			throw new RuntimeException(String.format("Could not find config file '%s'. Was it registered?", configClass));

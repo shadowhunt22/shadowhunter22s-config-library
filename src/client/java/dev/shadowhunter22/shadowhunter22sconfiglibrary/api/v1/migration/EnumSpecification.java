@@ -9,15 +9,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EnumSpecification {
-	Map<String, String> keyValuePairs = new HashMap<>();
-	Class<? extends Enum<?>> enumClass;
+	private final Map<String, String> keyValuePairs = new HashMap<>();
+	private final Class<? extends Enum<?>> enumClass;
 
-	public <E extends Enum<E>> void enumClass(Class<E> enumClass) {
+	public <E extends Enum<E>> EnumSpecification(Class<E> enumClass) {
 		this.enumClass = enumClass;
-	}
-
-	public <E extends Enum<E>> void add(String key1, E key2) {
-		this.keyValuePairs.put(key1, key2.name());
 	}
 
 	/**
@@ -31,8 +27,12 @@ public class EnumSpecification {
 		this.keyValuePairs.put(key1, key2);
 	}
 
-	public void add(Map<String, String> map) {
-		this.keyValuePairs.putAll(map);
+	public <E extends Enum<E>> void add(String key1, E key2) {
+		this.keyValuePairs.put(key1, key2.name());
+	}
+
+	public <E extends Enum<E>> void add(E key1, E key2) {
+		this.keyValuePairs.put(key1.name(), key2.name());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -44,6 +44,16 @@ public class EnumSpecification {
 		if (this.enumClass == null) {
 			throw new IllegalStateException("The value of 'enumClass' cannot be null! Add enum class by calling EnumMapper#enumClass!");
 		}
+
+		this.keyValuePairs.forEach((key1, key2) -> {
+			if (key1.isEmpty()) {
+				throw new IllegalStateException("The value of 'key1' cannot be empty!");
+			}
+
+			if (key2.isEmpty()) {
+				throw new IllegalStateException("The value of 'key2' cannot be empty!");
+			}
+		});
 	}
 
 	@FunctionalInterface
