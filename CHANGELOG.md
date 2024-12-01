@@ -1,0 +1,1 @@
+- Changed how an enum class is given to the EnumSpecification class
