@@ -14,6 +14,9 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.I
 
 import net.minecraft.client.gui.screen.Screen;
 
+/**
+ * With categories.
+ */
 public class TestConfig2Screen extends AbstractConfigScreen {
 	protected <T extends ConfigData> TestConfig2Screen(AutoConfigManager<T> manager, Screen parent) {
 		super(manager, parent);

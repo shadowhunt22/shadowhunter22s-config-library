@@ -38,6 +38,12 @@ public class ConfigMigration<T extends ConfigData> {
 	private final HashMap<String, EnumSpecification.Value<? extends Enum<?>>> configEnumValues = new HashMap<>();
 	private boolean hasMigrated = false;
 
+	/**
+	 * @param config            the config instance.
+	 * @param oldConfigLocation the old file location of the config (e.g. {@code "options.json"}).
+	 * @param newConfigLocation the new file location of the config  (e.g. {@code "{config-definition}/options.json"}).
+	 * @param migrationFile     the file indicating the old config file has been migrated to the new config file.
+	 */
 	public ConfigMigration(T config, String oldConfigLocation, String newConfigLocation, String migrationFile) {
 		this.config = config;
 		this.oldConfig = FabricLoader.getInstance().getConfigDir().resolve(oldConfigLocation);
@@ -138,8 +144,8 @@ public class ConfigMigration<T extends ConfigData> {
 		return this;
 	}
 
-	public <E extends Enum<E>> ConfigMigration<T> migrateEnum(String oldKey, String newKey, EnumSpecification.Mapper mapper) {
-		EnumSpecification specification = mapper.specification(new EnumSpecification());
+	public <E extends Enum<E>> ConfigMigration<T> migrateEnum(String oldKey, String newKey, Class<E> enumClass, EnumSpecification.Mapper mapper) {
+		EnumSpecification specification = mapper.specification(new EnumSpecification(enumClass));
 		specification.validate();
 
 		if (this.oldConfig.toFile().exists()) {
@@ -166,8 +172,8 @@ public class ConfigMigration<T extends ConfigData> {
 	/**
 	 * Using this method means there is a 1:1 translation of the key from {@code config_a.json} to {@code config_b.json}.
 	 */
-	public ConfigMigration<T> migrateEnum(String key, EnumSpecification.Mapper mapper) {
-		this.migrateEnum(key, key, mapper);
+	public <E extends Enum<E>> ConfigMigration<T> migrateEnum(String key, Class<E> enumClass, EnumSpecification.Mapper mapper) {
+		this.migrateEnum(key, key, enumClass, mapper);
 
 		return this;
 	}

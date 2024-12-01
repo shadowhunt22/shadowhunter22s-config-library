@@ -27,8 +27,7 @@ public class TestConfigMigration extends AbstractConfigMigrationBuilder<TestConf
 				.migrateBoolean("test4", "TEST_4")
 				.migrateEnum("test5", "TEST_5", specification1) // define enum value mapper specification through a variable
 				.migrateEnum("test6", "TEST_6", specification1)
-				.migrateEnum("test7", "TEST_7", mapper -> { // or through a functional interface
-					mapper.enumClass(TestConfig2.Location.class);
+				.migrateEnum("test7", "TEST_7", TestConfig2.Location.class, mapper -> { // or through a functional interface
 					mapper.add("topLeft", "TopLeft");
 					mapper.add("topRight", "TopRight");
 					mapper.add("bottomLeft", "BottomLeft");
@@ -41,9 +40,8 @@ public class TestConfigMigration extends AbstractConfigMigrationBuilder<TestConf
 	}
 
 	private EnumSpecification specification1() {
-		EnumSpecification specification = new EnumSpecification();
+		EnumSpecification specification = new EnumSpecification(TestConfig2.Location.class);
 
-		specification.enumClass(TestConfig2.Location.class);
 		specification.add("topLeft", "TopLeft");
 		specification.add("topRight", "TopRight");
 		specification.add("bottomLeft", "BottomLeft");

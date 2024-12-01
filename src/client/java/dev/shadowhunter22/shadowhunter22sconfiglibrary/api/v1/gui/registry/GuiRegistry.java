@@ -78,15 +78,15 @@ public class GuiRegistry {
 				field.setAccessible(true);
 
 				if (field.getType() == Integer.TYPE) {
-					options.putAll(getIntegerOption(configClass, config, defaultConfig, field));
+					options.putAll(createIntegerOption(configClass, config, defaultConfig, field));
 				}
 
 				if (field.getType() == Boolean.TYPE) {
-					options.putAll(getBooleanOption(configClass, config, defaultConfig, field));
+					options.putAll(createBooleanOption(configClass, config, defaultConfig, field));
 				}
 
 				if (field.getType().isEnum()) {
-					options.putAll(getEnumOption(configClass, config, defaultConfig, field));
+					options.putAll(createEnumOption(configClass, config, defaultConfig, field));
 				}
 			}
 		} catch (IllegalAccessException e) {
@@ -97,15 +97,23 @@ public class GuiRegistry {
 		return new LinkedHashMap<>(options);
 	}
 
-	private static <T extends ConfigData> Map<String, BooleanConfigOption<Boolean>> getBooleanOption(Class<T> configClass, T config, T defaultConfig, Field field) throws IllegalAccessException {
+	private static <T extends ConfigData> Map<String, BooleanConfigOption<Boolean>> createBooleanOption(Class<T> configClass, T config, T defaultConfig, Field field) throws IllegalAccessException {
 		String key = field.getName();
 		boolean value = field.getBoolean(config);
 		boolean defaultValue = field.getBoolean(defaultConfig);
 
-		return Map.of(key, new BooleanConfigOption<>(configClass.getDeclaredAnnotation(Config.class).name(), key, value, defaultValue));
+		return Map.of(
+				key,
+				new BooleanConfigOption<>(
+						configClass.getDeclaredAnnotation(Config.class).name(),
+						key,
+						value,
+						defaultValue
+				)
+		);
 	}
 
-	private static <T extends ConfigData> Map<String, IntegerConfigOption<Integer>> getIntegerOption(Class<T> configClass, T config, T defaultConfig, Field field) throws IllegalAccessException {
+	private static <T extends ConfigData> Map<String, IntegerConfigOption<Integer>> createIntegerOption(Class<T> configClass, T config, T defaultConfig, Field field) throws IllegalAccessException {
 		String key = field.getName();
 
 		int value = field.getInt(config);
@@ -128,16 +136,35 @@ public class GuiRegistry {
 			);
 		}
 
-		return Map.of(key, new IntegerConfigOption<>(configClass.getDeclaredAnnotation(Config.class).name(), key, min, max, value, defaultValue));
+		return Map.of(
+				key,
+				new IntegerConfigOption<>(
+						configClass.getDeclaredAnnotation(Config.class).name(),
+						key,
+						min,
+						max,
+						value,
+						defaultValue
+				)
+		);
 	}
 
 	@SuppressWarnings("unchecked")
-	private static <T extends ConfigData, E extends Enum<E>> Map<String, EnumConfigOption<E>> getEnumOption(Class<T> configClass, T config, T defaultConfig, Field field) throws IllegalAccessException {
+	private static <T extends ConfigData, E extends Enum<E>> Map<String, EnumConfigOption<E>> createEnumOption(Class<T> configClass, T config, T defaultConfig, Field field) throws IllegalAccessException {
 		String key = field.getName();
 		E[] values = ((Enum<E>) field.get(defaultConfig)).getDeclaringClass().getEnumConstants();
 		E value = (E) field.get(config);
 		E defaultValue = (E) field.get(defaultConfig);
 
-		return Map.of(key, new EnumConfigOption<>(configClass.getDeclaredAnnotation(Config.class).name(), key, values, value, defaultValue));
+		return Map.of(
+				key,
+				new EnumConfigOption<>(
+						configClass.getDeclaredAnnotation(Config.class).name(),
+						key,
+						values,
+						value,
+						defaultValue
+				)
+		);
 	}
 }
