@@ -6,6 +6,7 @@
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config;
 
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.annotation.Config;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.registry.GuiRegistry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.serializer.AutoConfigSerializer;
 
 public class AutoConfigManager<T extends ConfigData> extends AbstractConfigManager {
@@ -22,6 +23,15 @@ public class AutoConfigManager<T extends ConfigData> extends AbstractConfigManag
 		this.load();
 	}
 
+	public T getConfig() {
+		return this.config;
+	}
+
+	@Override
+	public String getDefinition() {
+		return this.definition.name();
+	}
+
 	@Override
 	public void save() {
 		this.serializer.serialize(this.config);
@@ -33,17 +43,15 @@ public class AutoConfigManager<T extends ConfigData> extends AbstractConfigManag
 		this.config = this.serializer.deserialize();
 	}
 
-	public T getConfig() {
-		return this.config;
+	@Override
+	public void updateValue(String key, Object value) {
+		this.serializer.setValue(this.config, key, value);
+		GuiRegistry.getOption(this.config.getClass(), key).setValue(value);
+		this.save();
 	}
 
 	@Override
 	public AutoConfigSerializer<T> getSerializer() {
 		return this.serializer;
-	}
-
-	@Override
-	public String getDefinition() {
-		return this.definition.name();
 	}
 }

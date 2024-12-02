@@ -1,1 +1,2 @@
-- Changed how an enum class is given to the EnumSpecification class
+- Added a way in the config manager to update a config value
+- Added a helper method in the EnumSpecification class

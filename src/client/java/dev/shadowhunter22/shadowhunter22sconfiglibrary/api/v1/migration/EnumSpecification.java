@@ -31,6 +31,13 @@ public class EnumSpecification {
 		this.keyValuePairs.put(key1, key2.name());
 	}
 
+	/**
+	 * Using this method means there is a 1:1 translation of the enum value from {@code config_a.json} to {@code config_b.json}.
+	 */
+	public <E extends Enum<E>> void add(E key) {
+		this.keyValuePairs.put(key.name(), key.name());
+	}
+
 	public <E extends Enum<E>> void add(E key1, E key2) {
 		this.keyValuePairs.put(key1.name(), key2.name());
 	}
