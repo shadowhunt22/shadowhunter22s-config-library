@@ -19,6 +19,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tab.Tab;
 import net.minecraft.client.gui.tab.TabManager;
 import net.minecraft.client.gui.widget.TabNavigationWidget;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
@@ -55,7 +56,7 @@ public abstract class AbstractConfigScreen extends Screen {
 	@Override
 	public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
 		RenderSystem.enableBlend();
-		context.drawTexture(BLUR_BACKGROUND_TEXTURE, 0, 0, 0, 0, this.width, this.height, 32, 32);
+		context.drawTexture(RenderLayer::getGuiTextured, BLUR_BACKGROUND_TEXTURE, 0, 0, 0, 0, this.width, this.height, 32, 32);
 		RenderSystem.disableBlend();
 	}
 
