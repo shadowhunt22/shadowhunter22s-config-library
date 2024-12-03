@@ -8,6 +8,7 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.category.ConfigCategory;
@@ -21,8 +22,11 @@ import net.minecraft.client.gui.tab.TabManager;
 import net.minecraft.client.gui.widget.TabNavigationWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
+import net.minecraft.util.Identifier;
 
 public abstract class AbstractConfigScreen extends Screen {
+	private static final Identifier BLUR_BACKGROUND_TEXTURE = new Identifier("textures/gui/menu_list_background.png");
+
 	protected final Screen parent;
 	protected final AutoConfigManager<? extends ConfigData> manager;
 	private final TabManager tabManager = new TabManager(this::addDrawableChild, this::remove);
@@ -45,6 +49,13 @@ public abstract class AbstractConfigScreen extends Screen {
 		boolean renderingCategories = this.categories.size() > 1 || this.renderingCategories;
 
 		context.drawText(this.textRenderer, this.title, this.width / 2 - (this.textRenderer.getWidth(this.title) / 2), renderingCategories ? 37 : 10, Colors.WHITE, true);
+	}
+
+	@Override
+	public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
+		RenderSystem.enableBlend();
+		context.drawTexture(BLUR_BACKGROUND_TEXTURE, 0, 0, 0, 0, this.width, this.height, 32, 32);
+		RenderSystem.disableBlend();
 	}
 
 	@Override

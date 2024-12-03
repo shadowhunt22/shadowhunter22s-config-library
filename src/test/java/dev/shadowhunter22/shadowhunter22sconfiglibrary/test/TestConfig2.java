@@ -20,7 +20,7 @@ public class TestConfig2 implements ConfigData {
 
 	public boolean TEST_3 = true;
 
-	// @ConfigEntry.Gui.Category
+	@ConfigEntry.Gui.Category
 	@ConfigEntry.Gui.Section
 	public boolean TEST_4 = false;
 

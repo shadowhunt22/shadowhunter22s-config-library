@@ -10,6 +10,7 @@ import java.util.List;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractEntry;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ClickableWidget;
@@ -23,7 +24,7 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 		// need to do height - 54 because of Mojank (height - widget starting position)
 		super(client, width, height - 54, 54, 27);
 
-		this.setRenderBackground(false);
+		this.setRenderHeader(false, 0);
 	}
 
 	protected @Nullable ClickableWidget getWidgetAtPosition(double x, double y) {
@@ -163,13 +164,21 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 	}
 
 	@Override
-	protected int getScrollbarPositionX() {
+	protected int getScrollbarX() {
 		return this.width - 10;
 	}
 
 	@Override
 	public int getRowWidth() {
 		return this.width - 10;
+	}
+
+	@Override
+	protected void drawMenuListBackground(DrawContext context) {
+	}
+
+	@Override
+	protected void drawHeaderAndFooterSeparators(DrawContext context) {
 	}
 
 	public abstract static class Entry<E extends Entry<E>> extends ElementListWidget.Entry<E> {
