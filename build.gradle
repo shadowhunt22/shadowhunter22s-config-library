@@ -92,7 +92,8 @@ tasks.register('checkstyleAll', Checkstyle) {
 
 def minecraft_versions = [
 		"1.21.2",
-		"1.21.3"
+		"1.21.3",
+		"1.21.4"
 ]
 
 static def forVersion(String first, String last) {

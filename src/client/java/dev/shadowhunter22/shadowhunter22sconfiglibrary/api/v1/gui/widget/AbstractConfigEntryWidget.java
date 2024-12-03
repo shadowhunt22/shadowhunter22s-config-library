@@ -23,8 +23,6 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 	public AbstractConfigEntryWidget(MinecraftClient client, int width, int height) {
 		// need to do height - 54 because of Mojank (height - widget starting position)
 		super(client, width, height - 54, 54, 27);
-
-		this.setRenderHeader(false, 0);
 	}
 
 	protected @Nullable ClickableWidget getWidgetAtPosition(double x, double y) {
