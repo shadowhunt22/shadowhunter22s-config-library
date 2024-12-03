@@ -109,7 +109,7 @@ modrinth {
 
 	versionNumber = "${project.mod_version}"
 	versionName = "${project.mod_version} for ${forVersion(minecraft_versions.first(), minecraft_versions.last())}"
-	versionType = "beta"
+	versionType = "release"
 
 	uploadFile = remapJar
 	additionalFiles = [remapSourcesJar]

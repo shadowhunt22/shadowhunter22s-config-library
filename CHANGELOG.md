@@ -1,2 +1,1 @@
-- Added a way in the config manager to update a config value
-- Added a helper method in the EnumSpecification class
+- Bump version to release
