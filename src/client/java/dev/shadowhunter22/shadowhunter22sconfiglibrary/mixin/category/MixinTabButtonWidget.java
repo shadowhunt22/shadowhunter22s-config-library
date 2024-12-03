@@ -42,7 +42,7 @@ public abstract class MixinTabButtonWidget extends ClickableWidget {
 	private final MinecraftClient client = MinecraftClient.getInstance();
 
 	@ModifyArg(
-			method = "renderButton",
+			method = "renderWidget",
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"

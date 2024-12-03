@@ -46,7 +46,7 @@ public class ResetButtonWidget extends AbstractButtonWidget {
 	}
 
 	@Override
-	public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
+	public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
 		context.drawTexture(TEXTURE, this.getX(), this.getY(), this.getU(), this.getV(), 20, 20, 20, 60);
 	}
 

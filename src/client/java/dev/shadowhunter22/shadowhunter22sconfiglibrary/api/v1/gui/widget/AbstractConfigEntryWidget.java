@@ -20,7 +20,8 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWidget.Entry<E>> extends ElementListWidget<E> {
 	public AbstractConfigEntryWidget(MinecraftClient client, int width, int height) {
-		super(client, width, height, 54, height, 27);
+		// need to do height - 54 because of Mojank (height - widget starting position)
+		super(client, width, height - 54, 54, 27);
 
 		this.setRenderBackground(false);
 	}

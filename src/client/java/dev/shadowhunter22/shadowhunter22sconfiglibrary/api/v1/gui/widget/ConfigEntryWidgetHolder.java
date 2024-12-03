@@ -81,7 +81,7 @@ public class ConfigEntryWidgetHolder<T extends AbstractConfigEntryWidget<?>> ext
 	}
 
 	@Override
-	public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
+	public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
 		this.list.render(context, mouseX, mouseY, delta);
 	}
 
