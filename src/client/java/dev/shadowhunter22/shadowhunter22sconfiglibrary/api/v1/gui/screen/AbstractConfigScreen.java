@@ -48,6 +48,11 @@ public abstract class AbstractConfigScreen extends Screen {
 	}
 
 	@Override
+	public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
+		context.fillGradient(0, 0, this.width, this.height, -1072689136, -804253680);
+	}
+
+	@Override
 	protected void clearAndInit() {
 		this.categories.clear(); // re-initialize all categories, not add more to them in Screen#init!
 		super.clearAndInit();
