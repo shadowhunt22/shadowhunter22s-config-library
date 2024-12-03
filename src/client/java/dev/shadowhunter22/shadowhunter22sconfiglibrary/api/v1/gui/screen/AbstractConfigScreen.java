@@ -40,17 +40,11 @@ public abstract class AbstractConfigScreen extends Screen {
 
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-		this.renderBackground(context);
 		super.render(context, mouseX, mouseY, delta);
 
 		boolean renderingCategories = this.categories.size() > 1 || this.renderingCategories;
 
 		context.drawText(this.textRenderer, this.title, this.width / 2 - (this.textRenderer.getWidth(this.title) / 2), renderingCategories ? 37 : 10, Colors.WHITE, true);
-	}
-
-	@Override
-	public void renderBackground(DrawContext context) {
-		context.fillGradient(0, 0, this.width, this.height, -1072689136, -804253680);
 	}
 
 	@Override

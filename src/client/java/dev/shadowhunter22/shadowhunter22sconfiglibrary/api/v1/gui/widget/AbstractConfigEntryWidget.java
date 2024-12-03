@@ -23,7 +23,6 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 		super(client, width, height, 54, height, 27);
 
 		this.setRenderBackground(false);
-		this.setRenderHorizontalShadows(false);
 	}
 
 	protected @Nullable ClickableWidget getWidgetAtPosition(double x, double y) {
@@ -61,16 +60,16 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 	}
 
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+	public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
 		for (E child : this.children()) {
-			boolean scrolled = child.mouseScrolled(mouseX, mouseY, amount);
+			boolean scrolled = child.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
 
 			if (scrolled) {
 				return true;
 			}
 		}
 
-		return super.mouseScrolled(mouseX, mouseY, amount);
+		return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
 	}
 
 	@Override
@@ -193,16 +192,16 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 		}
 
 		@Override
-		public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+		public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
 			for (ClickableWidget child : this.entry.getListWidget().children) {
-				boolean scrolled = child.mouseScrolled(mouseX, mouseY, amount);
+				boolean scrolled = child.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
 
 				if (scrolled) {
 					return true;
 				}
 			}
 
-			return super.mouseScrolled(mouseX, mouseY, amount);
+			return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
 		}
 
 		@Override
