@@ -8,7 +8,6 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.category.ConfigCategory;
@@ -24,8 +23,10 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 public abstract class AbstractConfigScreen extends Screen {
-	private static final Identifier BLUR_BACKGROUND_TEXTURE = new Identifier("textures/gui/menu_list_background.png");
+	private static final Identifier BLUR_BACKGROUND_TEXTURE = Identifier.of("textures/gui/menu_list_background.png");
 
 	protected final Screen parent;
 	protected final AutoConfigManager<? extends ConfigData> manager;

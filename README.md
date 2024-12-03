@@ -35,6 +35,9 @@ This mod is available for the following Minecraft versions:
 `1.20.5`
 `1.20.6`
 
+`1.21`
+`1.21.1`
+
 ## Client and Server Support
 
 This mod only needs to be on the client and will not work on the server.

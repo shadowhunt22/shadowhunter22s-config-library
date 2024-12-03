@@ -13,7 +13,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class ResetButtonWidget extends AbstractButtonWidget {
-	private static final Identifier TEXTURE = new Identifier(ShadowHunter22sConfigLibraryClient.MOD_ID, "textures/gui/reset_button.png");
+	private static final Identifier TEXTURE = Identifier.of(ShadowHunter22sConfigLibraryClient.MOD_ID, "textures/gui/reset_button.png");
 	private final AbstractButtonWidget.PressAction action;
 
 	private final ConfigOption<?> option;
