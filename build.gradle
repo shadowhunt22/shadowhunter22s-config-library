@@ -91,8 +91,8 @@ tasks.register('checkstyleAll', Checkstyle) {
 // Modrinth publishing
 
 def minecraft_versions = [
-		"1.20.3",
-		"1.20.4"
+		"1.20.5",
+		"1.20.6"
 ]
 
 static def forVersion(String first, String last) {
