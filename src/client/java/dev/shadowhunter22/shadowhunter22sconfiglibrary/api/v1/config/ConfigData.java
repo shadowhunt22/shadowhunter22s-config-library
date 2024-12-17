@@ -5,6 +5,7 @@
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config;
 
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.registry.GuiRegistry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen.AbstractConfigScreen;
 
 public interface ConfigData {
@@ -17,7 +18,7 @@ public interface ConfigData {
 	}
 
 	/**
-	 * This method is called after a mod's config file has an {@code AutoConfigManager} and has a {@code GuiRegistry} registry.
+	 * This method is called after a mod's config file has an {@link AutoConfigManager} and has a {@link GuiRegistry} registry.
 	 */
 	default void afterLoad() {
 	}

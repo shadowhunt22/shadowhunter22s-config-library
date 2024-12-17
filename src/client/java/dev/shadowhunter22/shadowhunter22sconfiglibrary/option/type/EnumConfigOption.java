@@ -34,8 +34,8 @@ public class EnumConfigOption<T extends Enum<T>> implements ConfigOption<T> {
 	}
 
 	@Override
-	public Text getText() {
-		return Text.translatable(TranslationUtil.translationKey("option", this.definition, this.key, String.valueOf(this.value)));
+	public String getKey() {
+		return this.key;
 	}
 
 	@Override
@@ -44,8 +44,8 @@ public class EnumConfigOption<T extends Enum<T>> implements ConfigOption<T> {
 	}
 
 	@Override
-	public String getKey() {
-		return this.key;
+	public Text getText() {
+		return Text.translatable(TranslationUtil.translationKey("option", this.definition, this.key, String.valueOf(this.value)));
 	}
 
 	@Override
@@ -53,13 +53,20 @@ public class EnumConfigOption<T extends Enum<T>> implements ConfigOption<T> {
 		return this.value;
 	}
 
+	public T[] getValues() {
+		return this.values;
+	}
+
+	public void cycle() {
+		List<T> values = Arrays.stream(this.values).toList();
+
+		int index = values.indexOf(this.value);
+		this.value = values.get((index + 1) % values.size());
+	}
+
 	@Override
 	public void setValue(Object value) {
 		this.value = (T) value;
-	}
-
-	public T[] getValues() {
-		return this.values;
 	}
 
 	@Override
@@ -70,13 +77,6 @@ public class EnumConfigOption<T extends Enum<T>> implements ConfigOption<T> {
 	@Override
 	public void setDefaultValue(Object value) {
 		this.defaultValue = (T) value;
-	}
-
-	public void cycle() {
-		List<T> values = Arrays.stream(this.values).toList();
-
-		int index = values.indexOf(this.value);
-		this.value = values.get((index + 1) % values.size());
 	}
 
 	@Override

@@ -29,7 +29,7 @@ public class SectionEntry extends AbstractEntry {
 		this.textWidget.alignLeft();
 		this.textWidget.setX(this.textWidget.getX() + 15);
 
-		this.listWidget.addWidget(this.textWidget);
+		this.layout.addBody(this.textWidget);
 
 		return new ConfigEntryWidget.Entry(this);
 	}
