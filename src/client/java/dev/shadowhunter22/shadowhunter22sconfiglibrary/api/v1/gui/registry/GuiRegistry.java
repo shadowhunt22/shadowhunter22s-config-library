@@ -17,7 +17,9 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigRegistry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.BooleanConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.DoubleConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.EnumConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.FloatConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.IntegerConfigOption;
 
 import org.slf4j.Logger;
@@ -81,6 +83,14 @@ public class GuiRegistry {
 					options.putAll(createIntegerOption(configClass, config, defaultConfig, field));
 				}
 
+				if (field.getType() == Float.TYPE) {
+					options.putAll(createFloatOption(configClass, config, defaultConfig, field));
+				}
+
+				if (field.getType() == Double.TYPE) {
+					options.putAll(createDoubleOption(configClass, config, defaultConfig, field));
+				}
+
 				if (field.getType() == Boolean.TYPE) {
 					options.putAll(createBooleanOption(configClass, config, defaultConfig, field));
 				}
@@ -139,6 +149,78 @@ public class GuiRegistry {
 		return Map.of(
 				key,
 				new IntegerConfigOption<>(
+						configClass.getDeclaredAnnotation(Config.class).name(),
+						key,
+						min,
+						max,
+						value,
+						defaultValue
+				)
+		);
+	}
+
+	private static <T extends ConfigData> Map<String, FloatConfigOption<Float>> createFloatOption(Class<T> configClass, T config, T defaultConfig, Field field) throws IllegalAccessException {
+		String key = field.getName();
+
+		float value = field.getFloat(config);
+		float defaultValue = field.getFloat(defaultConfig);
+
+		float min, max;
+
+		try {
+			min = field.getDeclaredAnnotation(ConfigEntry.Float.class).min();
+			max = field.getDeclaredAnnotation(ConfigEntry.Float.class).max();
+		} catch (Exception e) {
+			LOGGER.error("Unable to get minimum and maximum values for '{}' field because the '{}' annotation was not present.", field.getName(), ConfigEntry.Float.class.getName());
+
+			throw new NullPointerException(
+					String.format(
+							"Unable to get minimum and maximum values for '%s' field because the '%s' annotation was not present.",
+							field.getName(),
+							ConfigEntry.Float.class.getName()
+					)
+			);
+		}
+
+		return Map.of(
+				key,
+				new FloatConfigOption<>(
+						configClass.getDeclaredAnnotation(Config.class).name(),
+						key,
+						min,
+						max,
+						value,
+						defaultValue
+				)
+		);
+	}
+
+	private static <T extends ConfigData> Map<String, DoubleConfigOption<Double>> createDoubleOption(Class<T> configClass, T config, T defaultConfig, Field field) throws IllegalAccessException {
+		String key = field.getName();
+
+		double value = field.getDouble(config);
+		double defaultValue = field.getDouble(defaultConfig);
+
+		double min, max;
+
+		try {
+			min = field.getDeclaredAnnotation(ConfigEntry.Double.class).min();
+			max = field.getDeclaredAnnotation(ConfigEntry.Double.class).max();
+		} catch (Exception e) {
+			LOGGER.error("Unable to get minimum and maximum values for '{}' field because the '{}' annotation was not present.", field.getName(), ConfigEntry.Float.class.getName());
+
+			throw new NullPointerException(
+					String.format(
+							"Unable to get minimum and maximum values for '%s' field because the '%s' annotation was not present.",
+							field.getName(),
+							ConfigEntry.Double.class.getName()
+					)
+			);
+		}
+
+		return Map.of(
+				key,
+				new DoubleConfigOption<>(
 						configClass.getDeclaredAnnotation(Config.class).name(),
 						key,
 						min,

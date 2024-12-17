@@ -21,7 +21,11 @@ import net.minecraft.client.gui.screen.Screen;
 /**
  * This class is used to register configs.  To register a config, call {@link ConfigRegistry#register(Class)},
  * passing in the config class as a parameter.  This will automatically register a {@link ConfigScreenProvider} which
- * you can get the {@link ConfigScreen}.
+ * allows you to retrieve a {@link ConfigScreen}.
+ *
+ * <p>This class also provides helper methods to retrieve information about a given config, such as, determining whether a config
+ * was registered, getting a config's manager, getting a config's screen provider, a config's definition, or if any of a config class' fields
+ * have certain annotations.
  */
 public class ConfigRegistry {
 	private static final Map<Class<? extends ConfigData>, AbstractConfigManager> configs = new HashMap<>();
@@ -93,7 +97,47 @@ public class ConfigRegistry {
 		return field.isAnnotationPresent(ConfigEntry.Gui.Section.class);
 	}
 
+	public static <T extends ConfigData> boolean hasSectionAnnotation(Class<T> configClass, String key) {
+		try {
+			return configClass.getDeclaredField(key).isAnnotationPresent(ConfigEntry.Gui.Section.class);
+		} catch (NoSuchFieldException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static <T extends ConfigData> int numberOfSectionAnnotations(Class<T> configClass) {
+		int count = 0;
+
+		for (Field field : configClass.getDeclaredFields()) {
+			if (field.isAnnotationPresent(ConfigEntry.Gui.Section.class)) {
+				count++;
+			}
+		}
+
+		return count;
+	}
+
 	public static boolean hasCategoryAnnotation(Field field) {
 		return field.isAnnotationPresent(ConfigEntry.Gui.Category.class);
+	}
+
+	public static <T extends ConfigData> boolean hasCategoryAnnotation(Class<T> configClass, String key) {
+		try {
+			return configClass.getDeclaredField(key).isAnnotationPresent(ConfigEntry.Gui.Category.class);
+		} catch (NoSuchFieldException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static <T extends ConfigData> int numberOfCategoryAnnotations(Class<T> configClass) {
+		int count = 0;
+
+		for (Field field : configClass.getDeclaredFields()) {
+			if (field.isAnnotationPresent(ConfigEntry.Gui.Category.class)) {
+				count++;
+			}
+		}
+
+		return count;
 	}
 }

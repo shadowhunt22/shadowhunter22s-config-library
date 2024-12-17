@@ -15,8 +15,21 @@ public interface ConfigEntry {
 	@Target(ElementType.FIELD)
 	@interface Integer {
 		int min();
-
 		int max();
+	}
+
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.FIELD)
+	@interface Float {
+		float min();
+		float max();
+	}
+
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.FIELD)
+	@interface Double {
+		float min();
+		float max();
 	}
 
 	interface Gui {

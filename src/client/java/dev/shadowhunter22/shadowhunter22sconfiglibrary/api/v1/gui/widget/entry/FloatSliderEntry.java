@@ -11,7 +11,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.Abstrac
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ResetButtonWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.mixin.SliderWidgetInvoker;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.IntegerConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.FloatConfigOption;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.SliderWidget;
@@ -20,18 +20,18 @@ import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 
-public class IntSliderEntry extends AbstractSliderEntry {
-	private final IntegerConfigOption<Integer> typedOption;
+public class FloatSliderEntry extends AbstractSliderEntry {
+	private final FloatConfigOption<Float> typedOption;
 
 	private TextWidget textWidget;
 	private SliderWidget sliderWidget;
 	private AbstractButtonWidget resetButton;
 
-	public <T extends ConfigData> IntSliderEntry(AutoConfigManager<T> manager, String optionKey, int width) {
+	public <T extends ConfigData> FloatSliderEntry(AutoConfigManager<T> manager, String optionKey, int width) {
 		super(manager, optionKey, width);
 
 		// noinspection unchecked
-		this.typedOption = (IntegerConfigOption<Integer>) this.option;
+		this.typedOption = (FloatConfigOption<Float>) this.option;
 	}
 
 	@Override
@@ -59,21 +59,27 @@ public class IntSliderEntry extends AbstractSliderEntry {
 		return new SliderWidget(this.width - 151, 0, 105, 20, ScreenTexts.EMPTY, this.typedOption.getValue()) {
 			{
 				this.updateMessage();
-				((SliderWidgetInvoker) ((SliderWidget) this)).invokeSetValue((this.value - IntSliderEntry.this.typedOption.getMin()) / (IntSliderEntry.this.typedOption.getMax() - IntSliderEntry.this.typedOption.getMin()));
+				((SliderWidgetInvoker) ((SliderWidget) this)).invokeSetValue((this.value - FloatSliderEntry.this.typedOption.getMin()) / (FloatSliderEntry.this.typedOption.getMax() - FloatSliderEntry.this.typedOption.getMin()));
 			}
 
 			@Override
 			protected void updateMessage() {
-				this.setMessage(Text.of(IntSliderEntry.this.typedOption.getValue().toString()));
+				this.setMessage(Text.of(FloatSliderEntry.this.typedOption.getValue().toString()));
 			}
 
 			@Override
 			protected void applyValue() {
-				int newValue = MathHelper.floor(MathHelper.clampedLerp(IntSliderEntry.this.typedOption.getMin(), IntSliderEntry.this.typedOption.getMax(), this.value));
+				float newValue = MathHelper.clampedLerp(
+						FloatSliderEntry.this.typedOption.getMin(),
+						FloatSliderEntry.this.typedOption.getMax(),
+						(float) this.value
+				);
 
-				IntSliderEntry.this.typedOption.setValue(newValue);
-				IntSliderEntry.this.manager.getSerializer().setValue(IntSliderEntry.this.manager, IntSliderEntry.this.key, newValue);
-				IntSliderEntry.this.update();
+				newValue = (float) Math.round(newValue * 100.0f) / 100.0f;
+
+				FloatSliderEntry.this.typedOption.setValue(newValue);
+				FloatSliderEntry.this.manager.getSerializer().setValue(FloatSliderEntry.this.manager, FloatSliderEntry.this.key, newValue);
+				FloatSliderEntry.this.update();
 			}
 		};
 	}
@@ -83,12 +89,13 @@ public class IntSliderEntry extends AbstractSliderEntry {
 		this.manager.save();
 
 		if (this.sliderWidget != null) {
-			((SliderWidgetInvoker) this.sliderWidget).invokeSetValue(((double) this.typedOption.getValue() - IntSliderEntry.this.typedOption.getMin()) / (IntSliderEntry.this.typedOption.getMax() - IntSliderEntry.this.typedOption.getMin()));
+			((SliderWidgetInvoker) this.sliderWidget).invokeSetValue(((double) this.typedOption.getValue() - FloatSliderEntry.this.typedOption.getMin()) / (FloatSliderEntry.this.typedOption.getMax() - FloatSliderEntry.this.typedOption.getMin()));
 			this.sliderWidget.setMessage(Text.of(this.typedOption.getValue().toString()));
 		}
 
 		if (this.resetButton != null) {
-			this.resetButton.active = this.typedOption.getValue() != this.typedOption.getDefaultValue();
+			float epsilon = 0.00001f;
+			this.resetButton.active = Math.abs(this.typedOption.getValue() - this.typedOption.getDefaultValue()) > epsilon;
 		}
 
 		this.manager.getConfig().afterChange(this.manager.getConfig().getClass(), this.key);

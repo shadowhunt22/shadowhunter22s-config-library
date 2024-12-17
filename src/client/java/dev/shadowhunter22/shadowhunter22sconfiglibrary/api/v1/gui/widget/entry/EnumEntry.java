@@ -18,12 +18,15 @@ import net.minecraft.client.gui.widget.TextWidget;
 
 public class EnumEntry<E extends Enum<E>> extends AbstractOptionEntry {
 	private final EnumConfigOption<E> typedOption;
+
 	private TextWidget textWidget;
 	private ButtonWidget toggleButton;
 	private AbstractButtonWidget resetButton;
+
 	public <T extends ConfigData> EnumEntry(AutoConfigManager<T> manager, String key, int width) {
 		super(manager, key, width);
 
+		// noinspection unchecked
 		this.typedOption = (EnumConfigOption<E>) this.option;
 	}
 
@@ -45,9 +48,9 @@ public class EnumEntry<E extends Enum<E>> extends AbstractOptionEntry {
 			this.update();
 		}).dimensions(this.width - 45, 0, 20, 20).build();
 
-		this.listWidget.addWidget(this.textWidget);
-		this.listWidget.addWidget(this.toggleButton);
-		this.listWidget.addWidget(this.resetButton);
+		this.layout.addBody(this.textWidget);
+		this.layout.addBody(this.toggleButton);
+		this.layout.addBody(this.resetButton);
 
 		return new ConfigEntryWidget.Entry(this);
 	}
@@ -58,6 +61,10 @@ public class EnumEntry<E extends Enum<E>> extends AbstractOptionEntry {
 
 		if (this.toggleButton != null) {
 			this.toggleButton.setMessage(this.typedOption.getText());
+		}
+
+		if (this.resetButton != null) {
+			this.resetButton.active = this.typedOption.getValue() != this.typedOption.getDefaultValue();
 		}
 
 		this.manager.getConfig().afterChange(this.manager.getConfig().getClass(), this.key);
