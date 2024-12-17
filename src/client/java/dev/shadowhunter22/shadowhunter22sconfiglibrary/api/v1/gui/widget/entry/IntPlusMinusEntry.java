@@ -1,3 +1,8 @@
+//
+// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// See LICENSE file in the project root for details.
+//
+
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry;
 
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigManager;
@@ -14,13 +19,16 @@ import net.minecraft.text.Text;
 
 public class IntPlusMinusEntry extends AbstractOptionEntry {
 	private final IntegerConfigOption<Integer> typedOption;
+
 	private TextWidget textWidget;
 	private ButtonWidget addButton;
 	private ButtonWidget subtractButton;
 	private AbstractButtonWidget resetButton;
+
 	public <T extends ConfigData> IntPlusMinusEntry(AutoConfigManager<T> manager, String key, int width) {
 		super(manager, key, width);
 
+		// noinspection unchecked
 		this.typedOption = (IntegerConfigOption<Integer>) this.option;
 	}
 
@@ -48,20 +56,26 @@ public class IntPlusMinusEntry extends AbstractOptionEntry {
 			this.update();
 		}).dimensions(this.width - 45, 0, 20, 20).build();
 
-		this.listWidget.addWidget(this.textWidget);
-		this.listWidget.addWidget(this.addButton);
-		this.listWidget.addWidget(this.subtractButton);
-		this.listWidget.addWidget(this.resetButton);
+		this.layout.addBody(this.textWidget);
+		this.layout.addBody(this.addButton);
+		this.layout.addBody(this.subtractButton);
+		this.layout.addBody(this.resetButton);
 
 		return new ConfigEntryWidget.Entry(this);
 	}
 
 	@Override
 	protected void update() {
+		this.manager.save();
+
 		this.subtractButton.active = this.typedOption.getValue() != this.typedOption.getMin();
 		this.addButton.active = this.typedOption.getValue() != this.typedOption.getMax();
 
-		this.manager.save();
+		if (this.resetButton != null) {
+			this.resetButton.active = this.typedOption.getValue() != this.typedOption.getDefaultValue();
+		}
+
+		this.manager.getConfig().afterChange(this.manager.getConfig().getClass(), this.key);
 	}
 
 	@Override

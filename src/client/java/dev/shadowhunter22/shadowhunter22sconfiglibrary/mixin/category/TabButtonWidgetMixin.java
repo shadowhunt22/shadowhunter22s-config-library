@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(TabButtonWidget.class)
-public abstract class MixinTabButtonWidget {
+public abstract class TabButtonWidgetMixin {
 	@Unique private final MinecraftClient client = MinecraftClient.getInstance();
 
 	@ModifyArg(

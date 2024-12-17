@@ -28,7 +28,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 @Mixin(TabNavigationWidget.class)
-public class MixinTabNavigationWidget {
+public class TabNavigationWidgetMixin {
 	@Unique
 	private final MinecraftClient client = MinecraftClient.getInstance();
 
