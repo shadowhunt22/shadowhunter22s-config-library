@@ -7,6 +7,8 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget;
 
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibraryClient;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.DoubleConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.FloatConfigOption;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
@@ -24,6 +26,16 @@ public class ResetButtonWidget extends AbstractButtonWidget {
 
 		this.option = option;
 		this.action = action;
+
+		if (this.option instanceof FloatConfigOption<?> floatConfigOption) {
+			float epsilon = 0.00001f;
+			this.active = Math.abs(floatConfigOption.getValue() - floatConfigOption.getDefaultValue()) > epsilon;
+		} else if (this.option instanceof DoubleConfigOption<?> doubleConfigOption) {
+			float epsilon = 0.00001f;
+			this.active = Math.abs(doubleConfigOption.getValue() - doubleConfigOption.getDefaultValue()) > epsilon;
+		} else {
+			this.active = option.getValue() != option.getDefaultValue();
+		}
 	}
 
 	public static ResetButtonWidget.Builder builder(ConfigOption<?> option, AbstractButtonWidget.PressAction action) {
@@ -35,15 +47,29 @@ public class ResetButtonWidget extends AbstractButtonWidget {
 	}
 
 	private int getV() {
+		if (this.option instanceof FloatConfigOption<?> floatConfigOption) {
+			float epsilon = 0.00001f;
+
+			if (Math.abs(floatConfigOption.getValue() - floatConfigOption.getDefaultValue()) < epsilon) {
+				return 0;
+			}
+		} else if (this.option instanceof DoubleConfigOption<?> doubleConfigOption) {
+			float epsilon = 0.00001f;
+
+			if (Math.abs(doubleConfigOption.getValue() - doubleConfigOption.getDefaultValue()) < epsilon) {
+				return 0;
+			}
+		}
+
 		if (this.option.getValue() == this.option.getDefaultValue()) {
 			return 0;
 		} else {
 			if (this.isSelected()) {
 				return 40;
 			}
-
-			return this.active ? 20 : 40;
 		}
+
+		return this.active ? 20 : 40;
 	}
 
 	@Override

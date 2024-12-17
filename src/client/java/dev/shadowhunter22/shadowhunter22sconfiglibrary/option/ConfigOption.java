@@ -13,18 +13,14 @@ import net.minecraft.text.Text;
 
 public interface ConfigOption<T> {
 	String getKey();
-
 	String getTranslationKey();
+	Text getText();
 
 	T getValue();
-
 	void setValue(Object value);
 
 	T getDefaultValue();
-
 	void setDefaultValue(Object value);
-
-	Text getText();
 
 	<D extends ConfigData> AbstractOptionEntry asEntry(AutoConfigManager<D> manager, int width);
 }
