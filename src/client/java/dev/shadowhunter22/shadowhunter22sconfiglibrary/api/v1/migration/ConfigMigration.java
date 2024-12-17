@@ -26,8 +26,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
-public class ConfigMigration<T extends ConfigData> {
-	protected final T config;
+public final class ConfigMigration<T extends ConfigData> {
+	final T config;
 
 	private final Path oldConfig;
 	private final Path newConfig;
@@ -178,7 +178,7 @@ public class ConfigMigration<T extends ConfigData> {
 		return this;
 	}
 
-	protected boolean migrate() {
+	boolean migrate() {
 		if (this.migrationFile.toFile().exists()) {
 			try (JsonReader jsonReader = new JsonReader(new FileReader(this.migrationFile.toString()))) {
 				this.hasMigrated = JsonParser.parseReader(jsonReader).getAsJsonObject().get("migrated").getAsBoolean();
@@ -226,7 +226,7 @@ public class ConfigMigration<T extends ConfigData> {
 				Field field = this.config.getClass().getDeclaredField(key);
 				field.setAccessible(true);
 
-				if (!field.getType().isEnum()) { // enums need to handled differently, see next forEach
+				if (!field.getType().isEnum()) { // enums need to be handled differently, see next forEach
 					field.set(this.config, value);
 				}
 			} catch (NoSuchFieldException | IllegalAccessException e) {

@@ -7,6 +7,12 @@
   "text.config-library.TEST_2.@Section": "Test 2 Section",
   "option.config-library.TEST_2": "Test 2",
 
+  "option.config-library.FLOAT_TEST_1": "Float Test 1",
+  "option.config-library.FLOAT_TEST_2": "Float Test 2",
+  "option.config-library.FLOAT_TEST_3": "Float Test 3",
+
+  "option.config-library.DOUBLE_TEST_1": "Double Test 1",
+
   "option.config-library.TEST_3": "Test 3",
 
   "text.config-library.TEST_4.@Section": "Test 4 Section",
