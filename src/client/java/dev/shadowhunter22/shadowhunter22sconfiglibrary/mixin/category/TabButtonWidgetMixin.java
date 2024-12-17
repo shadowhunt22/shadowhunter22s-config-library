@@ -22,8 +22,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(TabButtonWidget.class)
-public abstract class MixinTabButtonWidget extends ClickableWidget {
-	public MixinTabButtonWidget(int x, int y, int width, int height, Text message) {
+public abstract class TabButtonWidgetMixin extends ClickableWidget {
+	public TabButtonWidgetMixin(int x, int y, int width, int height, Text message) {
 		super(x, y, width, height, message);
 	}
 

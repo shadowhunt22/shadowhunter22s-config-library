@@ -21,8 +21,11 @@ public class TestConfig implements ConfigData {
 
 	@ConfigEntry.Gui.Section
 	public boolean test4 = false;
+
 	Location test5 = Location.topLeft;
+
 	Location test6 = Location.topRight;
+
 	Location test7 = Location.bottomLeft;
 
 	public enum Location {

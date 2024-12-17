@@ -4,8 +4,8 @@
   "compatibilityLevel": "JAVA_17",
   "client": [
 	"SliderWidgetInvoker",
-	"category.MixinTabButtonWidget",
-	"category.MixinTabNavigationWidget"
+	"category.TabButtonWidgetMixin",
+	"category.TabNavigationWidgetMixin"
   ],
   "injectors": {
 	"defaultRequire": 1

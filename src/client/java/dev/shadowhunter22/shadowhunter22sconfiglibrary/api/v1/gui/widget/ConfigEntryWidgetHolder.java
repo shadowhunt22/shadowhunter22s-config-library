@@ -8,7 +8,6 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget;
 import java.util.function.Consumer;
 
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.navigation.GuiNavigation;
 import net.minecraft.client.gui.navigation.GuiNavigationPath;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
@@ -18,71 +17,71 @@ import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
 public class ConfigEntryWidgetHolder<T extends AbstractConfigEntryWidget<?>> extends ClickableWidget {
-	public final T list;
+	public final T entryWidget;
 
-	public ConfigEntryWidgetHolder(T list) {
+	public ConfigEntryWidgetHolder(T entryWidget) {
 		super(0, 0, 100, 0, Text.empty());
 
-		this.list = list;
+		this.entryWidget = entryWidget;
 	}
 
 	@Override
 	public void forEachChild(Consumer<ClickableWidget> consumer) {
-		for (AbstractConfigEntryWidget.Entry<?> child : this.list.children()) {
-			for (Element element : child.children()) {
-				consumer.accept((ClickableWidget) element);
+		for (AbstractConfigEntryWidget.Entry<?> child : this.entryWidget.children()) {
+			for (ClickableWidget element : child.children) {
+				consumer.accept(element);
 			}
 		}
 	}
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		return this.list.mouseClicked(mouseX, mouseY, button);
+		return this.entryWidget.mouseClicked(mouseX, mouseY, button);
 	}
 
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-		return this.list.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
+		return this.entryWidget.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
 	}
 
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-		return this.list.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+		return this.entryWidget.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
 	}
 
 	@Override
 	public boolean mouseReleased(double mouseX, double mouseY, int button) {
-		return this.list.mouseReleased(mouseX, mouseY, button);
+		return this.entryWidget.mouseReleased(mouseX, mouseY, button);
 	}
 
 	@Override
 	public boolean isMouseOver(double mouseX, double mouseY) {
-		return this.list.isMouseOver(mouseX, mouseY);
+		return this.entryWidget.isMouseOver(mouseX, mouseY);
 	}
 
 	@Override
 	public void mouseMoved(double mouseX, double mouseY) {
-		this.list.mouseMoved(mouseX, mouseY);
+		this.entryWidget.mouseMoved(mouseX, mouseY);
 	}
 
 	@Override
 	public boolean charTyped(char chr, int modifiers) {
-		return this.list.charTyped(chr, modifiers);
+		return this.entryWidget.charTyped(chr, modifiers);
 	}
 
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-		return this.list.keyPressed(keyCode, scanCode, modifiers);
+		return this.entryWidget.keyPressed(keyCode, scanCode, modifiers);
 	}
 
 	@Override
 	public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-		return this.list.keyReleased(keyCode, scanCode, modifiers);
+		return this.entryWidget.keyReleased(keyCode, scanCode, modifiers);
 	}
 
 	@Override
 	public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
-		this.list.render(context, mouseX, mouseY, delta);
+		this.entryWidget.render(context, mouseX, mouseY, delta);
 	}
 
 	@Override
@@ -90,17 +89,12 @@ public class ConfigEntryWidgetHolder<T extends AbstractConfigEntryWidget<?>> ext
 	}
 
 	@Override
-	public void setFocused(boolean focused) {
-		this.list.setFocused(focused);
-	}
-
-	@Override
 	public @Nullable GuiNavigationPath getNavigationPath(GuiNavigation navigation) {
-		return this.list.getNavigationPath(navigation);
+		return this.entryWidget.getNavigationPath(navigation);
 	}
 
 	@Override
 	public @Nullable GuiNavigationPath getFocusedPath() {
-		return this.list.getFocusedPath();
+		return this.entryWidget.getFocusedPath();
 	}
 }

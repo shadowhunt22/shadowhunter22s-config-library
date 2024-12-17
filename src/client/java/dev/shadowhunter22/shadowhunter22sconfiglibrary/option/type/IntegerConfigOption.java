@@ -9,12 +9,12 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigM
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractOptionEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.IntSliderEntry;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.NumberConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.util.TranslationUtil;
 
 import net.minecraft.text.Text;
 
-public class IntegerConfigOption<T extends Integer> implements ConfigOption<T> {
+public class IntegerConfigOption<T extends Integer> implements NumberConfigOption<T> {
 	private final String key, translationKey, definition;
 	private T value, defaultValue, min, max;
 
@@ -31,8 +31,8 @@ public class IntegerConfigOption<T extends Integer> implements ConfigOption<T> {
 	}
 
 	@Override
-	public Text getText() {
-		return Text.translatable(TranslationUtil.translationKey("option", this.definition, this.key));
+	public String getKey() {
+		return this.key;
 	}
 
 	@Override
@@ -41,8 +41,8 @@ public class IntegerConfigOption<T extends Integer> implements ConfigOption<T> {
 	}
 
 	@Override
-	public String getKey() {
-		return this.key;
+	public Text getText() {
+		return Text.translatable(TranslationUtil.translationKey("option", this.definition, this.key));
 	}
 
 	@Override
@@ -55,18 +55,22 @@ public class IntegerConfigOption<T extends Integer> implements ConfigOption<T> {
 		this.value = (T) value;
 	}
 
+	@Override
 	public T getMin() {
 		return this.min;
 	}
 
+	@Override
 	public void setMin(Object value) {
 		this.min = (T) value;
 	}
 
+	@Override
 	public T getMax() {
 		return this.max;
 	}
 
+	@Override
 	public void setMax(Object value) {
 		this.max = (T) value;
 	}
