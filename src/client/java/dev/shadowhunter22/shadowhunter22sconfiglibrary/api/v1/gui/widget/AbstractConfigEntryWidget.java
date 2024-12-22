@@ -35,8 +35,6 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 		// need to do height - 54 because of Mojank (height - widget starting position)
 		super(client, width, height - 54, 54, 27);
 
-		this.setRenderHeader(false, 0);
-
 		List<Character> chars = Lists.newArrayList();
 
 		if (client.player != null) {
