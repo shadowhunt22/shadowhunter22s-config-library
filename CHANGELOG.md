@@ -22,7 +22,7 @@ Breaking Changes:
 
 #### ListWidget
 
-- Removed `ListWidget` in favor for `SimpleLayoutWidget` (see below changes for `AbstractEntry`.
+- Removed `ListWidget` in favor for `SimpleLayoutWidget` (see below changes for `AbstractEntry`).
 
 #### CategoryTab
 
