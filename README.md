@@ -41,6 +41,9 @@ This mod is available for the following Minecraft versions:
 `1.21.3`
 `1.21.4`
 `1.21.5`
+`1.21.6`
+`1.21.7`
+`1.21.8`
 
 ## Client and Server Support
 

@@ -42,6 +42,11 @@ public class CategoryTab implements Tab {
 	}
 
 	@Override
+	public Text getNarratedHint() {
+		return null;
+	}
+
+	@Override
 	public void forEachChild(Consumer<ClickableWidget> consumer) {
 		consumer.accept(this.widgetHolder);
 	}
