@@ -21,18 +21,13 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tab.Tab;
 import net.minecraft.client.gui.tab.TabManager;
 import net.minecraft.client.gui.widget.TabNavigationWidget;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import org.apache.commons.compress.utils.Lists;
 
 public abstract class AbstractConfigScreen extends Screen {
-	private static final Identifier BLUR_BACKGROUND_TEXTURE = Identifier.of("textures/gui/menu_list_background.png");
-
 	protected final Screen parent;
 	protected final AutoConfigManager<? extends ConfigData> manager;
 
@@ -53,13 +48,6 @@ public abstract class AbstractConfigScreen extends Screen {
 		super.render(context, mouseX, mouseY, delta);
 
 		context.drawText(this.textRenderer, this.title, this.width / 2 - (this.textRenderer.getWidth(this.title) / 2), this.renderingCategories ? 37 : 10, Colors.WHITE, true);
-	}
-
-	@Override
-	public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
-		RenderSystem.enableBlend();
-		context.drawTexture(RenderLayer::getGuiTextured, BLUR_BACKGROUND_TEXTURE, 0, 0, 0, 0, this.width, this.height, 32, 32);
-		RenderSystem.disableBlend();
 	}
 
 	@Override
