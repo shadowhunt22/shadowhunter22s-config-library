@@ -11,6 +11,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibr
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractEntry;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
@@ -18,6 +19,8 @@ import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.client.gui.widget.TextWidget;
+import net.minecraft.client.input.CharInput;
+import net.minecraft.client.input.KeyInput;
 
 import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.Nullable;
@@ -78,13 +81,13 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 	}
 
 	@Override
-	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+	public boolean mouseClicked(Click click, boolean doubled) {
 		for (E child : this.children()) {
 			child.setFocused(null);
 		}
 
 		for (E child : this.children()) {
-			boolean clicked = child.mouseClicked(mouseX, mouseY, button);
+			boolean clicked = child.mouseClicked(click, doubled);
 
 			if (clicked) {
 				this.setFocused(child);
@@ -93,7 +96,7 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 			}
 		}
 
-		return super.mouseClicked(mouseX, mouseY, button);
+		return super.mouseClicked(click, doubled);
 	}
 
 	@Override
@@ -110,11 +113,11 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 	}
 
 	@Override
-	public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+	public boolean mouseDragged(Click click, double offsetX, double offsetY) {
 		for (E child : this.children()) {
 			for (Element widget : child.children()) {
-				if (widget instanceof SliderWidget && widget.isMouseOver(mouseX, mouseY)) {
-					boolean dragged = widget.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+				if (widget instanceof SliderWidget && widget.isMouseOver(click.x(), click.y())) {
+					boolean dragged = widget.mouseDragged(click, offsetX, offsetY);
 
 					if (dragged) {
 						return true;
@@ -123,20 +126,20 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 			}
 		}
 
-		return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+		return super.mouseDragged(click, offsetX, offsetY);
 	}
 
 	@Override
-	public boolean mouseReleased(double mouseX, double mouseY, int button) {
+	public boolean mouseReleased(Click click) {
 		for (E child : this.children()) {
-			boolean released = child.mouseReleased(mouseX, mouseY, button);
+			boolean released = child.mouseReleased(click);
 
 			if (released) {
 				return true;
 			}
 		}
 
-		return super.mouseReleased(mouseX, mouseY, button);
+		return super.mouseReleased(click);
 	}
 
 	@Override
@@ -160,9 +163,9 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 	}
 
 	@Override
-	public boolean charTyped(char chr, int modifiers) {
+	public boolean charTyped(CharInput input) {
 		for (E child : this.children()) {
-			boolean charTyped = child.charTyped(chr, modifiers);
+			boolean charTyped = child.charTyped(input);
 
 			if (charTyped) {
 				return true;
@@ -170,7 +173,7 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 		}
 
 		if (this.client.player != null && !this.chars.isEmpty()) {
-			if (this.chars.get(this.pressedCharCount) == chr) {
+			if (this.chars.get(this.pressedCharCount) == input.asString().charAt(0)) {
 				this.pressedCharCount++;
 			} else {
 				this.pressedCharCount = 0;
@@ -182,33 +185,33 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 			}
 		}
 
-		return super.charTyped(chr, modifiers);
+		return super.charTyped(input);
 	}
 
 	@Override
-	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+	public boolean keyPressed(KeyInput input) {
 		for (E child : this.children()) {
-			boolean keyPressed = child.keyPressed(keyCode, scanCode, modifiers);
+			boolean keyPressed = child.keyPressed(input);
 
 			if (keyPressed) {
 				return true;
 			}
 		}
 
-		return super.keyPressed(keyCode, scanCode, modifiers);
+		return super.keyPressed(input);
 	}
 
 	@Override
-	public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+	public boolean keyReleased(KeyInput input) {
 		for (E child : this.children()) {
-			boolean keyReleased = child.keyReleased(keyCode, scanCode, modifiers);
+			boolean keyReleased = child.keyReleased(input);
 
 			if (keyReleased) {
 				return true;
 			}
 		}
 
-		return super.keyReleased(keyCode, scanCode, modifiers);
+		return super.keyReleased(input);
 	}
 
 	@Override
@@ -229,11 +232,11 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 		}
 
 		@Override
-		public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		public boolean mouseClicked(Click click, boolean doubled) {
 			this.setFocused(null);
 
 			for (Element child : this.children()) {
-				boolean clicked = child.mouseClicked(mouseX, mouseY, button);
+				boolean clicked = child.mouseClicked(click, doubled);
 
 				if (clicked) {
 					this.setFocused(child);
@@ -242,7 +245,7 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 				}
 			}
 
-			return super.mouseClicked(mouseX, mouseY, button);
+			return super.mouseClicked(click, doubled);
 		}
 
 		@Override
@@ -259,16 +262,16 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 		}
 
 		@Override
-		public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+		public boolean mouseDragged(Click click, double offsetX, double offsetY) {
 			for (Element child : this.children()) {
-				boolean dragged = child.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+				boolean dragged = child.mouseDragged(click, offsetX, offsetY);
 
 				if (dragged) {
 					return true;
 				}
 			}
 
-			return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+			return super.mouseDragged(click, offsetX, offsetY);
 		}
 
 		@Override
@@ -292,29 +295,29 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 		}
 
 		@Override
-		public boolean charTyped(char chr, int modifiers) {
+		public boolean charTyped(CharInput input) {
 			for (Element child : this.children()) {
-				boolean charTyped = child.charTyped(chr, modifiers);
+				boolean charTyped = child.charTyped(input);
 
 				if (charTyped) {
 					return true;
 				}
 			}
 
-			return super.charTyped(chr, modifiers);
+			return super.charTyped(input);
 		}
 
 		@Override
-		public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+		public boolean keyReleased(KeyInput input) {
 			for (Element child : this.children()) {
-				boolean keyReleased = child.keyReleased(keyCode, scanCode, modifiers);
+				boolean keyReleased = child.keyReleased(input);
 
 				if (keyReleased) {
 					return true;
 				}
 			}
 
-			return super.keyReleased(keyCode, scanCode, modifiers);
+			return super.keyReleased(input);
 		}
 
 		@Override

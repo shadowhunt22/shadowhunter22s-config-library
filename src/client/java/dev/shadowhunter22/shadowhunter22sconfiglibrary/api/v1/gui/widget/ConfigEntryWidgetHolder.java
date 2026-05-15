@@ -7,11 +7,14 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget;
 
 import java.util.function.Consumer;
 
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.navigation.GuiNavigation;
 import net.minecraft.client.gui.navigation.GuiNavigationPath;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.input.CharInput;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.text.Text;
 
 import org.jetbrains.annotations.Nullable;
@@ -35,8 +38,8 @@ public class ConfigEntryWidgetHolder<T extends AbstractConfigEntryWidget<?>> ext
 	}
 
 	@Override
-	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		return this.entryWidget.mouseClicked(mouseX, mouseY, button);
+	public boolean mouseClicked(Click click, boolean doubled) {
+		return this.entryWidget.mouseClicked(click, doubled);
 	}
 
 	@Override
@@ -45,13 +48,13 @@ public class ConfigEntryWidgetHolder<T extends AbstractConfigEntryWidget<?>> ext
 	}
 
 	@Override
-	public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-		return this.entryWidget.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+	public boolean mouseDragged(Click click, double offsetX, double offsetY) {
+		return this.entryWidget.mouseDragged(click, offsetX, offsetY);
 	}
 
 	@Override
-	public boolean mouseReleased(double mouseX, double mouseY, int button) {
-		return this.entryWidget.mouseReleased(mouseX, mouseY, button);
+	public boolean mouseReleased(Click click) {
+		return this.entryWidget.mouseReleased(click);
 	}
 
 	@Override
@@ -65,18 +68,18 @@ public class ConfigEntryWidgetHolder<T extends AbstractConfigEntryWidget<?>> ext
 	}
 
 	@Override
-	public boolean charTyped(char chr, int modifiers) {
-		return this.entryWidget.charTyped(chr, modifiers);
+	public boolean charTyped(CharInput input) {
+		return this.entryWidget.charTyped(input);
 	}
 
 	@Override
-	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-		return this.entryWidget.keyPressed(keyCode, scanCode, modifiers);
+	public boolean keyPressed(KeyInput input) {
+		return this.entryWidget.keyPressed(input);
 	}
 
 	@Override
-	public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-		return this.entryWidget.keyReleased(keyCode, scanCode, modifiers);
+	public boolean keyReleased(KeyInput input) {
+		return this.entryWidget.keyReleased(input);
 	}
 
 	@Override

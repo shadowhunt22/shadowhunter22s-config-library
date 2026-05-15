@@ -55,9 +55,9 @@ public class ConfigEntryWidget extends AbstractConfigEntryWidget<ConfigEntryWidg
 		}
 
 		@Override
-		public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-			this.entry.setY(y);
-			this.entry.render(context, mouseX, mouseY, tickDelta);
+		public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
+			this.entry.setY(this.getY());
+			this.entry.render(context, mouseX, mouseY, deltaTicks);
 		}
 	}
 }

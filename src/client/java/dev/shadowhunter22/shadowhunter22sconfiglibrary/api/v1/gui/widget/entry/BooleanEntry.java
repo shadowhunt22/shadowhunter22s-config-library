@@ -34,7 +34,6 @@ public class BooleanEntry extends AbstractOptionEntry {
 	@Override
 	public ConfigEntryWidget.Entry build() {
 		this.textWidget = new TextWidget(250, 20, this.translatableText(this.typedOption.getTranslationKey()), this.client.textRenderer);
-		this.textWidget.alignLeft();
 		this.textWidget.setX(this.textWidget.getX() + 15);
 
 		this.toggleButton = ButtonWidget.builder(this.typedOption.getText(), button -> {

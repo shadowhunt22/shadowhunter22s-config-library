@@ -26,7 +26,6 @@ public class SectionEntry extends AbstractEntry {
 		Text text = this.translatableText(String.format("text.%s.%s.@Section", this.manager.getDefinition(), this.key));
 
 		this.textWidget = new TextWidget(this.width, 20, text, this.client.textRenderer);
-		this.textWidget.alignLeft();
 		this.textWidget.setX(this.textWidget.getX() + 15);
 
 		this.layout.addBody(this.textWidget);

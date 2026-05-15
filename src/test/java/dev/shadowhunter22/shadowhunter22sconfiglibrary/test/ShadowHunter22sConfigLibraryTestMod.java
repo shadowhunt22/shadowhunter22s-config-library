@@ -14,6 +14,7 @@ import net.fabricmc.loader.api.FabricLoader;
 
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.util.Identifier;
 
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
@@ -39,7 +40,7 @@ public class ShadowHunter22sConfigLibraryTestMod implements ClientModInitializer
 			"key." + MOD_ID + ".open.menu",
 			InputUtil.Type.KEYSYM,
 			GLFW.GLFW_KEY_RIGHT_SHIFT,
-			"category." + MOD_ID + ".mod"
+			KeyBinding.Category.create(Identifier.of(MOD_ID, "mod"))
 	));
 
 	@Override

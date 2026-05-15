@@ -10,6 +10,7 @@ import net.fabricmc.api.Environment;
 
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.PressableWidget;
+import net.minecraft.client.input.AbstractInput;
 import net.minecraft.text.Text;
 
 public class AbstractButtonWidget extends PressableWidget {
@@ -21,7 +22,7 @@ public class AbstractButtonWidget extends PressableWidget {
 	}
 
 	@Override
-	public void onPress() {
+	public void onPress(AbstractInput input) {
 		this.action.onPress(this);
 	}
 

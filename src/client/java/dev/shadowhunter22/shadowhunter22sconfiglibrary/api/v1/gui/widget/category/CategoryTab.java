@@ -43,7 +43,7 @@ public class CategoryTab implements Tab {
 
 	@Override
 	public Text getNarratedHint() {
-		return null;
+		return Text.empty();
 	}
 
 	@Override
