@@ -11,7 +11,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibr
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractEntry;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
@@ -215,11 +215,11 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 	}
 
 	@Override
-	protected void renderListBackground(GuiGraphics graphics) {
+	protected void extractListBackground(GuiGraphicsExtractor graphics) {
 	}
 
 	@Override
-	protected void renderListSeparators(GuiGraphics graphics) {
+	protected void extractListSeparators(GuiGraphicsExtractor graphics) {
 	}
 
 	public abstract static class Entry<E extends Entry<E>> extends ContainerObjectSelectionList.Entry<E> {

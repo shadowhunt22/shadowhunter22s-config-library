@@ -8,7 +8,7 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget;
 import java.util.function.Consumer;
 
 import net.minecraft.client.gui.ComponentPath;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
@@ -83,8 +83,8 @@ public class ConfigEntryWidgetHolder<T extends AbstractConfigEntryWidget<?>> ext
 	}
 
 	@Override
-	public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		this.entryWidget.render(graphics, mouseX, mouseY, delta);
+	protected void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+		this.entryWidget.extractRenderState(graphics, mouseX, mouseY, delta);
 	}
 
 	@Override

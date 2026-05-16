@@ -12,7 +12,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigE
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ResetButtonWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.IntegerConfigOption;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.network.chat.Component;
@@ -78,10 +78,10 @@ public class IntPlusMinusEntry extends AbstractOptionEntry {
 	}
 
 	@Override
-	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		this.stringWidget.render(graphics, mouseX, mouseY, delta);
-		this.addButton.render(graphics, mouseX, mouseY, delta);
-		this.subtractButton.render(graphics, mouseX, mouseY, delta);
-		this.resetButton.render(graphics, mouseX, mouseY, delta);
+	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+		this.stringWidget.extractRenderState(graphics, mouseX, mouseY, delta);
+		this.addButton.extractRenderState(graphics, mouseX, mouseY, delta);
+		this.subtractButton.extractRenderState(graphics, mouseX, mouseY, delta);
+		this.resetButton.extractRenderState(graphics, mouseX, mouseY, delta);
 	}
 }

@@ -13,7 +13,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ResetBu
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.mixin.AbstractSliderButtonInvoker;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.FloatConfigOption;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.network.chat.CommonComponents;
@@ -101,9 +101,9 @@ public class FloatSliderEntry extends AbstractSliderEntry {
 	}
 
 	@Override
-	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		this.stringWidget.render(graphics, mouseX, mouseY, delta);
-		this.sliderWidget.render(graphics, mouseX, mouseY, delta);
-		this.resetButton.render(graphics, mouseX, mouseY, delta);
+	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+		this.stringWidget.extractRenderState(graphics, mouseX, mouseY, delta);
+		this.sliderWidget.extractRenderState(graphics, mouseX, mouseY, delta);
+		this.resetButton.extractRenderState(graphics, mouseX, mouseY, delta);
 	}
 }

@@ -16,7 +16,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.categor
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.util.TranslationUtil;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.tabs.Tab;
 import net.minecraft.client.gui.components.tabs.TabManager;
 import net.minecraft.client.gui.components.tabs.TabNavigationBar;
@@ -43,10 +43,10 @@ public abstract class AbstractConfigScreen extends Screen {
 	protected abstract void init();
 
 	@Override
-	public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
-		super.render(context, mouseX, mouseY, delta);
+	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+		super.extractRenderState(graphics, mouseX, mouseY, delta);
 
-		context.drawString(this.font, this.title, this.width / 2 - (this.font.width(this.title) / 2), this.renderingCategories ? 37 : 10, CommonColors.WHITE, true);
+		graphics.text(this.font, this.title, this.width / 2 - (this.font.width(this.title) / 2), this.renderingCategories ? 37 : 10, CommonColors.WHITE, true);
 	}
 
 	@Override

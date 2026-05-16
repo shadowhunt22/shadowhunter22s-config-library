@@ -12,7 +12,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigE
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ResetButtonWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.EnumConfigOption;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.StringWidget;
 
@@ -70,9 +70,9 @@ public class EnumEntry<E extends Enum<E>> extends AbstractOptionEntry {
 	}
 
 	@Override
-	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		this.stringWidget.render(graphics, mouseX, mouseY, delta);
-		this.toggleButton.render(graphics, mouseX, mouseY, delta);
-		this.resetButton.render(graphics, mouseX, mouseY, delta);
+	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+		this.stringWidget.extractRenderState(graphics, mouseX, mouseY, delta);
+		this.toggleButton.extractRenderState(graphics, mouseX, mouseY, delta);
+		this.resetButton.extractRenderState(graphics, mouseX, mouseY, delta);
 	}
 }

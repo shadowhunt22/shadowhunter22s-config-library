@@ -10,7 +10,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.DoubleConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.FloatConfigOption;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -73,7 +73,7 @@ public class ResetButtonWidget extends AbstractButtonWidget {
 	}
 
 	@Override
-	protected void renderContents(GuiGraphics graphics, int mouseX, int mouseY, float deltaTicks) {
+	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float deltaTicks) {
 		graphics.blit(
 				RenderPipelines.GUI_TEXTURED,
 				TEXTURE,

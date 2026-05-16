@@ -13,7 +13,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.S
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 public class ConfigEntryWidget extends AbstractConfigEntryWidget<ConfigEntryWidget.Entry> {
 	private final AutoConfigManager<?> manager;
@@ -55,9 +55,9 @@ public class ConfigEntryWidget extends AbstractConfigEntryWidget<ConfigEntryWidg
 		}
 
 		@Override
-		public void renderContent(GuiGraphics graphics, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
+		public void extractContent(GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
 			this.entry.setY(this.getY());
-			this.entry.render(graphics, mouseX, mouseY, deltaTicks);
+			this.entry.extractRenderState(graphics, mouseX, mouseY, deltaTicks);
 		}
 	}
 }

@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.14-SNAPSHOT'
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 	id "com.modrinth.minotaur" version "2.+"
 
 	id 'maven-publish'
@@ -39,9 +39,8 @@ repositories {
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 
-	mappings loom.officialMojangMappings()
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 }
 
 processResources {
@@ -95,7 +94,9 @@ tasks.register('checkstyleAll', Checkstyle) {
 // Modrinth publishing
 
 def minecraft_versions = [
-		"1.21.11"
+		"26.1",
+		"26.1.1",
+		"26.1.2"
 ]
 
 static def forVersion(String first, String last) {
@@ -114,8 +115,8 @@ modrinth {
 	versionName = "${project.mod_version} for ${forVersion(minecraft_versions.first(), minecraft_versions.last())}"
 	versionType = "release"
 
-	uploadFile = remapJar
-	additionalFiles = [remapSourcesJar]
+	uploadFile = jar
+	additionalFiles = [sourcesJar]
 
 	dependencies {
 		required.project "fabric-api"
