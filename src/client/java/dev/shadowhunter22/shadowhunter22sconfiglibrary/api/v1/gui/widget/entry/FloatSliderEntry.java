@@ -69,9 +69,9 @@ public class FloatSliderEntry extends AbstractSliderEntry {
 			@Override
 			protected void applyValue() {
 				float newValue = MathHelper.clampedLerp(
+						(float) this.value,
 						FloatSliderEntry.this.typedOption.getMin(),
-						FloatSliderEntry.this.typedOption.getMax(),
-						(float) this.value
+						FloatSliderEntry.this.typedOption.getMax()
 				);
 
 				newValue = (float) Math.round(newValue * 100.0f) / 100.0f;

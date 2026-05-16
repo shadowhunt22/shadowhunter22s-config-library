@@ -68,7 +68,7 @@ public class IntSliderEntry extends AbstractSliderEntry {
 
 			@Override
 			protected void applyValue() {
-				int newValue = MathHelper.floor(MathHelper.clampedLerp(IntSliderEntry.this.typedOption.getMin(), IntSliderEntry.this.typedOption.getMax(), this.value));
+				int newValue = MathHelper.floor(MathHelper.clampedLerp(this.value, IntSliderEntry.this.typedOption.getMin(), IntSliderEntry.this.typedOption.getMax()));
 
 				IntSliderEntry.this.typedOption.setValue(newValue);
 				IntSliderEntry.this.manager.getSerializer().setValue(IntSliderEntry.this.manager, IntSliderEntry.this.key, newValue);

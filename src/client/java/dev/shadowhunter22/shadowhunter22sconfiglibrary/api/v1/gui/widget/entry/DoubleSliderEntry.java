@@ -69,9 +69,9 @@ public class DoubleSliderEntry extends AbstractSliderEntry {
 			@Override
 			protected void applyValue() {
 				double newValue = MathHelper.clampedLerp(
+						this.value,
 						DoubleSliderEntry.this.typedOption.getMin(),
-						DoubleSliderEntry.this.typedOption.getMax(),
-						this.value
+						DoubleSliderEntry.this.typedOption.getMax()
 				);
 
 				newValue = (double) Math.round(newValue * 100.0f) / 100.0f;

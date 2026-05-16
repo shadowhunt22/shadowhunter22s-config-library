@@ -13,7 +13,7 @@ import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.input.AbstractInput;
 import net.minecraft.text.Text;
 
-public class AbstractButtonWidget extends PressableWidget {
+public abstract class AbstractButtonWidget extends PressableWidget {
 	private final AbstractButtonWidget.PressAction action;
 
 	public AbstractButtonWidget(int x, int y, int width, int height, Text text, AbstractButtonWidget.PressAction action) {
