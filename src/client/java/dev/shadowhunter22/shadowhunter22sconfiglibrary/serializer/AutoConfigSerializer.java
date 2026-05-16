@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 

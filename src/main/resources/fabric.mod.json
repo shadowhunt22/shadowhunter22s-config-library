@@ -5,45 +5,45 @@
   "name": "ShadowHunter22's Config Library",
   "description": "A config library for all of ShadowHunter22's mods",
   "authors": [
-	"ShadowHunter22"
+    "ShadowHunter22"
   ],
   "contact": {
-	"homepage": "https://shadowhunt22.github.io/mod-wiki/",
-	"issues": "https://github.com/shadowhunt22/shadowhunter22s-config-library/issues",
-	"sources": "https://github.com/shadowhunt22/shadowhunter22s-config-library"
+    "homepage": "https://shadowhunt22.github.io/mod-wiki/",
+    "issues": "https://github.com/shadowhunt22/shadowhunter22s-config-library/issues",
+    "sources": "https://github.com/shadowhunt22/shadowhunter22s-config-library"
   },
   "license": "ARR",
   "icon": "assets/shadowhunter22s-config-library/icon.png",
   "environment": "*",
   "entrypoints": {
-	"main": [
-	  "dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibrary"
-	],
-	"client": [
-	  "dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibraryClient"
-	]
+    "main": [
+      "dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibrary"
+    ],
+    "client": [
+      "dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibraryClient"
+    ]
   },
   "mixins": [
-	{
-	  "config": "shadowhunter22s-config-library.client.mixins.json",
-	  "environment": "client"
-	}
+    {
+      "config": "shadowhunter22s-config-library.client.mixins.json",
+      "environment": "client"
+    }
   ],
   "depends": {
-	"fabricloader": ">=0.15.3",
-	"minecraft": "1.21.11",
-	"java": ">=17",
-	"fabric-api": "*"
+    "fabricloader": ">=0.15.3",
+    "minecraft": "1.21.11",
+    "java": ">=25",
+    "fabric-api": "*"
   },
   "suggests": {
-	"another-mod": "*"
+    "another-mod": "*"
   },
   "custom": {
-	"modmenu": {
-	  "badges": [
-		"library"
-	  ],
-	  "update_checker": false
-	}
+    "modmenu": {
+      "badges": [
+        "library"
+      ],
+      "update_checker": false
+    }
   }
 }

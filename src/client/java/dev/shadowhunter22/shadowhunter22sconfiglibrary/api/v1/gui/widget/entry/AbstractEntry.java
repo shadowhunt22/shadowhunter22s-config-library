@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
@@ -10,21 +10,21 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.SimpleLayoutWidget;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
-import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.narration.NarratableEntry;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.network.chat.Component;
 
-public abstract class AbstractEntry implements Element, Drawable, Selectable {
-	protected final MinecraftClient client = MinecraftClient.getInstance();
+public abstract class AbstractEntry implements GuiEventListener, Renderable, NarratableEntry {
+	protected final Minecraft minecraft = Minecraft.getInstance();
 
 	protected final AutoConfigManager<? extends ConfigData> manager;
 	protected final String key;
 	protected final int width;
 
-	protected SimpleLayoutWidget layout = new SimpleLayoutWidget(this.client.currentScreen);
+	protected SimpleLayoutWidget layout = new SimpleLayoutWidget(this.minecraft.screen);
 
 	protected boolean focused;
 	protected boolean hovered;
@@ -37,7 +37,7 @@ public abstract class AbstractEntry implements Element, Drawable, Selectable {
 
 	public abstract ConfigEntryWidget.Entry build();
 
-	protected abstract Text translatableText(String text);
+	protected abstract Component translatableText(String text);
 
 	public SimpleLayoutWidget getLayoutWidget() {
 		return this.layout;
@@ -48,7 +48,7 @@ public abstract class AbstractEntry implements Element, Drawable, Selectable {
 	}
 
 	public void setY(int y) {
-		this.layout.forEachElement(child -> child.setY(y));
+		this.layout.visitChildren(child -> child.setY(y));
 	}
 
 	@Override
@@ -62,15 +62,15 @@ public abstract class AbstractEntry implements Element, Drawable, Selectable {
 	}
 
 	@Override
-	public SelectionType getType() {
+	public NarrationPriority narrationPriority() {
 		if (this.isFocused()) {
-			return Selectable.SelectionType.FOCUSED;
+			return NarratableEntry.NarrationPriority.FOCUSED;
 		} else {
-			return this.hovered ? Selectable.SelectionType.HOVERED : Selectable.SelectionType.NONE;
+			return this.hovered ? NarratableEntry.NarrationPriority.HOVERED : NarratableEntry.NarrationPriority.NONE;
 		}
 	}
 
 	@Override
-	public void appendNarrations(NarrationMessageBuilder builder) {
+	public void updateNarration(NarrationElementOutput narrationElementOutput) {
 	}
 }

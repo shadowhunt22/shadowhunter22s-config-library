@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
@@ -11,10 +11,10 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.screen.Abstrac
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidgetHolder;
 
-import net.minecraft.client.gui.ScreenRect;
-import net.minecraft.client.gui.tab.Tab;
-import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.tabs.Tab;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.network.chat.Component;
 
 public class CategoryTab implements Tab {
 	private final ConfigCategory category;
@@ -37,21 +37,21 @@ public class CategoryTab implements Tab {
 	}
 
 	@Override
-	public Text getTitle() {
+	public Component getTabTitle() {
 		return this.category.getCategoryName();
 	}
 
 	@Override
-	public Text getNarratedHint() {
-		return Text.empty();
+	public Component getTabExtraNarration() {
+		return Component.empty();
 	}
 
 	@Override
-	public void forEachChild(Consumer<ClickableWidget> consumer) {
+	public void visitChildren(Consumer<AbstractWidget> consumer) {
 		consumer.accept(this.widgetHolder);
 	}
 
 	@Override
-	public void refreshGrid(ScreenRect tabArea) {
+	public void doLayout(ScreenRectangle tabArea) {
 	}
 }

@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
@@ -12,7 +12,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.F
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.NumberConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.util.TranslationUtil;
 
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 public class FloatConfigOption<T extends Float> implements NumberConfigOption<T> {
 	private final String key, translationKey, definition;
@@ -41,8 +41,8 @@ public class FloatConfigOption<T extends Float> implements NumberConfigOption<T>
 	}
 
 	@Override
-	public Text getText() {
-		return Text.translatable(TranslationUtil.translationKey("option", this.definition, this.key));
+	public Component getText() {
+		return Component.translatable(TranslationUtil.translationKey("option", this.definition, this.key));
 	}
 
 	@Override

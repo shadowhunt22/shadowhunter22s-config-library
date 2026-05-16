@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
@@ -13,7 +13,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigRegis
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 
 public class ConfigScreen<T extends ConfigData> extends AbstractConfigScreen {
 	private final HashMap<String, ConfigOption<?>> options;
@@ -29,10 +29,10 @@ public class ConfigScreen<T extends ConfigData> extends AbstractConfigScreen {
 		if (ConfigRegistry.numberOfCategoryAnnotations(this.manager.getConfig().getClass()) > 1) {
 			this.initializeCategoryWidget();
 		} else {
-			ConfigEntryWidget configEntryWidget = new ConfigEntryWidget(this.manager, this.client, this.width, this.height);
+			ConfigEntryWidget configEntryWidget = new ConfigEntryWidget(this.manager, this.minecraft, this.width, this.height);
 			this.options.forEach(configEntryWidget::add);
 
-			this.addDrawableChild(configEntryWidget);
+			this.addRenderableWidget(configEntryWidget);
 		}
 	}
 

@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
@@ -16,13 +16,13 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.categor
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.util.TranslationUtil;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.tab.Tab;
-import net.minecraft.client.gui.tab.TabManager;
-import net.minecraft.client.gui.widget.TabNavigationWidget;
-import net.minecraft.text.Text;
-import net.minecraft.util.Colors;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.tabs.Tab;
+import net.minecraft.client.gui.components.tabs.TabManager;
+import net.minecraft.client.gui.components.tabs.TabNavigationBar;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.CommonColors;
 
 import org.apache.commons.compress.utils.Lists;
 
@@ -34,7 +34,7 @@ public abstract class AbstractConfigScreen extends Screen {
 	protected boolean renderingCategories = false;
 
 	protected <T extends ConfigData> AbstractConfigScreen(AutoConfigManager<T> manager, Screen parent) {
-		super(Text.translatable(TranslationUtil.translationKey("screen.title", manager.getDefinition())));
+		super(Component.translatable(TranslationUtil.translationKey("screen.title", manager.getDefinition())));
 
 		this.manager = manager;
 		this.parent = parent;
@@ -43,22 +43,22 @@ public abstract class AbstractConfigScreen extends Screen {
 	protected abstract void init();
 
 	@Override
-	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+	public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
 
-		context.drawText(this.textRenderer, this.title, this.width / 2 - (this.textRenderer.getWidth(this.title) / 2), this.renderingCategories ? 37 : 10, Colors.WHITE, true);
+		context.drawString(this.font, this.title, this.width / 2 - (this.font.width(this.title) / 2), this.renderingCategories ? 37 : 10, CommonColors.WHITE, true);
 	}
 
 	@Override
-	protected void clearAndInit() {
+	protected void rebuildWidgets() {
 		this.categories.clear(); // re-initialize all categories, not add more to them in Screen#init!
-		super.clearAndInit();
+		super.rebuildWidgets();
 	}
 
 	@Override
-	public void close() {
+	public void onClose() {
 		this.manager.getConfig().afterScreenClose();
-		this.client.setScreen(this.parent);
+		this.minecraft.setScreen(this.parent);
 	}
 
 	/**
@@ -70,7 +70,7 @@ public abstract class AbstractConfigScreen extends Screen {
 	 */
 	public AbstractConfigScreen addToOrCreateCategory(AbstractEntry entry, boolean createNewCategory) {
 		if (createNewCategory) {
-			this.categories.add(ConfigCategory.create(this.manager, this.client, entry.getKey()));
+			this.categories.add(ConfigCategory.create(this.manager, this.minecraft, entry.getKey()));
 		}
 
 		if (!this.categories.isEmpty()) {
@@ -103,8 +103,8 @@ public abstract class AbstractConfigScreen extends Screen {
 	}
 
 	/**
-	 * Builds, initializes, selects the first tab, and adds a {@link TabNavigationWidget} as a drawable child.  If only one category has been created,
-	 * then a {@link ConfigEntryWidget} will be added and not a {@link TabNavigationWidget}.
+	 * Builds, initializes, selects the first tab, and adds a {@link TabNavigationBar} as a drawable child.  If only one category has been created,
+	 * then a {@link ConfigEntryWidget} will be added and not a {@link TabNavigationBar}.
 	 */
 	public void addTabWidget() {
 		Tab[] tabs = this.getTabs();
@@ -115,18 +115,18 @@ public abstract class AbstractConfigScreen extends Screen {
 
 		if (tabs.length == 1) {
 			CategoryTab tab = ((CategoryTab) tabs[0]);
-			this.addDrawableChild(tab.getEntryWidget());
+			this.addRenderableWidget(tab.getEntryWidget());
 		} else {
-			TabManager tabManager = new TabManager(this::addDrawableChild, this::remove);
+			TabManager tabManager = new TabManager(this::addRenderableWidget, this::removeWidget);
 
-			TabNavigationWidget widget = TabNavigationWidget.builder(tabManager, this.width)
-					.tabs(tabs)
+			TabNavigationBar widget = TabNavigationBar.builder(tabManager, this.width)
+					.addTabs(tabs)
 					.build();
 
-			this.addDrawableChild(widget);
+			this.addRenderableWidget(widget);
 
 			widget.selectTab(0, false);
-			widget.init();
+			widget.arrangeElements();
 
 			this.renderingCategories = true;
 		}

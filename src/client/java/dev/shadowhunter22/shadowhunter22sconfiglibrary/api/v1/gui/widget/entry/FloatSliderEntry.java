@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
@@ -10,21 +10,21 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.AbstractButtonWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ResetButtonWidget;
-import dev.shadowhunter22.shadowhunter22sconfiglibrary.mixin.SliderWidgetInvoker;
+import dev.shadowhunter22.shadowhunter22sconfiglibrary.mixin.AbstractSliderButtonInvoker;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.FloatConfigOption;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.widget.SliderWidget;
-import net.minecraft.client.gui.widget.TextWidget;
-import net.minecraft.screen.ScreenTexts;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.AbstractSliderButton;
+import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 
 public class FloatSliderEntry extends AbstractSliderEntry {
 	private final FloatConfigOption<Float> typedOption;
 
-	private TextWidget textWidget;
-	private SliderWidget sliderWidget;
+	private StringWidget stringWidget;
+	private AbstractSliderButton sliderWidget;
 	private AbstractButtonWidget resetButton;
 
 	public <T extends ConfigData> FloatSliderEntry(AutoConfigManager<T> manager, String optionKey, int width) {
@@ -36,8 +36,8 @@ public class FloatSliderEntry extends AbstractSliderEntry {
 
 	@Override
 	public ConfigEntryWidget.Entry build() {
-		this.textWidget = new TextWidget(250, 20, this.translatableText(this.typedOption.getTranslationKey()), this.client.textRenderer);
-		this.textWidget.setX(this.textWidget.getX() + 15);
+		this.stringWidget = new StringWidget(250, 20, this.translatableText(this.typedOption.getTranslationKey()), this.minecraft.font);
+		this.stringWidget.setX(this.stringWidget.getX() + 15);
 
 		this.sliderWidget = this.createSliderWidget();
 
@@ -47,28 +47,28 @@ public class FloatSliderEntry extends AbstractSliderEntry {
 			this.update();
 		}).dimensions(this.width - 45, 0, 20, 20).build();
 
-		this.layout.addBody(this.textWidget);
+		this.layout.addBody(this.stringWidget);
 		this.layout.addBody(this.sliderWidget);
 		this.layout.addBody(this.resetButton);
 
 		return new ConfigEntryWidget.Entry(this);
 	}
 
-	protected SliderWidget createSliderWidget() {
-		return new SliderWidget(this.width - 151, 0, 105, 20, ScreenTexts.EMPTY, this.typedOption.getValue()) {
+	protected AbstractSliderButton createSliderWidget() {
+		return new AbstractSliderButton(this.width - 151, 0, 105, 20, CommonComponents.EMPTY, this.typedOption.getValue()) {
 			{
 				this.updateMessage();
-				((SliderWidgetInvoker) ((SliderWidget) this)).invokeSetValue((this.value - FloatSliderEntry.this.typedOption.getMin()) / (FloatSliderEntry.this.typedOption.getMax() - FloatSliderEntry.this.typedOption.getMin()));
+				((AbstractSliderButtonInvoker) ((AbstractSliderButton) this)).invokeSetValue((this.value - FloatSliderEntry.this.typedOption.getMin()) / (FloatSliderEntry.this.typedOption.getMax() - FloatSliderEntry.this.typedOption.getMin()));
 			}
 
 			@Override
 			protected void updateMessage() {
-				this.setMessage(Text.of(FloatSliderEntry.this.typedOption.getValue().toString()));
+				this.setMessage(Component.literal(FloatSliderEntry.this.typedOption.getValue().toString()));
 			}
 
 			@Override
 			protected void applyValue() {
-				float newValue = MathHelper.clampedLerp(
+				float newValue = Mth.clampedLerp(
 						(float) this.value,
 						FloatSliderEntry.this.typedOption.getMin(),
 						FloatSliderEntry.this.typedOption.getMax()
@@ -88,8 +88,8 @@ public class FloatSliderEntry extends AbstractSliderEntry {
 		this.manager.save();
 
 		if (this.sliderWidget != null) {
-			((SliderWidgetInvoker) this.sliderWidget).invokeSetValue(((double) this.typedOption.getValue() - FloatSliderEntry.this.typedOption.getMin()) / (FloatSliderEntry.this.typedOption.getMax() - FloatSliderEntry.this.typedOption.getMin()));
-			this.sliderWidget.setMessage(Text.of(this.typedOption.getValue().toString()));
+			((AbstractSliderButtonInvoker) this.sliderWidget).invokeSetValue(((double) this.typedOption.getValue() - FloatSliderEntry.this.typedOption.getMin()) / (FloatSliderEntry.this.typedOption.getMax() - FloatSliderEntry.this.typedOption.getMin()));
+			this.sliderWidget.setMessage(Component.literal(this.typedOption.getValue().toString()));
 		}
 
 		if (this.resetButton != null) {
@@ -101,9 +101,9 @@ public class FloatSliderEntry extends AbstractSliderEntry {
 	}
 
 	@Override
-	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-		this.textWidget.render(context, mouseX, mouseY, delta);
-		this.sliderWidget.render(context, mouseX, mouseY, delta);
-		this.resetButton.render(context, mouseX, mouseY, delta);
+	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+		this.stringWidget.render(graphics, mouseX, mouseY, delta);
+		this.sliderWidget.render(graphics, mouseX, mouseY, delta);
+		this.resetButton.render(graphics, mouseX, mouseY, delta);
 	}
 }

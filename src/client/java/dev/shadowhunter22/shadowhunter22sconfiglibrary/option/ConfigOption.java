@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
@@ -9,17 +9,21 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigM
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractOptionEntry;
 
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 public interface ConfigOption<T> {
 	String getKey();
+
 	String getTranslationKey();
-	Text getText();
+
+	Component getText();
 
 	T getValue();
+
 	void setValue(Object value);
 
 	T getDefaultValue();
+
 	void setDefaultValue(Object value);
 
 	<D extends ConfigData> AbstractOptionEntry asEntry(AutoConfigManager<D> manager, int width);

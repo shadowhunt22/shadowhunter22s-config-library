@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
@@ -15,6 +15,7 @@ public interface ConfigEntry {
 	@Target(ElementType.FIELD)
 	@interface Integer {
 		int min();
+
 		int max();
 	}
 
@@ -22,6 +23,7 @@ public interface ConfigEntry {
 	@Target(ElementType.FIELD)
 	@interface Float {
 		float min();
+
 		float max();
 	}
 
@@ -29,6 +31,7 @@ public interface ConfigEntry {
 	@Target(ElementType.FIELD)
 	@interface Double {
 		float min();
+
 		float max();
 	}
 

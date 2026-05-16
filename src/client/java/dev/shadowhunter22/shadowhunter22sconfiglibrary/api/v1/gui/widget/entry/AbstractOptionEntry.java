@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
@@ -10,8 +10,8 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.registry.GuiRegistry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 
 public abstract class AbstractOptionEntry extends AbstractEntry {
 	protected final ConfigOption<?> option;
@@ -24,7 +24,7 @@ public abstract class AbstractOptionEntry extends AbstractEntry {
 
 	protected abstract void update();
 
-	protected Text translatableText(String text) {
-		return Text.translatable(text).formatted(Formatting.GRAY);
+	protected Component translatableText(String text) {
+		return Component.translatable(text).withStyle(ChatFormatting.GRAY);
 	}
 }

@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
@@ -12,17 +12,17 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigE
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ResetButtonWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.IntegerConfigOption;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.TextWidget;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.network.chat.Component;
 
 public class IntPlusMinusEntry extends AbstractOptionEntry {
 	private final IntegerConfigOption<Integer> typedOption;
 
-	private TextWidget textWidget;
-	private ButtonWidget addButton;
-	private ButtonWidget subtractButton;
+	private StringWidget stringWidget;
+	private Button addButton;
+	private Button subtractButton;
 	private AbstractButtonWidget resetButton;
 
 	public <T extends ConfigData> IntPlusMinusEntry(AutoConfigManager<T> manager, String key, int width) {
@@ -34,20 +34,20 @@ public class IntPlusMinusEntry extends AbstractOptionEntry {
 
 	@Override
 	public ConfigEntryWidget.Entry build() {
-		this.textWidget = new TextWidget(150, 20, this.translatableText(this.typedOption.getTranslationKey()), this.client.textRenderer);
-		this.textWidget.setX(this.textWidget.getX() + 15);
+		this.stringWidget = new StringWidget(150, 20, this.translatableText(this.typedOption.getTranslationKey()), this.minecraft.font);
+		this.stringWidget.setX(this.stringWidget.getX() + 15);
 
-		this.addButton = ButtonWidget.builder(Text.of("+"), button -> {
+		this.addButton = Button.builder(Component.literal("+"), button -> {
 			this.typedOption.setValue(this.typedOption.getValue() + 1);
 			this.manager.getSerializer().setValue(this.manager, this.key, this.typedOption.getValue());
 			this.update();
-		}).dimensions(this.width - 87, 0, 20, 20).build();
+		}).bounds(this.width - 87, 0, 20, 20).build();
 
-		this.subtractButton = ButtonWidget.builder(Text.of("-"), button -> {
+		this.subtractButton = Button.builder(Component.literal("-"), button -> {
 			this.typedOption.setValue(this.typedOption.getValue() - 1);
 			this.manager.getSerializer().setValue(this.manager, this.key, this.typedOption.getValue());
 			this.update();
-		}).dimensions(this.width - 66, 0, 20, 20).build();
+		}).bounds(this.width - 66, 0, 20, 20).build();
 
 		this.resetButton = ResetButtonWidget.builder(this.typedOption, action -> {
 			this.typedOption.setValue(this.typedOption.getDefaultValue());
@@ -55,7 +55,7 @@ public class IntPlusMinusEntry extends AbstractOptionEntry {
 			this.update();
 		}).dimensions(this.width - 45, 0, 20, 20).build();
 
-		this.layout.addBody(this.textWidget);
+		this.layout.addBody(this.stringWidget);
 		this.layout.addBody(this.addButton);
 		this.layout.addBody(this.subtractButton);
 		this.layout.addBody(this.resetButton);
@@ -78,10 +78,10 @@ public class IntPlusMinusEntry extends AbstractOptionEntry {
 	}
 
 	@Override
-	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-		this.textWidget.render(context, mouseX, mouseY, delta);
-		this.addButton.render(context, mouseX, mouseY, delta);
-		this.subtractButton.render(context, mouseX, mouseY, delta);
-		this.resetButton.render(context, mouseX, mouseY, delta);
+	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+		this.stringWidget.render(graphics, mouseX, mouseY, delta);
+		this.addButton.render(graphics, mouseX, mouseY, delta);
+		this.subtractButton.render(graphics, mouseX, mouseY, delta);
+		this.resetButton.render(graphics, mouseX, mouseY, delta);
 	}
 }

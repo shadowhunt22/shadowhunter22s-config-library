@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
@@ -10,19 +10,19 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.DoubleConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.FloatConfigOption;
 
-import net.minecraft.client.gl.RenderPipelines;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 
 public class ResetButtonWidget extends AbstractButtonWidget {
-	private static final Identifier TEXTURE = Identifier.of(ShadowHunter22sConfigLibraryClient.MOD_ID, "textures/gui/reset_button.png");
+	private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(ShadowHunter22sConfigLibraryClient.MOD_ID, "textures/gui/reset_button.png");
 	private final AbstractButtonWidget.PressAction action;
 
 	private final ConfigOption<?> option;
 
 	protected ResetButtonWidget(int x, int y, int width, int height, ConfigOption<?> option, AbstractButtonWidget.PressAction action) {
-		super(x, y, width, height, Text.empty(), action);
+		super(x, y, width, height, Component.empty(), action);
 
 		this.option = option;
 		this.action = action;
@@ -64,7 +64,7 @@ public class ResetButtonWidget extends AbstractButtonWidget {
 		if (this.option.getValue() == this.option.getDefaultValue()) {
 			return 0;
 		} else {
-			if (this.isSelected()) {
+			if (this.isHoveredOrFocused()) {
 				return 40;
 			}
 		}
@@ -73,8 +73,8 @@ public class ResetButtonWidget extends AbstractButtonWidget {
 	}
 
 	@Override
-	protected void drawIcon(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
-		context.drawTexture(
+	protected void renderContents(GuiGraphics graphics, int mouseX, int mouseY, float deltaTicks) {
+		graphics.blit(
 				RenderPipelines.GUI_TEXTURED,
 				TEXTURE,
 				this.getX(),

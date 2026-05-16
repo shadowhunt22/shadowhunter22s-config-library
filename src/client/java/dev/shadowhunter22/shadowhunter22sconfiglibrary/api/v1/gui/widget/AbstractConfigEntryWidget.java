@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
@@ -10,38 +10,38 @@ import java.util.List;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.ShadowHunter22sConfigLibrary;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractEntry;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
-import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.gui.widget.ElementListWidget;
-import net.minecraft.client.gui.widget.SliderWidget;
-import net.minecraft.client.gui.widget.TextWidget;
-import net.minecraft.client.input.CharInput;
-import net.minecraft.client.input.KeyInput;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.AbstractSliderButton;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.ContainerObjectSelectionList;
+import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.narration.NarratableEntry;
+import net.minecraft.client.input.CharacterEvent;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 
 import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWidget.Entry<E>> extends ElementListWidget<E> {
+public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWidget.Entry<E>> extends ContainerObjectSelectionList<E> {
 	// part of the Easter egg.  hey you, no peeking at the code!
 	public static final Logger LOGGER = LoggerFactory.getLogger(ShadowHunter22sConfigLibrary.MOD_ID + "/Greeter");
 
 	private final List<Character> chars;
 	private int pressedCharCount = 0;
 
-	public AbstractConfigEntryWidget(MinecraftClient client, int width, int height) {
+	public AbstractConfigEntryWidget(Minecraft minecraft, int width, int height) {
 		// need to do height - 54 because of Mojank (height - widget starting position)
-		super(client, width, height - 54, 54, 27);
+		super(minecraft, width, height - 54, 54, 27);
 
 		List<Character> chars = Lists.newArrayList();
 
-		if (client.player != null) {
-			for (char chr : client.player.getName().getString().toCharArray()) {
+		if (minecraft.player != null) {
+			for (char chr : minecraft.player.getName().getString().toCharArray()) {
 				chars.add(chr);
 			}
 		}
@@ -49,17 +49,17 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 		this.chars = chars;
 	}
 
-	protected @Nullable ClickableWidget getWidgetAtPosition(double mouseX, double mouseY) {
+	protected @Nullable AbstractWidget getWidgetAtPosition(double mouseX, double mouseY) {
 		E entry = this.getEntryAtPosition(mouseX, mouseY);
 
 		if (entry != null) {
-			for (ClickableWidget child : entry.children) {
+			for (AbstractWidget child : entry.widgets) {
 				double childX = child.getX();
 				double childWidth = child.getWidth();
 				double childY = child.getY();
 				double childHeight = child.getHeight();
 
-				ClickableWidget widthAtPosition = mouseX >= childX && mouseX <= childX + childWidth && mouseY >= childY && mouseY <= childY + childHeight ? child : null;
+				AbstractWidget widthAtPosition = mouseX >= childX && mouseX <= childX + childWidth && mouseY >= childY && mouseY <= childY + childHeight ? child : null;
 
 				if (widthAtPosition != null) {
 					return widthAtPosition;
@@ -71,7 +71,7 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 	}
 
 	@Override
-	protected int getScrollbarX() {
+	protected int scrollBarX() {
 		return this.width - 10;
 	}
 
@@ -81,13 +81,13 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 	}
 
 	@Override
-	public boolean mouseClicked(Click click, boolean doubled) {
+	public boolean mouseClicked(MouseButtonEvent mouseButtonEvent, boolean doubled) {
 		for (E child : this.children()) {
 			child.setFocused(null);
 		}
 
 		for (E child : this.children()) {
-			boolean clicked = child.mouseClicked(click, doubled);
+			boolean clicked = child.mouseClicked(mouseButtonEvent, doubled);
 
 			if (clicked) {
 				this.setFocused(child);
@@ -96,7 +96,7 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 			}
 		}
 
-		return super.mouseClicked(click, doubled);
+		return super.mouseClicked(mouseButtonEvent, doubled);
 	}
 
 	@Override
@@ -113,11 +113,11 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 	}
 
 	@Override
-	public boolean mouseDragged(Click click, double offsetX, double offsetY) {
+	public boolean mouseDragged(MouseButtonEvent mouseButtonEvent, double offsetX, double offsetY) {
 		for (E child : this.children()) {
-			for (Element widget : child.children()) {
-				if (widget instanceof SliderWidget && widget.isMouseOver(click.x(), click.y())) {
-					boolean dragged = widget.mouseDragged(click, offsetX, offsetY);
+			for (GuiEventListener widget : child.children()) {
+				if (widget instanceof AbstractSliderButton && widget.isMouseOver(mouseButtonEvent.x(), mouseButtonEvent.y())) {
+					boolean dragged = widget.mouseDragged(mouseButtonEvent, offsetX, offsetY);
 
 					if (dragged) {
 						return true;
@@ -126,20 +126,20 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 			}
 		}
 
-		return super.mouseDragged(click, offsetX, offsetY);
+		return super.mouseDragged(mouseButtonEvent, offsetX, offsetY);
 	}
 
 	@Override
-	public boolean mouseReleased(Click click) {
+	public boolean mouseReleased(MouseButtonEvent mouseButtonEvent) {
 		for (E child : this.children()) {
-			boolean released = child.mouseReleased(click);
+			boolean released = child.mouseReleased(mouseButtonEvent);
 
 			if (released) {
 				return true;
 			}
 		}
 
-		return super.mouseReleased(click);
+		return super.mouseReleased(mouseButtonEvent);
 	}
 
 	@Override
@@ -163,80 +163,80 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 	}
 
 	@Override
-	public boolean charTyped(CharInput input) {
+	public boolean charTyped(CharacterEvent characterEvent) {
 		for (E child : this.children()) {
-			boolean charTyped = child.charTyped(input);
+			boolean charTyped = child.charTyped(characterEvent);
 
 			if (charTyped) {
 				return true;
 			}
 		}
 
-		if (this.client.player != null && !this.chars.isEmpty()) {
-			if (this.chars.get(this.pressedCharCount) == input.asString().charAt(0)) {
+		if (this.minecraft.player != null && !this.chars.isEmpty()) {
+			if (this.chars.get(this.pressedCharCount) == characterEvent.codepointAsString().charAt(0)) {
 				this.pressedCharCount++;
 			} else {
 				this.pressedCharCount = 0;
 			}
 
 			if (this.chars.size() == this.pressedCharCount) {
-				LOGGER.info("Hello, {}!", this.client.player.getName().getString());
+				LOGGER.info("Hello, {}!", this.minecraft.player.getName().getString());
 				this.pressedCharCount = 0;
 			}
 		}
 
-		return super.charTyped(input);
+		return super.charTyped(characterEvent);
 	}
 
 	@Override
-	public boolean keyPressed(KeyInput input) {
+	public boolean keyPressed(KeyEvent keyEvent) {
 		for (E child : this.children()) {
-			boolean keyPressed = child.keyPressed(input);
+			boolean keyPressed = child.keyPressed(keyEvent);
 
 			if (keyPressed) {
 				return true;
 			}
 		}
 
-		return super.keyPressed(input);
+		return super.keyPressed(keyEvent);
 	}
 
 	@Override
-	public boolean keyReleased(KeyInput input) {
+	public boolean keyReleased(KeyEvent keyEvent) {
 		for (E child : this.children()) {
-			boolean keyReleased = child.keyReleased(input);
+			boolean keyReleased = child.keyReleased(keyEvent);
 
 			if (keyReleased) {
 				return true;
 			}
 		}
 
-		return super.keyReleased(input);
+		return super.keyReleased(keyEvent);
 	}
 
 	@Override
-	protected void drawMenuListBackground(DrawContext context) {
+	protected void renderListBackground(GuiGraphics graphics) {
 	}
 
 	@Override
-	protected void drawHeaderAndFooterSeparators(DrawContext context) {
+	protected void renderListSeparators(GuiGraphics graphics) {
 	}
 
-	public abstract static class Entry<E extends Entry<E>> extends ElementListWidget.Entry<E> {
+	public abstract static class Entry<E extends Entry<E>> extends ContainerObjectSelectionList.Entry<E> {
 		final AbstractEntry entry;
-		final List<ClickableWidget> children = Lists.newArrayList();
+		final List<AbstractWidget> widgets = Lists.newArrayList();
 
 		public Entry(AbstractEntry entry) {
 			this.entry = entry;
-			this.entry.getLayoutWidget().forEachChild(this.children::add);
+			this.entry.getLayoutWidget().visitWidgets(this.widgets::add);
 		}
 
 		@Override
-		public boolean mouseClicked(Click click, boolean doubled) {
+		public boolean mouseClicked(MouseButtonEvent mouseButtonEvent, boolean doubled) {
 			this.setFocused(null);
 
-			for (Element child : this.children()) {
-				boolean clicked = child.mouseClicked(click, doubled);
+			for (GuiEventListener child : this.children()) {
+				boolean clicked = child.mouseClicked(mouseButtonEvent, doubled);
 
 				if (clicked) {
 					this.setFocused(child);
@@ -245,12 +245,12 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 				}
 			}
 
-			return super.mouseClicked(click, doubled);
+			return super.mouseClicked(mouseButtonEvent, doubled);
 		}
 
 		@Override
 		public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-			for (Element child : this.children()) {
+			for (GuiEventListener child : this.children()) {
 				boolean scrolled = child.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
 
 				if (scrolled) {
@@ -262,21 +262,21 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 		}
 
 		@Override
-		public boolean mouseDragged(Click click, double offsetX, double offsetY) {
-			for (Element child : this.children()) {
-				boolean dragged = child.mouseDragged(click, offsetX, offsetY);
+		public boolean mouseDragged(MouseButtonEvent mouseButtonEvent, double offsetX, double offsetY) {
+			for (GuiEventListener child : this.children()) {
+				boolean dragged = child.mouseDragged(mouseButtonEvent, offsetX, offsetY);
 
 				if (dragged) {
 					return true;
 				}
 			}
 
-			return super.mouseDragged(click, offsetX, offsetY);
+			return super.mouseDragged(mouseButtonEvent, offsetX, offsetY);
 		}
 
 		@Override
 		public boolean isMouseOver(double mouseX, double mouseY) {
-			for (Element child : this.children()) {
+			for (GuiEventListener child : this.children()) {
 				boolean over = child.isMouseOver(mouseX, mouseY);
 
 				if (over) {
@@ -289,46 +289,46 @@ public abstract class AbstractConfigEntryWidget<E extends AbstractConfigEntryWid
 
 		@Override
 		public void mouseMoved(double mouseX, double mouseY) {
-			for (Element child : this.children()) {
+			for (GuiEventListener child : this.children()) {
 				child.mouseMoved(mouseX, mouseY);
 			}
 		}
 
 		@Override
-		public boolean charTyped(CharInput input) {
-			for (Element child : this.children()) {
-				boolean charTyped = child.charTyped(input);
+		public boolean charTyped(CharacterEvent characterEvent) {
+			for (GuiEventListener child : this.children()) {
+				boolean charTyped = child.charTyped(characterEvent);
 
 				if (charTyped) {
 					return true;
 				}
 			}
 
-			return super.charTyped(input);
+			return super.charTyped(characterEvent);
 		}
 
 		@Override
-		public boolean keyReleased(KeyInput input) {
-			for (Element child : this.children()) {
-				boolean keyReleased = child.keyReleased(input);
+		public boolean keyReleased(KeyEvent keyEvent) {
+			for (GuiEventListener child : this.children()) {
+				boolean keyReleased = child.keyReleased(keyEvent);
 
 				if (keyReleased) {
 					return true;
 				}
 			}
 
-			return super.keyReleased(input);
+			return super.keyReleased(keyEvent);
 		}
 
 		@Override
-		public List<? extends Selectable> selectableChildren() {
-			return this.children;
+		public List<? extends NarratableEntry> narratables() {
+			return this.widgets;
 		}
 
 		@Override
-		public List<? extends Element> children() {
-			return this.children.stream()
-					.filter(widget -> !(widget instanceof TextWidget))
+		public List<? extends GuiEventListener> children() {
+			return this.widgets.stream()
+					.filter(widget -> !(widget instanceof StringWidget))
 					.filter(widget -> {
 						if (widget instanceof AbstractButtonWidget buttonWidget) {
 							return buttonWidget.active;

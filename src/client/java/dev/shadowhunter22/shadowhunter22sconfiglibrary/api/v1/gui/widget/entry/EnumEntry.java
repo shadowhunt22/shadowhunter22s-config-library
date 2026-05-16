@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
@@ -12,15 +12,15 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigE
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ResetButtonWidget;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.EnumConfigOption;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.TextWidget;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.StringWidget;
 
 public class EnumEntry<E extends Enum<E>> extends AbstractOptionEntry {
 	private final EnumConfigOption<E> typedOption;
 
-	private TextWidget textWidget;
-	private ButtonWidget toggleButton;
+	private StringWidget stringWidget;
+	private Button toggleButton;
 	private AbstractButtonWidget resetButton;
 
 	public <T extends ConfigData> EnumEntry(AutoConfigManager<T> manager, String key, int width) {
@@ -32,14 +32,14 @@ public class EnumEntry<E extends Enum<E>> extends AbstractOptionEntry {
 
 	@Override
 	public ConfigEntryWidget.Entry build() {
-		this.textWidget = new TextWidget(150, 20, this.translatableText(this.typedOption.getTranslationKey()), this.client.textRenderer);
-		this.textWidget.setX(this.textWidget.getX() + 15);
+		this.stringWidget = new StringWidget(150, 20, this.translatableText(this.typedOption.getTranslationKey()), this.minecraft.font);
+		this.stringWidget.setX(this.stringWidget.getX() + 15);
 
-		this.toggleButton = ButtonWidget.builder(this.typedOption.getText(), button -> {
+		this.toggleButton = Button.builder(this.typedOption.getText(), button -> {
 			this.typedOption.cycle();
 			this.manager.getSerializer().setValue(this.manager, this.key, this.typedOption.getValue());
 			this.update();
-		}).dimensions(this.width - 151, 0, 105, 20).build();
+		}).bounds(this.width - 151, 0, 105, 20).build();
 
 		this.resetButton = ResetButtonWidget.builder(this.typedOption, action -> {
 			this.typedOption.setValue(this.typedOption.getDefaultValue());
@@ -47,7 +47,7 @@ public class EnumEntry<E extends Enum<E>> extends AbstractOptionEntry {
 			this.update();
 		}).dimensions(this.width - 45, 0, 20, 20).build();
 
-		this.layout.addBody(this.textWidget);
+		this.layout.addBody(this.stringWidget);
 		this.layout.addBody(this.toggleButton);
 		this.layout.addBody(this.resetButton);
 
@@ -70,9 +70,9 @@ public class EnumEntry<E extends Enum<E>> extends AbstractOptionEntry {
 	}
 
 	@Override
-	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-		this.textWidget.render(context, mouseX, mouseY, delta);
-		this.toggleButton.render(context, mouseX, mouseY, delta);
-		this.resetButton.render(context, mouseX, mouseY, delta);
+	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+		this.stringWidget.render(graphics, mouseX, mouseY, delta);
+		this.toggleButton.render(graphics, mouseX, mouseY, delta);
+		this.resetButton.render(graphics, mouseX, mouseY, delta);
 	}
 }

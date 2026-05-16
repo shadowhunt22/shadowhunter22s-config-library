@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
@@ -12,14 +12,14 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.A
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.SectionEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 
 public class ConfigEntryWidget extends AbstractConfigEntryWidget<ConfigEntryWidget.Entry> {
 	private final AutoConfigManager<?> manager;
 
-	public <T extends ConfigData> ConfigEntryWidget(AutoConfigManager<T> manger, MinecraftClient client, int width, int height) {
-		super(client, width, height);
+	public <T extends ConfigData> ConfigEntryWidget(AutoConfigManager<T> manger, Minecraft minecraft, int width, int height) {
+		super(minecraft, width, height);
 
 		this.manager = manger;
 	}
@@ -39,8 +39,8 @@ public class ConfigEntryWidget extends AbstractConfigEntryWidget<ConfigEntryWidg
 
 		this.addEntry(
 				option
-					.asEntry(this.manager, this.width)
-					.build()
+						.asEntry(this.manager, this.width)
+						.build()
 		);
 	}
 
@@ -55,9 +55,9 @@ public class ConfigEntryWidget extends AbstractConfigEntryWidget<ConfigEntryWidg
 		}
 
 		@Override
-		public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
+		public void renderContent(GuiGraphics graphics, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
 			this.entry.setY(this.getY());
-			this.entry.render(context, mouseX, mouseY, deltaTicks);
+			this.entry.render(graphics, mouseX, mouseY, deltaTicks);
 		}
 	}
 }

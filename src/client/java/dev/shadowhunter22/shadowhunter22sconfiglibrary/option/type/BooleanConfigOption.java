@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
@@ -12,12 +12,12 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.B
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.util.TranslationUtil;
 
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 
 public class BooleanConfigOption<T extends Boolean> implements ConfigOption<T> {
 	private final String key, translationKey;
-	private final Text enabled, disabled;
+	private final Component enabled, disabled;
 	private T value, defaultValue;
 
 	public BooleanConfigOption(String definition, String key, T value, T defaultValue) {
@@ -27,8 +27,8 @@ public class BooleanConfigOption<T extends Boolean> implements ConfigOption<T> {
 		this.value = value;
 		this.defaultValue = defaultValue;
 
-		this.enabled = Text.translatable("option.shadowhunter22s-config-library.enabled");
-		this.disabled = Text.translatable("option.shadowhunter22s-config-library.disabled");
+		this.enabled = Component.translatable("option.shadowhunter22s-config-library.enabled");
+		this.disabled = Component.translatable("option.shadowhunter22s-config-library.disabled");
 	}
 
 	@Override
@@ -42,8 +42,8 @@ public class BooleanConfigOption<T extends Boolean> implements ConfigOption<T> {
 	}
 
 	@Override
-	public Text getText() {
-		return this.value.booleanValue() ? Text.literal(this.enabled.getString()).formatted(Formatting.GREEN) : Text.literal(this.disabled.getString()).formatted(Formatting.RED);
+	public Component getText() {
+		return this.value.booleanValue() ? Component.literal(this.enabled.getString()).withStyle(ChatFormatting.GREEN) : Component.literal(this.disabled.getString()).withStyle(ChatFormatting.RED);
 	}
 
 	@Override

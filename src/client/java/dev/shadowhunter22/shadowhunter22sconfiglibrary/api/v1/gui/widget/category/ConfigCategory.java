@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
@@ -11,19 +11,19 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigE
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.AbstractEntry;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.util.TranslationUtil;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 
 public class ConfigCategory {
 	protected final AutoConfigManager<? extends ConfigData> manager;
 	protected final ConfigEntryWidget configEntryWidget;
 
-	private final Text categoryName;
+	private final Component categoryName;
 
-	public <T extends ConfigData> ConfigCategory(AutoConfigManager<T> manager, Screen parent, Text categoryName) {
+	public <T extends ConfigData> ConfigCategory(AutoConfigManager<T> manager, Screen parent, Component categoryName) {
 		this.manager = manager;
-		this.configEntryWidget = new ConfigEntryWidget(manager, MinecraftClient.getInstance(), parent.width, parent.height);
+		this.configEntryWidget = new ConfigEntryWidget(manager, Minecraft.getInstance(), parent.width, parent.height);
 
 		this.categoryName = categoryName;
 	}
@@ -38,11 +38,11 @@ public class ConfigCategory {
 	 * @param <T>     ConfigData
 	 * @return
 	 */
-	public static <T extends ConfigData> ConfigCategory create(AutoConfigManager<T> manager, MinecraftClient client, String key) {
+	public static <T extends ConfigData> ConfigCategory create(AutoConfigManager<T> manager, Minecraft client, String key) {
 		return new ConfigCategory(
 				manager,
-				client.currentScreen,
-				Text.translatable(TranslationUtil.translationKey("text", manager.getDefinition(), key, "@Category"))
+				client.screen,
+				Component.translatable(TranslationUtil.translationKey("text", manager.getDefinition(), key, "@Category"))
 		);
 	}
 
@@ -59,13 +59,14 @@ public class ConfigCategory {
 
 	/**
 	 * Retrieve the tab this category is associated with.
+	 *
 	 * @return {@link CategoryTab}
 	 */
 	public CategoryTab getTab() {
 		return new CategoryTab(this);
 	}
 
-	public Text getCategoryName() {
+	public Component getCategoryName() {
 		return this.categoryName;
 	}
 }

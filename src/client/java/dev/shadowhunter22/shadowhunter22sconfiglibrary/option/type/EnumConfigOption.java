@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
@@ -15,7 +15,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.E
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.ConfigOption;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.util.TranslationUtil;
 
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 public class EnumConfigOption<T extends Enum<T>> implements ConfigOption<T> {
 	private final String key, translationKey, definition;
@@ -44,13 +44,18 @@ public class EnumConfigOption<T extends Enum<T>> implements ConfigOption<T> {
 	}
 
 	@Override
-	public Text getText() {
-		return Text.translatable(TranslationUtil.translationKey("option", this.definition, this.key, String.valueOf(this.value)));
+	public Component getText() {
+		return Component.translatable(TranslationUtil.translationKey("option", this.definition, this.key, String.valueOf(this.value)));
 	}
 
 	@Override
 	public T getValue() {
 		return this.value;
+	}
+
+	@Override
+	public void setValue(Object value) {
+		this.value = (T) value;
 	}
 
 	public T[] getValues() {
@@ -62,11 +67,6 @@ public class EnumConfigOption<T extends Enum<T>> implements ConfigOption<T> {
 
 		int index = values.indexOf(this.value);
 		this.value = values.get((index + 1) % values.size());
-	}
-
-	@Override
-	public void setValue(Object value) {
-		this.value = (T) value;
 	}
 
 	@Override

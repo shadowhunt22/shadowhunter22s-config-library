@@ -1,17 +1,17 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
 package dev.shadowhunter22.shadowhunter22sconfiglibrary.mixin;
 
-import net.minecraft.client.gui.widget.SliderWidget;
+import net.minecraft.client.gui.components.AbstractSliderButton;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-@Mixin(SliderWidget.class)
-public interface SliderWidgetInvoker {
+@Mixin(AbstractSliderButton.class)
+public interface AbstractSliderButtonInvoker {
 	@Invoker("setValue")
 	void invokeSetValue(double value);
 }

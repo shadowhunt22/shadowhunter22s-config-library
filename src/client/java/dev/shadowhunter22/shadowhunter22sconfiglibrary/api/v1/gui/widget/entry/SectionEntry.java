@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
@@ -9,13 +9,13 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.AutoConfigM
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.config.ConfigData;
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigEntryWidget;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.widget.TextWidget;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.network.chat.Component;
 
 public class SectionEntry extends AbstractEntry {
-	private TextWidget textWidget;
+	private StringWidget textWidget;
 
 	public <T extends ConfigData> SectionEntry(AutoConfigManager<T> manager, String key, int width) {
 		super(manager, key, width);
@@ -23,9 +23,9 @@ public class SectionEntry extends AbstractEntry {
 
 	@Override
 	public ConfigEntryWidget.Entry build() {
-		Text text = this.translatableText(String.format("text.%s.%s.@Section", this.manager.getDefinition(), this.key));
+		Component text = this.translatableText(String.format("text.%s.%s.@Section", this.manager.getDefinition(), this.key));
 
-		this.textWidget = new TextWidget(this.width, 20, text, this.client.textRenderer);
+		this.textWidget = new StringWidget(this.width, 20, text, this.minecraft.font);
 		this.textWidget.setX(this.textWidget.getX() + 15);
 
 		this.layout.addBody(this.textWidget);
@@ -34,12 +34,12 @@ public class SectionEntry extends AbstractEntry {
 	}
 
 	@Override
-	protected Text translatableText(String text) {
-		return Text.translatable(text).formatted(Formatting.WHITE);
+	protected Component translatableText(String text) {
+		return Component.translatable(text).withStyle(ChatFormatting.WHITE);
 	}
 
 	@Override
-	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+	public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
 		this.textWidget.render(context, mouseX, mouseY, delta);
 	}
 }

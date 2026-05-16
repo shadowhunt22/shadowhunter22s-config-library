@@ -3,9 +3,9 @@
   "package": "dev.shadowhunter22.shadowhunter22sconfiglibrary.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
-	"SliderWidgetInvoker"
+    "AbstractSliderButtonInvoker"
   ],
   "injectors": {
-	"defaultRequire": 1
+    "defaultRequire": 1
   }
 }

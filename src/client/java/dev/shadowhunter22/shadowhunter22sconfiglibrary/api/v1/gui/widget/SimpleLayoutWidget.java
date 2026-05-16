@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 by ShadowHunter22. All rights reserved.
+// Copyright (c) 2026 by ShadowHunter22. All rights reserved.
 // See LICENSE file in the project root for details.
 //
 
@@ -8,39 +8,31 @@ package dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget;
 import java.util.List;
 import java.util.function.Consumer;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.gui.widget.LayoutWidget;
-import net.minecraft.client.gui.widget.SimplePositioningWidget;
-import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.layouts.FrameLayout;
+import net.minecraft.client.gui.layouts.Layout;
+import net.minecraft.client.gui.layouts.LayoutElement;
+import net.minecraft.client.gui.screens.Screen;
 
 import org.apache.commons.compress.utils.Lists;
 
-public class SimpleLayoutWidget implements LayoutWidget {
-	private final SimplePositioningWidget body = new SimplePositioningWidget();
+public class SimpleLayoutWidget implements Layout {
+	public final List<AbstractWidget> widets = Lists.newArrayList();
+	private final FrameLayout body = new FrameLayout();
 	private final Screen screen;
-	public final List<ClickableWidget> children = Lists.newArrayList();
 
 	public SimpleLayoutWidget(Screen screen) {
 		this.screen = screen;
 	}
 
-	public <T extends ClickableWidget> void addBody(T widget) {
-		this.body.add(widget);
-		this.children.add(widget);
+	public <T extends AbstractWidget> void addBody(T widget) {
+		this.body.addChild(widget);
+		this.widets.add(widget);
 	}
 
 	@Override
-	public void forEachElement(Consumer<Widget> consumer) {
-		this.body.forEachElement(consumer);
-	}
-
-	@Override
-	public void setX(int x) {
-	}
-
-	@Override
-	public void setY(int y) {
+	public void visitChildren(Consumer<LayoutElement> consumer) {
+		this.body.visitChildren(consumer);
 	}
 
 	@Override
@@ -49,8 +41,16 @@ public class SimpleLayoutWidget implements LayoutWidget {
 	}
 
 	@Override
+	public void setX(int x) {
+	}
+
+	@Override
 	public int getY() {
 		return 0;
+	}
+
+	@Override
+	public void setY(int y) {
 	}
 
 	@Override
