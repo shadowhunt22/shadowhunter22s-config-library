@@ -26,6 +26,8 @@ sourceSets {
 	testmodClient {
 		compileClasspath += main.compileClasspath
 		runtimeClasspath += main.runtimeClasspath
+		compileClasspath += client.compileClasspath
+		runtimeClasspath += client.runtimeClasspath
 	}
 }
 
@@ -94,9 +96,7 @@ tasks.register('checkstyleAll', Checkstyle) {
 // Modrinth publishing
 
 def minecraft_versions = [
-		"26.1",
-		"26.1.1",
-		"26.1.2"
+		"26.2-rc-2",
 ]
 
 static def forVersion(String first, String last) {
@@ -113,7 +113,7 @@ modrinth {
 
 	versionNumber = "${project.mod_version}"
 	versionName = "${project.mod_version} for ${forVersion(minecraft_versions.first(), minecraft_versions.last())}"
-	versionType = "release"
+	versionType = "beta"
 
 	uploadFile = jar
 	additionalFiles = [sourcesJar]

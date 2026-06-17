@@ -17,6 +17,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.entry.A
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.util.TranslationUtil;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.tabs.MenuTabBar;
 import net.minecraft.client.gui.components.tabs.Tab;
 import net.minecraft.client.gui.components.tabs.TabManager;
 import net.minecraft.client.gui.components.tabs.TabNavigationBar;
@@ -58,7 +59,7 @@ public abstract class AbstractConfigScreen extends Screen {
 	@Override
 	public void onClose() {
 		this.manager.getConfig().afterScreenClose();
-		this.minecraft.setScreen(this.parent);
+		this.minecraft.gui.setScreen(this.parent);
 	}
 
 	/**
@@ -119,14 +120,13 @@ public abstract class AbstractConfigScreen extends Screen {
 		} else {
 			TabManager tabManager = new TabManager(this::addRenderableWidget, this::removeWidget);
 
-			TabNavigationBar widget = TabNavigationBar.builder(tabManager, this.width)
-					.addTabs(tabs)
-					.build();
+			TabNavigationBar widget = MenuTabBar.builder(tabManager, this.width)
+					.addTabs(tabs).build();
 
 			this.addRenderableWidget(widget);
 
 			widget.selectTab(0, false);
-			widget.arrangeElements();
+			widget.arrangeElements(this.width);
 
 			this.renderingCategories = true;
 		}

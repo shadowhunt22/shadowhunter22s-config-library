@@ -41,7 +41,7 @@ public class ConfigCategory {
 	public static <T extends ConfigData> ConfigCategory create(AutoConfigManager<T> manager, Minecraft client, String key) {
 		return new ConfigCategory(
 				manager,
-				client.screen,
+				client.gui.screen(),
 				Component.translatable(TranslationUtil.translationKey("text", manager.getDefinition(), key, "@Category"))
 		);
 	}

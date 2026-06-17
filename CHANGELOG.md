@@ -1,4 +1,4 @@
 Changes: 
 
-- Updated to 26.1/26.1.2
-- Bump version
+- Updated to 26.2-rc.1
+- Bumped version

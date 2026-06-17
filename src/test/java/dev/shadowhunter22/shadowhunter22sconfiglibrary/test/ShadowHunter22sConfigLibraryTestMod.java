@@ -50,9 +50,9 @@ public class ShadowHunter22sConfigLibraryTestMod implements ClientModInitializer
 
 		ClientTickEvents.START_CLIENT_TICK.register(client -> {
 			if (this.keyMapping.consumeClick()) {
-				// client.setScreen(ConfigRegistry.getConfigScreen(TestConfig.class, client.screen).get());
-				client.setScreen(ConfigRegistry.getConfigScreen(TestConfig2.class, client.screen).get());
-				// client.setScreen(new TestConfig2Screen(ConfigRegistry.getConfigManager(TestConfig2.class), client.screen));
+				// client.gui.setScreen(ConfigRegistry.getConfigScreen(TestConfig.class, client.gui.screen()).get());
+				client.gui.setScreen(ConfigRegistry.getConfigScreen(TestConfig2.class, client.gui.screen()).get());
+				// client.gui.setScreen(new TestConfig2Screen(ConfigRegistry.getConfigManager(TestConfig2.class), client.gui.screen()));
 			}
 		});
 

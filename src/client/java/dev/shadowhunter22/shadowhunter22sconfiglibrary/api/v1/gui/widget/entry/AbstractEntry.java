@@ -24,7 +24,7 @@ public abstract class AbstractEntry implements GuiEventListener, Renderable, Nar
 	protected final String key;
 	protected final int width;
 
-	protected SimpleLayoutWidget layout = new SimpleLayoutWidget(this.minecraft.screen);
+	protected SimpleLayoutWidget layout = new SimpleLayoutWidget(this.minecraft.gui.screen());
 
 	protected boolean focused;
 	protected boolean hovered;

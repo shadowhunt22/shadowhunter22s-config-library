@@ -13,12 +13,15 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.api.v1.gui.widget.ConfigE
 
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.tabs.Tab;
+import net.minecraft.client.gui.layouts.Layout;
+import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.network.chat.Component;
 
 public class CategoryTab implements Tab {
 	private final ConfigCategory category;
 	private final ConfigEntryWidgetHolder<ConfigEntryWidget> widgetHolder;
+	protected final LinearLayout layout = LinearLayout.vertical();
 
 	public CategoryTab(ConfigCategory category) {
 		this.category = category;
@@ -53,5 +56,10 @@ public class CategoryTab implements Tab {
 
 	@Override
 	public void doLayout(ScreenRectangle tabArea) {
+	}
+
+	@Override
+	public Layout getLayout() {
+		return this.layout;
 	}
 }

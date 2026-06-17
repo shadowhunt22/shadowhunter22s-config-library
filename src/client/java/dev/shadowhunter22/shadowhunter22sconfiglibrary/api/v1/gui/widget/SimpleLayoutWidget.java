@@ -36,6 +36,11 @@ public class SimpleLayoutWidget implements Layout {
 	}
 
 	@Override
+	public void removeChildren() {
+		this.widets.clear();
+	}
+
+	@Override
 	public int getX() {
 		return 0;
 	}
