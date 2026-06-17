@@ -27,30 +27,14 @@ This mod is for *Fabric* only. There is no plan to support Forge.
 
 This mod is available for the following Minecraft versions:
 
-`1.20`
-`1.20.1`
-`1.20.2`
-`1.20.3`
-`1.20.4`
-`1.20.5`
-`1.20.6`
+`1.20.x`
 
-`1.21`
-`1.21.1`
-`1.21.2`
-`1.21.3`
-`1.21.4`
-`1.21.5`
-`1.21.6`
-`1.21.7`
-`1.21.8`
-`1.21.9`
-`1.21.10`
-`1.21.11`
+`1.21.x`
 
 `26.1`
 `26.1.1`
 `26.1.2`
+`26.2`
 
 ## Client and Server Support
 

@@ -54,7 +54,7 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 17
+	it.options.release = 25
 }
 
 tasks.withType(Test).configureEach {
@@ -64,8 +64,8 @@ tasks.withType(Test).configureEach {
 java {
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
 }
 
 jar {
@@ -96,7 +96,7 @@ tasks.register('checkstyleAll', Checkstyle) {
 // Modrinth publishing
 
 def minecraft_versions = [
-		"26.2-rc-2",
+		"26.2",
 ]
 
 static def forVersion(String first, String last) {
@@ -113,7 +113,7 @@ modrinth {
 
 	versionNumber = "${project.mod_version}"
 	versionName = "${project.mod_version} for ${forVersion(minecraft_versions.first(), minecraft_versions.last())}"
-	versionType = "beta"
+	versionType = "release"
 
 	uploadFile = jar
 	additionalFiles = [sourcesJar]
