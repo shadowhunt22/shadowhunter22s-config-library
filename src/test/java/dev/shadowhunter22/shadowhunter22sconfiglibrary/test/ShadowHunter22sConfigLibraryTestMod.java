@@ -17,7 +17,6 @@ import net.minecraft.resources.Identifier;
 
 import com.mojang.blaze3d.platform.InputConstants;
 
-import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,8 +38,8 @@ public class ShadowHunter22sConfigLibraryTestMod implements ClientModInitializer
 
 	KeyMapping keyMapping = KeyMappingHelper.registerKeyMapping(new KeyMapping(
 			"key." + MOD_ID + ".open.menu",
-			InputConstants.Type.KEYSYM,
-			GLFW.GLFW_KEY_RIGHT_SHIFT,
+			InputConstants.Type.KEYBOARD,
+			InputConstants.KEY_RSHIFT,
 			KeyMapping.Category.register(Identifier.fromNamespaceAndPath(MOD_ID, "mod"))
 	));
 

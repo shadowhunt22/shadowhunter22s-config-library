@@ -35,6 +35,7 @@ This mod is available for the following Minecraft versions:
 `26.1.1`
 `26.1.2`
 `26.2`
+`26.3-snapshot`
 
 ## Client and Server Support
 
