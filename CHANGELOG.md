@@ -2,8 +2,8 @@
 
 Changes: 
 
-- Updated to 26.3-snapshot-7
-- Bumped version
+- Updated to 26.3.
+- Bumped version.
 
 <hr>
 
