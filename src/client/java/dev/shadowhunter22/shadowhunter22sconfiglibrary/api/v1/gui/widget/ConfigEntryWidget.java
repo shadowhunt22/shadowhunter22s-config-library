@@ -55,9 +55,9 @@ public class ConfigEntryWidget extends AbstractConfigEntryWidget<ConfigEntryWidg
 		}
 
 		@Override
-		public void extractContent(GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
+		public void extractContent(GuiGraphicsExtractor graphics, boolean hovered) {
 			this.entry.setY(this.getY());
-			this.entry.extractRenderState(graphics, mouseX, mouseY, deltaTicks);
+			this.entry.extractRenderState(graphics);
 		}
 	}
 }

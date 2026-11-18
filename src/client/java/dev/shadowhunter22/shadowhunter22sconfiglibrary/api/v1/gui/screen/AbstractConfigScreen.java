@@ -44,8 +44,8 @@ public abstract class AbstractConfigScreen extends Screen {
 	protected abstract void init();
 
 	@Override
-	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
-		super.extractRenderState(graphics, mouseX, mouseY, delta);
+	public void extractRenderState(GuiGraphicsExtractor graphics) {
+		super.extractRenderState(graphics);
 
 		graphics.text(this.font, this.title, this.width / 2 - (this.font.width(this.title) / 2), this.renderingCategories ? 37 : 10, CommonColors.WHITE, true);
 	}
@@ -116,12 +116,26 @@ public abstract class AbstractConfigScreen extends Screen {
 
 		if (tabs.length == 1) {
 			CategoryTab tab = ((CategoryTab) tabs[0]);
+
 			this.addRenderableWidget(tab.getEntryWidget());
 		} else {
 			TabManager tabManager = new TabManager(this::addRenderableWidget, this::removeWidget);
 
-			TabNavigationBar widget = MenuTabBar.builder(tabManager, this.width)
-					.addTabs(tabs).build();
+			MenuTabBar.Builder builder = MenuTabBar.builder(tabManager, this.width);
+
+			for (Tab tab : tabs) {
+				Component title;
+
+				if (tab instanceof CategoryTab categoryTab) {
+					title = categoryTab.getTabTitle();
+				} else {
+					title = Component.literal("Unknown");
+				}
+
+				builder.addTab(title, tab);
+			}
+
+			TabNavigationBar widget = builder.build();
 
 			this.addRenderableWidget(widget);
 

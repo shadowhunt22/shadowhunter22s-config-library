@@ -36,6 +36,7 @@ This mod is available for the following Minecraft versions:
 `26.1.2`
 `26.2`
 `26.3`
+`26`
 
 ## Client and Server Support
 

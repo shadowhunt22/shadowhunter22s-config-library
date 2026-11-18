@@ -78,10 +78,10 @@ public class IntPlusMinusEntry extends AbstractOptionEntry {
 	}
 
 	@Override
-	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
-		this.stringWidget.extractRenderState(graphics, mouseX, mouseY, delta);
-		this.addButton.extractRenderState(graphics, mouseX, mouseY, delta);
-		this.subtractButton.extractRenderState(graphics, mouseX, mouseY, delta);
-		this.resetButton.extractRenderState(graphics, mouseX, mouseY, delta);
+	public void extractRenderState(GuiGraphicsExtractor graphics) {
+		this.stringWidget.extractRenderState(graphics);
+		this.addButton.extractRenderState(graphics);
+		this.subtractButton.extractRenderState(graphics);
+		this.resetButton.extractRenderState(graphics);
 	}
 }

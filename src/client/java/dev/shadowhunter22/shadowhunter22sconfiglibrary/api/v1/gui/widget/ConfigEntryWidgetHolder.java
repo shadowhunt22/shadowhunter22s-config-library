@@ -83,8 +83,8 @@ public class ConfigEntryWidgetHolder<T extends AbstractConfigEntryWidget<?>> ext
 	}
 
 	@Override
-	protected void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
-		this.entryWidget.extractRenderState(graphics, mouseX, mouseY, delta);
+	protected void extractWidgetRenderState(GuiGraphicsExtractor graphics) {
+		this.entryWidget.extractRenderState(graphics);
 	}
 
 	@Override

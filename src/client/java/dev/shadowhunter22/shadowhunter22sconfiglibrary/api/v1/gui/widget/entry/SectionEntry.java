@@ -39,7 +39,7 @@ public class SectionEntry extends AbstractEntry {
 	}
 
 	@Override
-	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
-		this.textWidget.extractRenderState(graphics, mouseX, mouseY, delta);
+	public void extractRenderState(GuiGraphicsExtractor graphics) {
+		this.textWidget.extractRenderState(graphics);
 	}
 }

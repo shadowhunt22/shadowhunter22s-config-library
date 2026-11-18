@@ -101,9 +101,9 @@ public class FloatSliderEntry extends AbstractSliderEntry {
 	}
 
 	@Override
-	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
-		this.stringWidget.extractRenderState(graphics, mouseX, mouseY, delta);
-		this.sliderWidget.extractRenderState(graphics, mouseX, mouseY, delta);
-		this.resetButton.extractRenderState(graphics, mouseX, mouseY, delta);
+	public void extractRenderState(GuiGraphicsExtractor graphics) {
+		this.stringWidget.extractRenderState(graphics);
+		this.sliderWidget.extractRenderState(graphics);
+		this.resetButton.extractRenderState(graphics);
 	}
 }

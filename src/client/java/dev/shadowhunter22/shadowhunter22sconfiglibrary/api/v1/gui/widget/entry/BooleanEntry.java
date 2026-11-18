@@ -71,9 +71,9 @@ public class BooleanEntry extends AbstractOptionEntry {
 	}
 
 	@Override
-	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
-		this.stringWidget.extractRenderState(graphics, mouseX, mouseY, delta);
-		this.toggleButton.extractRenderState(graphics, mouseX, mouseY, delta);
-		this.resetButton.extractRenderState(graphics, mouseX, mouseY, delta);
+	public void extractRenderState(GuiGraphicsExtractor graphics) {
+		this.stringWidget.extractRenderState(graphics);
+		this.toggleButton.extractRenderState(graphics);
+		this.resetButton.extractRenderState(graphics);
 	}
 }

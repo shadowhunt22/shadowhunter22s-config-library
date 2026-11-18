@@ -96,7 +96,7 @@ tasks.register('checkstyleAll', Checkstyle) {
 // Modrinth publishing
 
 def minecraft_versions = [
-	"26.3",
+	"26.4-snapshot-10",
 ]
 
 static def forVersion(String first, String last) {

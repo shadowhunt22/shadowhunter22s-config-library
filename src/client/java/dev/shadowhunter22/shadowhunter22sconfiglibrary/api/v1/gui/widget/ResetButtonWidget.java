@@ -11,7 +11,7 @@ import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.DoubleConfigO
 import dev.shadowhunter22.shadowhunter22sconfiglibrary.option.type.FloatConfigOption;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
@@ -64,7 +64,7 @@ public class ResetButtonWidget extends AbstractButtonWidget {
 		if (this.option.getValue() == this.option.getDefaultValue()) {
 			return 0;
 		} else {
-			if (this.isHoveredOrFocused()) {
+			if (this.isHovered() || this.isFocused()) {
 				return 40;
 			}
 		}
@@ -73,9 +73,9 @@ public class ResetButtonWidget extends AbstractButtonWidget {
 	}
 
 	@Override
-	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float deltaTicks) {
+	protected void extractContents(GuiGraphicsExtractor graphics) {
 		graphics.blit(
-				RenderPipelines.GUI_TEXTURED,
+				GuiPipeline.TEXTURED,
 				TEXTURE,
 				this.getX(),
 				this.getY(),

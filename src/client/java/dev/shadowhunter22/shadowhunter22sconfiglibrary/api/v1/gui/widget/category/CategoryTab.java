@@ -39,7 +39,6 @@ public class CategoryTab implements Tab {
 		return this.category.configEntryWidget;
 	}
 
-	@Override
 	public Component getTabTitle() {
 		return this.category.getCategoryName();
 	}
